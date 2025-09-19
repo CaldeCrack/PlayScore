@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "The Legend of Zelda: Breath of the Wild",
-      "developer": "Nintendo",
+      "developers": ["Nintendo"],
       "publisher": "Nintendo",
       "release_year": 2017,
       "platforms": ["Nintendo Switch", "Wii U"],
@@ -23,7 +23,7 @@
     {
       "id": 2,
       "title": "Elden Ring",
-      "developer": "FromSoftware",
+      "developers": ["FromSoftware"],
       "publisher": "Bandai Namco Entertainment",
       "release_year": 2022,
       "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S"],
@@ -43,7 +43,7 @@
     {
       "id": 3,
       "title": "God of War Ragnarök",
-      "developer": "Santa Monica Studio",
+      "developers": ["Santa Monica Studio"],
       "publisher": "Sony Interactive Entertainment",
       "release_year": 2022,
       "platforms": ["PS4", "PS5"],
@@ -63,7 +63,7 @@
     {
       "id": 4,
       "title": "Hollow Knight",
-      "developer": "Team Cherry",
+      "developers": ["Team Cherry"],
       "publisher": "Team Cherry",
       "release_year": 2017,
       "platforms": ["PC", "Nintendo Switch", "PS4", "Xbox One"],
@@ -83,7 +83,7 @@
     {
       "id": 5,
       "title": "The Witcher 3: Wild Hunt",
-      "developer": "CD Projekt Red",
+      "developers": ["CD Projekt Red"],
       "publisher": "CD Projekt",
       "release_year": 2015,
       "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S", "Nintendo Switch"],
@@ -103,7 +103,7 @@
     {
       "id": 6,
       "title": "Red Dead Redemption 2",
-      "developer": "Rockstar Games",
+      "developers": ["Rockstar Games"],
       "publisher": "Rockstar Games",
       "release_year": 2018,
       "platforms": ["PC", "PS4", "Xbox One"],
@@ -123,7 +123,7 @@
     {
       "id": 7,
       "title": "Stardew Valley",
-      "developer": "ConcernedApe",
+      "developers": ["ConcernedApe"],
       "publisher": "ConcernedApe",
       "release_year": 2016,
       "platforms": ["PC", "Nintendo Switch", "PS4", "Xbox One", "Mobile"],
@@ -143,7 +143,7 @@
     {
       "id": 8,
       "title": "Cyberpunk 2077",
-      "developer": "CD Projekt Red",
+      "developers": ["CD Projekt Red"],
       "publisher": "CD Projekt",
       "release_year": 2020,
       "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S"],
