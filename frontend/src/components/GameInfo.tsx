@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { Game } from '../types/Game'
 import { useParams } from 'react-router-dom'
 import gameService from '../services/games'
+import '../styles/GameInfo.css'
 
 const GameInfo = () => {
   const { id } = useParams()
@@ -40,18 +41,19 @@ const GameInfo = () => {
       {/* Description */}
       <section className="game-description">
         <h2>Description</h2>
-        <p>{game.description}</p>
+        <span>{game.description}</span>
       </section>
 
       {/* Genres & Platforms */}
-      <section className="game-meta">
+      <section className="game-info-meta">
         <h2>Details</h2>
-        <p><strong>Genres:</strong> {game.genres.join(', ')}</p>
-        <p><strong>Platforms:</strong> {game.platforms.join(', ')}</p>
+        <span><strong>Genres:</strong> {game.genres.join(', ')}</span>
+        <br />
+        <span><strong>Platforms:</strong> {game.platforms.join(', ')}</span>
       </section>
 
       {/* Durations */}
-      <section className="game-duration">
+      <section className="game-info-duration">
         <h2>How long to beat?</h2>
         <div>
           <span>Main Story: {game.average_duration.main_story}h</span>
