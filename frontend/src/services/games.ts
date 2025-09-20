@@ -15,16 +15,16 @@ export const getGameRatings = (id: string) => {
 }
 
 export const postNewRating = async (gameId: number, newScore: number) => {
-  const res = await axios.get(ratingsUrl);
-  const data = Array.isArray(res.data) ? res.data : [];
+  const res = await axios.get(ratingsUrl)
+  const data = Array.isArray(res.data) ? res.data : []
 
   const newRating = {
-    "id": data.length + 1,
-    "game": gameId,
-    "score": newScore 
-  };
+    'id': data.length + 1,
+    'game': gameId,
+    'score': newScore
+  }
 
   axios.post(`${ratingsUrl}`, newRating)
 }
 
-export default { getAllGames, getGameById, getGameRatings, postNewRating}
+export default { getAllGames, getGameById, getGameRatings, postNewRating }

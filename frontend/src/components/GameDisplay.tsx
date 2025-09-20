@@ -10,11 +10,11 @@ interface Props {
 }
 
 const GameDisplay = ({ game }: Props) => {
-  const [ratings, setRatings] = useState<Rating[]>([]);
+  const [ratings, setRatings] = useState<Rating[]>([])
 
   useEffect(()=>{
     gameService.getGameRatings(game.id.toString())
-    .then((data) => setRatings(data))
+      .then((data) => setRatings(data))
   }, [])
 
   return (
@@ -42,10 +42,7 @@ const GameDisplay = ({ game }: Props) => {
         </p>
 
         <p className="game-rating">
-          ⭐ 
-          { ratings.length == 0 ? 
-            "No reviews yet"
-          :
+          ⭐ { ratings.length === 0 ? 'No reviews yet' :
             `${(ratings.reduce((acc: number, curr: Rating) => acc + curr.score, 0) / ratings.length).toFixed(1)} (${ratings.length} reviews)`
           }
         </p>

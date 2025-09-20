@@ -1,5 +1,4 @@
 import type { Duration } from './Duration'
-import type { Rating } from './Rating'
 
 export interface Game {
   id: number,
