@@ -18,7 +18,7 @@
         "total_reviews": 12000
       },
       "description": "Explora un mundo abierto vasto y dinámico en esta entrega de la saga Zelda.",
-      "cover_image": "images/zelda_botw.jpg"
+      "cover_image": "tloz_botw.webp"
     },
     {
       "id": 2,
@@ -38,7 +38,7 @@
         "total_reviews": 9500
       },
       "description": "Una aventura épica en un mundo abierto creado en colaboración con George R. R. Martin.",
-      "cover_image": "images/elden_ring.jpg"
+      "cover_image": "elden_ring.webp"
     },
     {
       "id": 3,
@@ -58,7 +58,7 @@
         "total_reviews": 8000
       },
       "description": "Continúa la historia de Kratos y Atreus en una épica lucha contra los dioses nórdicos.",
-      "cover_image": "images/gow_ragnarok.jpg"
+      "cover_image": "god_of_war_ragnarok.webp"
     },
     {
       "id": 4,
@@ -78,7 +78,7 @@
         "total_reviews": 15000
       },
       "description": "Un desafiante metroidvania en un mundo subterráneo lleno de misterios y criaturas.",
-      "cover_image": "images/hollow_knight.jpg"
+      "cover_image": "hollow_knight.webp"
     },
     {
       "id": 5,
@@ -98,7 +98,7 @@
         "total_reviews": 20000
       },
       "description": "Un vasto RPG en mundo abierto donde sigues las aventuras de Geralt de Rivia.",
-      "cover_image": "images/witcher3.jpg"
+      "cover_image": "the_witcher_3_wild_hunt.webp"
     },
     {
       "id": 6,
@@ -118,7 +118,7 @@
         "total_reviews": 18000
       },
       "description": "Una historia épica de forajidos en el ocaso del Viejo Oeste.",
-      "cover_image": "images/rdr2.jpg"
+      "cover_image": "red_dead_redemption_2.webp"
     },
     {
       "id": 7,
@@ -138,7 +138,7 @@
         "total_reviews": 14000
       },
       "description": "Un relajante simulador de granja con elementos de RPG y exploración.",
-      "cover_image": "images/stardew_valley.jpg"
+      "cover_image": "stardew_valley.webp"
     },
     {
       "id": 8,
@@ -158,7 +158,7 @@
         "total_reviews": 16000
       },
       "description": "Un RPG futurista en la ciudad de Night City, con un mundo vibrante y lleno de posibilidades.",
-      "cover_image": "images/cyberpunk2077.jpg"
+      "cover_image": "cyberpunk_2077.webp"
     }
   ]
 }

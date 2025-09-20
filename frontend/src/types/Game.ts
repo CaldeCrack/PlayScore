@@ -12,6 +12,6 @@ export interface Game {
   rating: Rating,
   average_duration: Duration,
   description: string,
-  cover: string,
+  cover_image: string,
   franchise_games: number[]
 }

@@ -10,14 +10,16 @@ const GameDisplay = ({ game }: Props) => {
   return (
     <div className="game-display">
       {/* Cover */}
-      <img
-        src={game.cover}
-        alt={`${game.title} cover`}
-        className="game-cover"
-      />
+      <div className="game-cover-container">
+        <img
+          src={`/img/${game.cover_image}`}
+          alt={`${game.title} cover`}
+          className="game-cover"
+        />
+      </div>
 
       {/* Main info */}
-      <div className="game-info">
+      <div className="game-display-info">
         <h2 className="game-title">
           <Link to={`/games/${game.id}`}>
             {game.title} ({game.release_year})
