@@ -28,7 +28,7 @@ const GameInfo = () => {
   useEffect(() => {
     gameService.getGameById(id!).then((data) => setGame(data))
     gameService.getGameRatings(id!).then((data) => setRatings(data))
-  }, [id]);
+  }, [showScoreInput]);
 
   if (!game)
     return <p>Loading game info...</p>
