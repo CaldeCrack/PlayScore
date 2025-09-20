@@ -8,34 +8,60 @@ const GameInfo = () => {
   const [game, setGame] = useState<Game>()
 
   useEffect(() => {
-    gameService
-      .getGameById(id!)
-      .then((data) => setGame(data))
+    gameService.getGameById(id!).then((data) => setGame(data))
   }, [id])
 
-  return (game &&
-    <>
-      <h1>{ game.title } ({ game.release_year })</h1>
+  if (!game)
+    return <p>Loading game info...</p>
 
-      <span>Published by: { game.publisher } | Developed by: { game.developers.join(', ') }<br/></span>
-      <span>{ game.rating.average_score } (from { game.rating.total_reviews } users)<br/></span>
+  return (
+    <div className="game-info-page">
+      {/* Cover + header */}
+      <div className="game-header">
+        <img
+          src={game.cover}
+          alt={`${game.title} cover`}
+          className="game-cover-large"
+        />
+        <div className="game-header-text">
+          <h1>{game.title} ({game.release_year})</h1>
+          <p>
+            <strong>Publisher:</strong> {game.publisher}
+            <br />
+            <strong>Developers:</strong> {game.developers.join(', ')}
+          </p>
+          <p className="game-rating">
+            ⭐ {game.rating.average_score.toFixed(1)} (
+            {game.rating.total_reviews} reviews)
+          </p>
+        </div>
+      </div>
 
-      <br/>
-      <span>{ game.description }<br/></span>
-      <br/>
+      {/* Description */}
+      <section className="game-description">
+        <h2>Description</h2>
+        <p>{game.description}</p>
+      </section>
 
-      <span>{ game.genres.join(', ') }<br/></span>
-      <span>{ game.platforms.join(', ') }<br/></span>
+      {/* Genres & Platforms */}
+      <section className="game-meta">
+        <h2>Details</h2>
+        <p><strong>Genres:</strong> {game.genres.join(', ')}</p>
+        <p><strong>Platforms:</strong> {game.platforms.join(', ')}</p>
+      </section>
 
-      <br/>
-
-      <h2>Duration</h2>
-      <ul>
-        <li key={0}>Main Story: { game.average_duration.main_story }</li>
-        <li key={1}>Main Story and extras: { game.average_duration.main_plus_extras }</li>
-        <li key={2}>Completionist: { game.average_duration.completionist }</li>
-      </ul>
-    </>
+      {/* Durations */}
+      <section className="game-duration">
+        <h2>How long to beat?</h2>
+        <div>
+          <span>Main Story: {game.average_duration.main_story}h</span>
+          <br />
+          <span>Main Story + Extras: {game.average_duration.main_plus_extras}h</span>
+          <br />
+          <span>Completionist: {game.average_duration.completionist}h</span>
+        </div>
+      </section>
+    </div>
   )
 }
 

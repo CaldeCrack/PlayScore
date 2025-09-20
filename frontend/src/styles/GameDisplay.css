@@ -4,3 +4,10 @@
   padding: 2px 10px;
   margin: 10px;
 }
+
+.game-meta,
+.game-rating,
+.game-duration,
+.game-genres {
+  margin: 5px 0;
+}

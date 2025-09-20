@@ -1,5 +1,6 @@
 import '../styles/GameDisplay.css'
 import type { Game } from '../types/Game'
+import { Link } from 'react-router-dom'
 
 interface Props {
   game: Game
@@ -18,9 +19,9 @@ const GameDisplay = ({ game }: Props) => {
       {/* Main info */}
       <div className="game-info">
         <h2 className="game-title">
-          <a href={`/games/${game.id}`}>
+          <Link to={`/games/${game.id}`}>
             {game.title} ({game.release_year})
-          </a>
+          </Link>
         </h2>
 
         <p className="game-meta">
