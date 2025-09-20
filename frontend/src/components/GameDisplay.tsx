@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react'
 import '../styles/GameDisplay.css'
+import gameService from '../services/games'
 import type { Game } from '../types/Game'
+import type { Rating } from '../types/Rating'
 import { Link } from 'react-router-dom'
 
 interface Props {
@@ -7,6 +10,13 @@ interface Props {
 }
 
 const GameDisplay = ({ game }: Props) => {
+  const [ratings, setRatings] = useState<Rating[]>([]);
+
+  useEffect(()=>{
+    gameService.getGameRatings(game.id.toString())
+    .then((data) => setRatings(data))
+  }, [])
+
   return (
     <div className="game-display">
       {/* Cover */}
@@ -32,7 +42,12 @@ const GameDisplay = ({ game }: Props) => {
         </p>
 
         <p className="game-rating">
-          ⭐ {game.rating.average_score.toFixed(1)} ({`${game.rating.total_reviews} reviews`})
+          ⭐ 
+          { ratings.length == 0 ? 
+            "No reviews yet"
+          :
+            `${(ratings.reduce((acc: number, curr: Rating) => acc + curr.score, 0) / ratings.length).toFixed(1)} (${ratings.length} reviews)`
+          }
         </p>
 
         <p className="game-duration">

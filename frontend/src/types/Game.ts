@@ -9,7 +9,6 @@ export interface Game {
   publisher: string,
   genres: string[],
   platforms: string[],
-  rating: Rating,
   average_duration: Duration,
   description: string,
   cover_image: string,

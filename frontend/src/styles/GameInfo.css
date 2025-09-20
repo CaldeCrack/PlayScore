@@ -25,3 +25,32 @@
 .game-info-duration > h2 {
   margin: 0 10px 2px 10px;
 }
+
+.game-rating {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.rate-btn {
+  width: auto;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 1.5px solid white;
+  cursor: pointer;
+  align-self: start;
+}
+
+.rate-form{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 120px;
+  margin: 0 auto;
+  padding: 0 8px;
+}
