@@ -1,4 +1,4 @@
 export interface Rating {
-    average_rating: number,
+    average_score: number,
     total_reviews: number
 }
