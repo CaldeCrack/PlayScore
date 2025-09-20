@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
-import Home from './components/Home';
-import GameInfo from './components/GameInfo';
+import Home from './components/Home'
+import GameInfo from './components/GameInfo'
 
 function App() {
   return <Router>

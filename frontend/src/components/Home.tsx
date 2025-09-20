@@ -1,43 +1,39 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import type { Game } from "../types/Game";
-import GameDisplay from "./GameDisplay";
+import { useEffect, useState } from 'react'
+import type { Game } from '../types/Game'
+import GameDisplay from './GameDisplay'
+import gameService from '../services/games'
 
 const Home = () => {
-    const [games, setGames]     = useState<Game[]>([]);
+  const [games, setGames] = useState<Game[]>([])
 
-    useEffect(() =>{
-        console.log("loading games");
+  useEffect(() => {
+    gameService
+      .getAllGames()
+      .then((data) => setGames(data))
+  }, [])
 
-        axios.get("http://localhost:3001/games")
-            .then((response) => {
-            console.log(response.data)
-            setGames(response.data)
+  return <>
+    <h1>PlayScore</h1>
+
+    <ul>
+      {
+        games.map((game: Game, idx: number) => {
+          return <li key={ idx }>
+            <GameDisplay
+              id={ game.id }
+              title={ game.title }
+              release_year={ game.release_year }
+              publisher={ game.publisher }
+              genres={ game.genres }
+              platforms={ game.platforms }
+              rating={ game.rating }
+              cover={ game.cover }
+            />
+          </li>
         })
-    }, [])
-
-    return <>
-        <h1>PlayScore</h1>
-
-        <ul>
-            {
-                games.map((game: Game, idx: number) => {
-                    return <li key={ idx }>
-                        <GameDisplay
-                            id={ game.id }  
-                            title={ game.title }  
-                            release_year={ game.release_year }  
-                            publisher={ game.publisher }  
-                            genres={ game.genres }  
-                            platforms={ game.platforms }  
-                            rating={ game.rating }  
-                            cover={ game.cover }  
-                        />
-                    </li>
-                })     
-            }
-        </ul>
-    </>
+      }
+    </ul>
+  </>
 }
 
-export default Home;
+export default Home

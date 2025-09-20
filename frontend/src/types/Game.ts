@@ -13,5 +13,5 @@ export interface Game {
     average_duration: Duration,
     description: string,
     cover: string,
-    franchise: number[] 
+    franchise: number[]
 }
