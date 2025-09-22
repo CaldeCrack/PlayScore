@@ -1,4 +1,5 @@
 export interface Rating {
-  average_score: number,
-  total_reviews: number
+  id: number,
+  game: number,
+  score: number,
 }

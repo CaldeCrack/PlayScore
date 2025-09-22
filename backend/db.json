@@ -1,164 +1,258 @@
 {
   "games": [
     {
-      "id": 1,
+      "id": "1",
       "title": "The Legend of Zelda: Breath of the Wild",
-      "developers": ["Nintendo"],
+      "developers": [
+        "Nintendo"
+      ],
       "publisher": "Nintendo",
       "release_year": 2017,
-      "platforms": ["Nintendo Switch", "Wii U"],
-      "genres": ["Action", "Adventure", "Open World"],
+      "platforms": [
+        "Nintendo Switch",
+        "Wii U"
+      ],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Open World"
+      ],
       "average_duration": {
         "main_story": 50,
         "main_plus_extras": 90,
         "completionist": 180
       },
-      "rating": {
-        "average_score": 9.5,
-        "total_reviews": 12000
-      },
       "description": "Explora un mundo abierto vasto y dinámico en esta entrega de la saga Zelda.",
       "cover_image": "tloz_botw.webp"
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "Elden Ring",
-      "developers": ["FromSoftware"],
+      "developers": [
+        "FromSoftware"
+      ],
       "publisher": "Bandai Namco Entertainment",
       "release_year": 2022,
-      "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S"],
-      "genres": ["Action RPG", "Open World"],
+      "platforms": [
+        "PC",
+        "PS4",
+        "PS5",
+        "Xbox One",
+        "Xbox Series X/S"
+      ],
+      "genres": [
+        "Action RPG",
+        "Open World"
+      ],
       "average_duration": {
         "main_story": 55,
         "main_plus_extras": 100,
         "completionist": 150
       },
-      "rating": {
-        "average_score": 9.3,
-        "total_reviews": 9500
-      },
       "description": "Una aventura épica en un mundo abierto creado en colaboración con George R. R. Martin.",
       "cover_image": "elden_ring.webp"
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "God of War Ragnarök",
-      "developers": ["Santa Monica Studio"],
+      "developers": [
+        "Santa Monica Studio"
+      ],
       "publisher": "Sony Interactive Entertainment",
       "release_year": 2022,
-      "platforms": ["PS4", "PS5"],
-      "genres": ["Action", "Adventure"],
+      "platforms": [
+        "PS4",
+        "PS5"
+      ],
+      "genres": [
+        "Action",
+        "Adventure"
+      ],
       "average_duration": {
         "main_story": 30,
         "main_plus_extras": 50,
         "completionist": 70
       },
-      "rating": {
-        "average_score": 9.4,
-        "total_reviews": 8000
-      },
       "description": "Continúa la historia de Kratos y Atreus en una épica lucha contra los dioses nórdicos.",
       "cover_image": "god_of_war_ragnarok.webp"
     },
     {
-      "id": 4,
+      "id": "4",
       "title": "Hollow Knight",
-      "developers": ["Team Cherry"],
+      "developers": [
+        "Team Cherry"
+      ],
       "publisher": "Team Cherry",
       "release_year": 2017,
-      "platforms": ["PC", "Nintendo Switch", "PS4", "Xbox One"],
-      "genres": ["Metroidvania", "Action", "Adventure"],
+      "platforms": [
+        "PC",
+        "Nintendo Switch",
+        "PS4",
+        "Xbox One"
+      ],
+      "genres": [
+        "Metroidvania",
+        "Action",
+        "Adventure"
+      ],
       "average_duration": {
         "main_story": 25,
         "main_plus_extras": 40,
         "completionist": 80
       },
-      "rating": {
-        "average_score": 9.0,
-        "total_reviews": 15000
-      },
       "description": "Un desafiante metroidvania en un mundo subterráneo lleno de misterios y criaturas.",
       "cover_image": "hollow_knight.webp"
     },
     {
-      "id": 5,
+      "id": "5",
       "title": "The Witcher 3: Wild Hunt",
-      "developers": ["CD Projekt Red"],
+      "developers": [
+        "CD Projekt Red"
+      ],
       "publisher": "CD Projekt",
       "release_year": 2015,
-      "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S", "Nintendo Switch"],
-      "genres": ["RPG", "Open World"],
+      "platforms": [
+        "PC",
+        "PS4",
+        "PS5",
+        "Xbox One",
+        "Xbox Series X/S",
+        "Nintendo Switch"
+      ],
+      "genres": [
+        "RPG",
+        "Open World"
+      ],
       "average_duration": {
         "main_story": 50,
         "main_plus_extras": 100,
         "completionist": 170
       },
-      "rating": {
-        "average_score": 9.7,
-        "total_reviews": 20000
-      },
       "description": "Un vasto RPG en mundo abierto donde sigues las aventuras de Geralt de Rivia.",
       "cover_image": "the_witcher_3_wild_hunt.webp"
     },
     {
-      "id": 6,
+      "id": "6",
       "title": "Red Dead Redemption 2",
-      "developers": ["Rockstar Games"],
+      "developers": [
+        "Rockstar Games"
+      ],
       "publisher": "Rockstar Games",
       "release_year": 2018,
-      "platforms": ["PC", "PS4", "Xbox One"],
-      "genres": ["Action", "Adventure", "Open World"],
+      "platforms": [
+        "PC",
+        "PS4",
+        "Xbox One"
+      ],
+      "genres": [
+        "Action",
+        "Adventure",
+        "Open World"
+      ],
       "average_duration": {
         "main_story": 50,
         "main_plus_extras": 80,
         "completionist": 150
       },
-      "rating": {
-        "average_score": 9.6,
-        "total_reviews": 18000
-      },
       "description": "Una historia épica de forajidos en el ocaso del Viejo Oeste.",
       "cover_image": "red_dead_redemption_2.webp"
     },
     {
-      "id": 7,
+      "id": "7",
       "title": "Stardew Valley",
-      "developers": ["ConcernedApe"],
+      "developers": [
+        "ConcernedApe"
+      ],
       "publisher": "ConcernedApe",
       "release_year": 2016,
-      "platforms": ["PC", "Nintendo Switch", "PS4", "Xbox One", "Mobile"],
-      "genres": ["Simulation", "RPG", "Indie"],
+      "platforms": [
+        "PC",
+        "Nintendo Switch",
+        "PS4",
+        "Xbox One",
+        "Mobile"
+      ],
+      "genres": [
+        "Simulation",
+        "RPG",
+        "Indie"
+      ],
       "average_duration": {
         "main_story": 50,
         "main_plus_extras": 120,
         "completionist": 200
       },
-      "rating": {
-        "average_score": 9.2,
-        "total_reviews": 14000
-      },
       "description": "Un relajante simulador de granja con elementos de RPG y exploración.",
       "cover_image": "stardew_valley.webp"
     },
     {
-      "id": 8,
+      "id": "8",
       "title": "Cyberpunk 2077",
-      "developers": ["CD Projekt Red"],
+      "developers": [
+        "CD Projekt Red"
+      ],
       "publisher": "CD Projekt",
       "release_year": 2020,
-      "platforms": ["PC", "PS4", "PS5", "Xbox One", "Xbox Series X/S"],
-      "genres": ["RPG", "Open World"],
+      "platforms": [
+        "PC",
+        "PS4",
+        "PS5",
+        "Xbox One",
+        "Xbox Series X/S"
+      ],
+      "genres": [
+        "RPG",
+        "Open World"
+      ],
       "average_duration": {
         "main_story": 25,
         "main_plus_extras": 50,
         "completionist": 100
       },
-      "rating": {
-        "average_score": 7.5,
-        "total_reviews": 16000
-      },
       "description": "Un RPG futurista en la ciudad de Night City, con un mundo vibrante y lleno de posibilidades.",
       "cover_image": "cyberpunk_2077.webp"
+    }
+  ],
+  "ratings": [
+    {
+      "id": 1,
+      "game": "4",
+      "score": 10
+    },
+    {
+      "id": 2,
+      "game": "4",
+      "score": 9
+    },
+    {
+      "id": 3,
+      "game": "4",
+      "score": 10
+    },
+    {
+      "id": 4,
+      "game": "4",
+      "score": 8
+    },
+    {
+      "id": 5,
+      "game": "4",
+      "score": 9
+    },
+    {
+      "id": 6,
+      "game": "4",
+      "score": 10
+    },
+    {
+      "id": 7,
+      "game": "4",
+      "score": 10
+    },
+    {
+      "id": 8,
+      "game": "4",
+      "score": 10
     }
   ]
 }
