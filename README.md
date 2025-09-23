@@ -19,3 +19,5 @@ cd frontend
 npm install
 npm run dev
 ```
+
+Con los pasos anteriores listos abrir en el navegador el siguiente link `http://localhost:5173`.
