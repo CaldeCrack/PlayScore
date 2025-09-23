@@ -16,12 +16,13 @@ const GameInfo = () => {
     setUserScore(parseFloat(event.target.value))
   }
 
-  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await postNewRating(game!.id, userScore)
-    gameService.getGameRatings(id!).then((data) => {
-      setRatings(data)
-      setShowScoreInput(false)
+    postNewRating(game!.id, userScore).then(() => {
+      gameService.getGameRatings(id!).then((data) => {
+        setRatings(data)
+        setShowScoreInput(false)
+      })
     })
   }
 
