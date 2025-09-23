@@ -15,10 +15,8 @@ export const getGameRatings = (id: string) => {
 }
 
 export const postNewRating = (gameId: number, newScore: number) => {
-  const res = axios.get(ratingsUrl)
-
   const newRating = {
-    'id': res.then(res => res.data.length),
+    // la id es asignada por el backend
     'game': gameId,
     'score': newScore
   }
