@@ -18,12 +18,12 @@ export const postNewRating = (gameId: number, newScore: number) => {
   const res = axios.get(ratingsUrl)
 
   const newRating = {
-    'id': res.then(res => res.data.lenght),
+    'id': res.then(res => res.data.length),
     'game': gameId,
     'score': newScore
   }
 
-  axios.post(`${ratingsUrl}`, newRating)
+  return axios.post(`${ratingsUrl}`, newRating)
 }
 
 export default { getAllGames, getGameById, getGameRatings, postNewRating }
