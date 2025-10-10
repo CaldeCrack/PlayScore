@@ -1,14 +1,15 @@
-import express from "express";
-const app = express();
+import app from "./app"
+import config from "./utils/config"
+import logger from "./utils/logger"
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>")
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: string
+    }
+  }
+}
+
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
-
-app.get("/api/notes", (request, response) => {
-  response.json({})
-})
-
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
