@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema<IUser>({
   passwordHash: { type: String, required: true },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Rating"
+    ref: "Rating",
+    default: []
   }]
 })
 
