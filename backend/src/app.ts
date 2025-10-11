@@ -4,6 +4,7 @@ import config from "./utils/config"
 import mongoose from "mongoose"
 import middleware from "./utils/middleware"
 import cookieParser from "cookie-parser"
+import gamesRouter from "./controllers/games"
 
 
 const app = express()
@@ -23,9 +24,10 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(middleware.requestLogger)
 
-// app.use("/api/login", loginRouter)
-// app.use("/api/notes", notesRouter)
+app.use("/api/games", gamesRouter)
 // app.use("/api/users", usersRouter)
+// app.use("/api/login", loginRouter)
+// app.use("/api/ratings", notesRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
