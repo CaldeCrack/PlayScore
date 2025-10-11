@@ -34,10 +34,8 @@ router.post("/", withUser, async (request, response, next) => {
     response.status(400).json({ error: "user not found" })
   else if (user.username !== "admin") //TODO: check better way to do this
     response.status(403).json({ error: "user is not admin" })
-  else if (!body.content)
-    response.status(400).json({ error: "content missing" })
   else {
-    const game = {}
+    const game = { ...body }
     const savedGame = await new Game(game).save()
 
     response.status(201).json(savedGame)
