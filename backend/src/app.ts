@@ -3,7 +3,7 @@ import logger from "./utils/logger"
 import config from "./utils/config"
 import mongoose from "mongoose"
 import middleware from "./utils/middleware"
-import cookieParser from "cookie-parser";
+import cookieParser from "cookie-parser"
 
 
 const app = express()

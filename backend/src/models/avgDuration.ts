@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import AvgDuration from "../types/avgDuration";
+import mongoose from "mongoose"
+import AvgDuration from "../types/avgDuration"
 
 
 const AvgDurationSchema = new mongoose.Schema<AvgDuration>({

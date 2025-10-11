@@ -30,7 +30,7 @@ gameSchema.set("toJSON", {
       __v?: number
     }
   ) => {
-    returnedObject.id = returnedObject._id!.toString();
+    returnedObject.id = returnedObject._id!.toString()
     delete returnedObject._id
     delete returnedObject.__v
   },
