@@ -46,6 +46,10 @@ router.delete("/:id", withUser, async (request, response, next) => {
   user.ratings = user.ratings.filter(r => r.toString() !== ratingId)
   await user.save()
 
+  const game = await Game.findById(rating.game)
+  game!.ratings = game!.ratings.filter(r => r.toString() !== ratingId)
+  await game!.save()
+
   response.status(204).end()
 })
 
