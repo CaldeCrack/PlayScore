@@ -1,12 +1,8 @@
 import mongoose from "mongoose"
+import AvgDuration from "./avgDuration"
 
-interface AvgDuration {
-  main_story: number
-  main_plus_extras: number
-  completionist: number
-}
 
-export interface IGame {
+export default interface IGame {
   id: string
   title: string
   developers: string[]
