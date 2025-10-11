@@ -3,14 +3,11 @@ import IUser from "../types/user"
 
 
 const userSchema = new mongoose.Schema<IUser>({
-  name: String,
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
+  name: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   email: {
     type: String,
+    required: true,
     unique: true,
     validate: {
       validator: (v) => {
@@ -18,7 +15,7 @@ const userSchema = new mongoose.Schema<IUser>({
       }
     }
   },
-  passwordHash: String,
+  passwordHash: { type: String, required: true },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Rating"

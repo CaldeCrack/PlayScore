@@ -11,7 +11,10 @@ const ratingSchema = new mongoose.Schema<IRating>({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Game"
   },
-  score: Number
+  score: {
+    type: Number,
+    required: true
+  }
 })
 
 const Rating = mongoose.model("Rating", ratingSchema)
