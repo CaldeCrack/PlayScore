@@ -27,10 +27,28 @@ router.get("/:id", async (request, response, next) => {
 })
 
 router.delete("/:id", withUser, async (request, response, next) => {
-  const id = request.params.id
-  await Rating.findByIdAndDelete(id)
+  const ratingId = request.params.id
+  const userId = request.userId
+
+  const rating = await Rating.findById(ratingId)
+  const user = await User.findById(userId)
+
+  if (!user)
+    return response.status(400).json({ error: "user not found" })
+  else if (!rating)
+    return response.status(404).json({ error: "rating not found" })
+
+  if (rating.user.toString() !== user.id.toString())
+    return response.status(403).json({ error: "not allowed to delete this rating" })
+
+  await Rating.findByIdAndDelete(ratingId)
+
+  user.ratings = user.ratings.filter(r => r.toString() !== ratingId)
+  await user.save()
+
   response.status(204).end()
 })
+
 
 router.post("/", withUser, async (request, response, next) => {
   const body = request.body
