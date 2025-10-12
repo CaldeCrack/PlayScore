@@ -26,6 +26,28 @@ router.get("/:id", async (request, response, next) => {
     response.status(404).end()
 })
 
+router.get("/game/:id", async (request, response) => {
+  const ratings = await Rating.find({ game: request.params.id })
+    .populate("user")
+    .populate("game")
+
+  if (ratings.length === 0)
+    return response.status(404).json({ error: "no ratings found for this game" })
+
+  response.json(ratings)
+})
+
+router.get("/user/:id", async (request, response) => {
+  const ratings = await Rating.find({ user: request.params.id })
+    .populate("user")
+    .populate("game")
+
+  if (ratings.length === 0)
+    return response.status(404).json({ error: "this user has no ratings" })
+
+  response.json(ratings)
+})
+
 router.delete("/:id", withUser, async (request, response, next) => {
   const ratingId = request.params.id
   const userId = request.userId
