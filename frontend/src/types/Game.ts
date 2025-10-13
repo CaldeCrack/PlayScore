@@ -1,4 +1,7 @@
-import type { Duration } from './Duration'
+import type Duration from './Duration'
+import type Rating from './Rating'
+import type Comment from './Comment'
+
 
 export default interface Game {
   id: string,
@@ -11,5 +14,7 @@ export default interface Game {
   average_duration: Duration,
   description: string,
   cover_image: string,
-  franchise_games: number[]
+  // franchise_games: Game[]
+  ratings: Rating[],
+  comments: Comment[]
 }

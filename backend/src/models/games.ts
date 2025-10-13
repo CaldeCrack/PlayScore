@@ -15,7 +15,13 @@ const gameSchema = new mongoose.Schema<IGame>({
   cover_image: { type: String, required: true },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Rating"
+    ref: "Rating",
+    default: []
+  }],
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Comment",
+    default: []
   }]
 })
 

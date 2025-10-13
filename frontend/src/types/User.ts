@@ -1,4 +1,5 @@
-import type { Rating } from './Rating'
+import type Comment from './Comment'
+import type Rating from './Rating'
 
 
 export default interface User {
@@ -8,4 +9,5 @@ export default interface User {
   email: string
   passwordHash: string
   ratings: Rating[]
+  comments: Comment[]
 }

@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema<IUser>({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Rating",
     default: []
+  }],
+  comments: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Comment",
+    default: []
   }]
 })
 

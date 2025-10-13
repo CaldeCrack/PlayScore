@@ -8,4 +8,5 @@ export default interface IUser {
   email: string
   passwordHash: string
   ratings: mongoose.Types.ObjectId[]
+  comments: mongoose.Types.ObjectId[]
 }
