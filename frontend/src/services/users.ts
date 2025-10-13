@@ -1,5 +1,4 @@
 import axios from 'axios'
-import type User from '../types/User'
 
 
 const usersUrl = '/api/users'
@@ -12,7 +11,14 @@ const getUserById = (id: string) => {
   return axios.get(`${usersUrl}/${id}`).then(response => response.data)
 }
 
-const postUser = (user: User) => {
+export interface PostUser {
+  name: string
+  username: string
+  email: string
+  password: string
+}
+
+const postUser = (user: PostUser) => {
   return axios.post(`${usersUrl}`, user)
 }
 
