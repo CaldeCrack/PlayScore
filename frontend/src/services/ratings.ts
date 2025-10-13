@@ -1,5 +1,6 @@
 import axios from 'axios'
 import axiosSecure from '../utils/axiosSecure'
+import type Rating from '../types/Rating'
 
 
 const ratingsUrl = '/api/ratings'
@@ -20,18 +21,31 @@ const getUserRatings = (id: string) => {
   return axios.get(`${ratingsUrl}/user/${id}`).then(response => response.data)
 }
 
+const getUserGameRating = (userId: string, gameId: string) => {
+  return axios
+    .get(`${ratingsUrl}/user/${userId}/game/${gameId}`)
+    .then(response => response.data)
+}
+
 const deleteRating = (id: string) => {
   return axiosSecure.delete(`${ratingsUrl}/${id}`).then(response => response.data)
 }
 
-const postRating = (userId: string, gameId: string, score: number) => {
-  const rating = { 'user': userId, 'game': gameId, 'score': score }
+const postOrUpdateRating = async (userId: string, gameId: string, score: number) => {
+  const gameRatings = await getGameRatings(gameId)
 
-  return axiosSecure.post(`${ratingsUrl}`, rating)
-}
+  const existing = gameRatings.find((r: Rating) => r.user.id === userId)
 
-const updateRating = (id: string, score: number) => {
-  return axiosSecure.put(`${ratingsUrl}/${id}`, { score }).then(response => response.data)
+  if (existing) {
+    return axiosSecure
+      .put(`${ratingsUrl}/${existing.id}`, { score })
+      .then(response => response.data)
+  } else {
+    const rating = { 'user': userId, 'game': gameId, score }
+    return axiosSecure
+      .post(`${ratingsUrl}`, rating)
+      .then(response => response.data)
+  }
 }
 
 export default {
@@ -39,7 +53,7 @@ export default {
   getRatingById,
   getGameRatings,
   getUserRatings,
+  getUserGameRating,
   deleteRating,
-  postRating,
-  updateRating
+  postOrUpdateRating
 }

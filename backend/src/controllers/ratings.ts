@@ -48,6 +48,19 @@ router.get("/user/:id", async (request, response) => {
   response.json(ratings)
 })
 
+router.get("/user/:userId/game/:gameId", async (request, response) => {
+  const { userId, gameId } = request.params
+
+  const rating = await Rating.findOne({ user: userId, game: gameId })
+    .populate("user")
+    .populate("game")
+
+  if (!rating)
+    return response.status(404).json({ error: "rating not found for this user and game" })
+
+  response.json(rating)
+})
+
 router.delete("/:id", withUser, async (request, response, next) => {
   const ratingId = request.params.id
   const userId = request.userId

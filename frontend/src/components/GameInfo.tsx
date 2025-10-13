@@ -13,17 +13,18 @@ const GameInfo = () => {
   const { id } = useParams()
   const [game, setGame] = useState<Game>()
   const [ratings, setRatings] = useState<Rating[]>([])
-  const [userScore, setUserScore] = useState(5.0)
+  const [score, setScore] = useState(5.0)
+  const [userScore, setUserScore] = useState<number | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [showScoreInput, setShowScoreInput] = useState(false)
 
   const onUserScoreChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserScore(parseFloat(event.target.value))
+    setScore(parseFloat(event.target.value))
   }
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await ratingService.postRating(user!.id, game!.id, userScore)
+    await ratingService.postOrUpdateRating(user!.id, game!.id, score)
     const newRatings = await ratingService.getGameRatings(id!)
     setRatings(newRatings)
     setShowScoreInput(false)
@@ -35,6 +36,10 @@ const GameInfo = () => {
       setGame(gameData)
       const user = await loginService.restoreLogin()
       setUser(user)
+      if (user && gameData) {
+        const userRating = await ratingService.getUserGameRating(user.id, gameData.id)
+        setUserScore(userRating.score)
+      }
       const ratingData = await ratingService.getGameRatings(id!)
       setRatings(ratingData)
     }
@@ -65,7 +70,7 @@ const GameInfo = () => {
               `${(ratings
                 .reduce((acc: number, curr: Rating) => acc + curr.score, 0) / ratings.length)
                 .toFixed(1)
-              } (${ratings.length} reviews)`
+              } (${ratings.length} review${ratings.length > 1 ? 's' : ''})`
             }
 
             {
@@ -81,7 +86,7 @@ const GameInfo = () => {
                     type="button"
                     onClick={() => setShowScoreInput(!showScoreInput)}
                   >
-                    Rate
+                    {userScore ? `Change rating (${userScore})` : 'Rate'}
                   </button>
                   :
                   <form onSubmit={ onSubmitHandler } className="rate-form">
@@ -90,7 +95,7 @@ const GameInfo = () => {
                       min="1"
                       max="10"
                       step="0.1"
-                      value={ userScore }
+                      value={ score }
                       onChange={ onUserScoreChange }
                     />
                     <button className="rate-btn" type="submit">Send</button>
