@@ -1,7 +1,6 @@
 import bcrypt from "bcrypt"
 import express from "express"
 import User from "../models/users"
-import Rating from "../models/ratings"
 
 
 const router = express.Router()

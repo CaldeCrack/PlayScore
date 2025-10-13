@@ -1,4 +1,6 @@
 import axios from 'axios'
+
+
 const ratingsUrl = '/api/ratings'
 
 const getAllRatings = () => {
@@ -21,11 +23,8 @@ const deleteRating = (id: string) => {
   return axios.delete(`${ratingsUrl}/${id}`).then(response => response.data)
 }
 
-const postRating = (gameId: number, score: number) => {
-  const rating = {
-    'game': gameId,
-    'score': score
-  }
+const postRating = (userId: number, gameId: number, score: number) => {
+  const rating = { 'user': userId, 'game': gameId, 'score': score }
 
   return axios.post(`${ratingsUrl}`, rating)
 }
