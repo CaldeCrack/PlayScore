@@ -1,27 +1,23 @@
 import axios from 'axios'
-const gamesUrl = 'http://localhost:3001/games'
-const ratingsUrl = 'http://localhost:3001/ratings'
+import type { Game } from '../types/Game'
 
-export const getAllGames = () => {
+
+const gamesUrl = '/api/games'
+
+const getAllGames = () => {
   return axios.get(gamesUrl).then(response => response.data)
 }
 
-export const getGameById = (id: string) => {
+const getGameById = (id: string) => {
   return axios.get(`${gamesUrl}/${id}`).then(response => response.data)
 }
 
-export const getGameRatings = (id: string) => {
-  return axios.get(`${ratingsUrl}?game=${id}`).then(response => response.data)
+const deleteGame = (id: string) => {
+  return axios.delete(`${gamesUrl}/${id}`).then(response => response.data)
 }
 
-export const postNewRating = (gameId: number, newScore: number) => {
-  const newRating = {
-    // la id es asignada por el backend
-    'game': gameId,
-    'score': newScore
-  }
-
-  return axios.post(`${ratingsUrl}`, newRating)
+const postGame = (game: Omit<Game, 'id'>) => {
+  return axios.post(`${gamesUrl}`, game)
 }
 
-export default { getAllGames, getGameById, getGameRatings, postNewRating }
+export default { getAllGames, getGameById, deleteGame, postGame }
