@@ -1,5 +1,6 @@
 import type { Rating } from './Rating'
 
+
 export default interface User {
   id: string
   name: string

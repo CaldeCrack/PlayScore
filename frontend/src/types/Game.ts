@@ -1,7 +1,7 @@
 import type { Duration } from './Duration'
 
-export interface Game {
-  id: number,
+export default interface Game {
+  id: string,
   title: string,
   developers: string[],
   release_year: number,

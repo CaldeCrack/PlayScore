@@ -1,5 +1,10 @@
+import type Game from './Game'
+import type User from './User'
+
+
 export interface Rating {
-  id: number,
-  game: number,
-  score: number,
+  id: string
+  user: User
+  game: Game
+  score: number
 }

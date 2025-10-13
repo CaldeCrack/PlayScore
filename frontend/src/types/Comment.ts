@@ -1,8 +1,10 @@
-import type { Game } from './Game'
+import type Game from './Game'
+import type User from './User'
+
 
 export interface Comment {
-  id: number,
-  game: Game,
-  content: string,
-  author?: string
+  id: string
+  author: User
+  game: Game
+  content: string
 }
