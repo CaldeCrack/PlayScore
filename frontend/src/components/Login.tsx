@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react'
 import loginService from '../services/login'
 import { Link, useNavigate } from 'react-router-dom'
+import type User from '../types/User'
 
 
-function Login() {
+interface LoginProps {
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
+}
+
+function Login({ setUser }: LoginProps) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -27,10 +32,12 @@ function Login() {
 
     try {
       setLoading(true)
-      await loginService.login({ username, password })
+      const user = await loginService.login({ username, password })
+      setUser(user)
       setUsername('')
       setPassword('')
       setMessage('Successfully logged in!')
+      navigate('/')
     } catch (_exception) {
       setError('Wrong credentials')
       setTimeout(() => {

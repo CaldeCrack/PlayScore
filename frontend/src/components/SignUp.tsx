@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import userService from '../services/users'
 import type { PostUser } from '../services/users'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 const SignUp = () => {
@@ -11,6 +11,7 @@ const SignUp = () => {
     email: '',
     password: '',
   })
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -36,6 +37,7 @@ const SignUp = () => {
       await userService.postUser(PostUser)
       setMessage('User created successfully!')
       setPostUser({ name: '', username: '', email: '', password: '' })
+      navigate('/login')
     } catch (_exception) {
       setError('Failed to create user')
       setTimeout(() => {
