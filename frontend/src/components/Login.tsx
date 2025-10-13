@@ -1,0 +1,74 @@
+import { useEffect, useState } from 'react'
+import loginService from '../services/login'
+
+
+function Login() {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const init = async () => {
+      await loginService.restoreLogin()
+    }
+    init()
+  }, [])
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setMessage(null)
+    setError(null)
+
+    try {
+      setLoading(true)
+      await loginService.login({ username, password })
+      setUsername('')
+      setPassword('')
+      setMessage('Successfully logged in!')
+    } catch (_exception) {
+      setError('Wrong credentials')
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      <h1 className='title'>Login</h1>
+
+      <form onSubmit={handleLogin}>
+        <input
+          type='text'
+          name='username'
+          placeholder='Username'
+          value={username}
+          onChange={({ target }) => setUsername(target.value)}
+        /><br/>
+        <input
+          type='password'
+          name='password'
+          placeholder='Password'
+          value={password}
+          onChange={({ target }) => setPassword(target.value)}
+        /><br/><br/>
+
+        <button
+          type='submit'
+          disabled={loading}
+        >
+          {loading ? 'Logging in...' : 'Log in'}
+        </button>
+      </form>
+
+      {message && <p>{message}</p>}
+      {error && <p>{error}</p>}
+    </div>
+  )
+}
+
+export default Login

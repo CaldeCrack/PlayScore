@@ -35,12 +35,11 @@ const SignUp = () => {
       await userService.postUser(PostUser)
       setMessage('User created successfully!')
       setPostUser({ name: '', username: '', email: '', password: '' })
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      if (err.response?.data?.error)
-        setError(err.response.data.error)
-      else
-        setError('Failed to create user.')
+    } catch (_exception) {
+      setError('Failed to create user')
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
     } finally {
       setLoading(false)
     }
@@ -78,7 +77,7 @@ const SignUp = () => {
           placeholder='Password'
           value={PostUser.password}
           onChange={handleChange}
-        /><br/>
+        /><br/><br/>
 
         <button
           type='submit'
