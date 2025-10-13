@@ -1,5 +1,6 @@
 import axios from 'axios'
 import type Game from '../types/Game'
+import axiosSecure from '../utils/axiosSecure'
 
 
 const gamesUrl = '/api/games'
@@ -13,11 +14,11 @@ const getGameById = (id: string) => {
 }
 
 const deleteGame = (id: string) => {
-  return axios.delete(`${gamesUrl}/${id}`).then(response => response.data)
+  return axiosSecure.delete(`${gamesUrl}/${id}`).then(response => response.data)
 }
 
 const postGame = (game: Omit<Game, 'id'>) => {
-  return axios.post(`${gamesUrl}`, game)
+  return axiosSecure.post(`${gamesUrl}`, game)
 }
 
 export default { getAllGames, getGameById, deleteGame, postGame }

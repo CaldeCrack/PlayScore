@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosSecure from '../utils/axiosSecure'
 
 
 const commentsUrl = '/api/comments'
@@ -20,13 +21,13 @@ const getUserComments = (id: string) => {
 }
 
 const deleteComment = (id: string) => {
-  return axios.delete(`${commentsUrl}/${id}`).then(response => response.data)
+  return axiosSecure.delete(`${commentsUrl}/${id}`).then(response => response.data)
 }
 
 const postComment = (userId: string, gameId: string, content: string) => {
   const comment = { 'user': userId, 'game': gameId, 'content': content }
 
-  return axios.post(`${commentsUrl}`, comment)
+  return axiosSecure.post(`${commentsUrl}`, comment)
 }
 
 export default {

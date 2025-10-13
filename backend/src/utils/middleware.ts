@@ -66,6 +66,7 @@ export const withUser = async (
     } else {
       const decodedToken = jwt.verify(token, config.JWT_SECRET)
       const csrfToken = req.headers["x-csrf-token"]
+      logger.info(csrfToken)
       if (
         typeof decodedToken === "object" &&
         decodedToken.id &&
@@ -78,7 +79,7 @@ export const withUser = async (
       }
     }
   } catch (error) {
-    res.status(401).json({ error: "invalid token" })
+    res.status(401).json({ error: "an error occurred during token validation" })
   }
 }
 

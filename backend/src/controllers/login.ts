@@ -34,7 +34,6 @@ router.post("/", async (request, response) => {
 })
 
 router.get("/me", withUser, async (request, response, next) => {
-  const body = request.body
   const user = await User.findById(request.userId)
   response.status(200).json(user)
 })

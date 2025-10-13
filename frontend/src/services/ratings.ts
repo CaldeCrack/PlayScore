@@ -1,4 +1,5 @@
 import axios from 'axios'
+import axiosSecure from '../utils/axiosSecure'
 
 
 const ratingsUrl = '/api/ratings'
@@ -20,17 +21,17 @@ const getUserRatings = (id: string) => {
 }
 
 const deleteRating = (id: string) => {
-  return axios.delete(`${ratingsUrl}/${id}`).then(response => response.data)
+  return axiosSecure.delete(`${ratingsUrl}/${id}`).then(response => response.data)
 }
 
 const postRating = (userId: string, gameId: string, score: number) => {
   const rating = { 'user': userId, 'game': gameId, 'score': score }
 
-  return axios.post(`${ratingsUrl}`, rating)
+  return axiosSecure.post(`${ratingsUrl}`, rating)
 }
 
 const updateRating = (id: string, score: number) => {
-  return axios.put(`${ratingsUrl}/${id}`, { score }).then(response => response.data)
+  return axiosSecure.put(`${ratingsUrl}/${id}`, { score }).then(response => response.data)
 }
 
 export default {

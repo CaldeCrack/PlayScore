@@ -11,6 +11,7 @@ const login = async (credentials: Credentials) => {
   const response = await axios.post('/api/login', credentials)
 
   const csrfToken = response.headers['x-csrf-token']
+  console.log(csrfToken)
 
   if (csrfToken)
     localStorage.setItem('csrfToken', csrfToken)
