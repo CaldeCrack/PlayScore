@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import type IGame from "../types/game"
-import AvgDurationSchema from "./avgDuration"
+import DurationSchema from "./duration"
 
 
 const gameSchema = new mongoose.Schema<IGame>({
@@ -10,7 +10,7 @@ const gameSchema = new mongoose.Schema<IGame>({
   release_year: { type: Number, required: true },
   platforms: { type: [String], required: true },
   genres: { type: [String], required: true },
-  average_duration: AvgDurationSchema,
+  average_duration: DurationSchema,
   description: { type: String, required: true },
   cover_image: { type: String, required: true },
   ratings: [{

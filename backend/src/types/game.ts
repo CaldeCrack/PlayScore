@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import AvgDuration from "./avgDuration"
+import Duration from "./duration"
 
 
 export default interface IGame {
@@ -10,7 +10,7 @@ export default interface IGame {
   release_year: number
   platforms: string[]
   genres: string[]
-  average_duration: AvgDuration
+  average_duration: Duration
   description: string
   cover_image: string
   ratings: mongoose.Types.ObjectId[]
