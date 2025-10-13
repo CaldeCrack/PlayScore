@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import loginService from '../services/login'
+import { Link } from 'react-router-dom'
 
 
 function Login() {
@@ -62,7 +63,8 @@ function Login() {
           disabled={loading}
         >
           {loading ? 'Logging in...' : 'Log in'}
-        </button>
+        </button><br/>
+        <Link to='/signup' className='underlined'>Create an account</Link>
       </form>
 
       {message && <p>{message}</p>}

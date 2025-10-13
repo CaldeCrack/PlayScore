@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import userService from '../services/users'
 import type { PostUser } from '../services/users'
+import { Link } from 'react-router-dom'
 
 
 const SignUp = () => {
@@ -84,7 +85,8 @@ const SignUp = () => {
           disabled={loading}
         >
           {loading ? 'Creating account...' : 'Register'}
-        </button>
+        </button><br/>
+        <Link to='/login' className='underlined'>Already have an account? Log in</Link>
       </form>
 
       {message && <p>{message}</p>}
