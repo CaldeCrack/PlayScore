@@ -5,6 +5,8 @@ import gameService from '../services/games'
 import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
 import type Rating from '../types/Rating'
+import type User from '../types/User'
+import loginService from '../services/login'
 
 
 const GameInfo = () => {
@@ -12,25 +14,31 @@ const GameInfo = () => {
   const [game, setGame] = useState<Game>()
   const [ratings, setRatings] = useState<Rating[]>([])
   const [userScore, setUserScore] = useState(5.0)
+  const [user, setUser] = useState<User | null>(null)
   const [showScoreInput, setShowScoreInput] = useState(false)
 
   const onUserScoreChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserScore(parseFloat(event.target.value))
   }
 
-  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    ratingService.postRating('placeholder', game!.id, userScore).then(() => {
-      ratingService.getGameRatings(id!).then((data) => {
-        setRatings(data)
-        setShowScoreInput(false)
-      })
-    })
+    await ratingService.postRating(user!.id, game!.id, userScore)
+    const newRatings = await ratingService.getGameRatings(id!)
+    setRatings(newRatings)
+    setShowScoreInput(false)
   }
 
   useEffect(() => {
-    gameService.getGameById(id!).then((data) => setGame(data))
-    ratingService.getGameRatings(id!).then((data) => setRatings(data))
+    const setData = async () => {
+      const gameData = await gameService.getGameById(id!)
+      setGame(gameData)
+      const user = await loginService.restoreLogin()
+      setUser(user)
+      const ratingData = await ratingService.getGameRatings(id!)
+      setRatings(ratingData)
+    }
+    setData()
   }, [showScoreInput])
 
   if (!game)
@@ -61,25 +69,32 @@ const GameInfo = () => {
             }
 
             {
-              !showScoreInput
-                ? <button
-                  className="rate-btn"
-                  type="button"
-                  onClick={() => setShowScoreInput(!showScoreInput)}
-                >
-                  Rate
-                </button>
-                : <form onSubmit={ onSubmitHandler } className="rate-form">
-                  <input
-                    type="number"
-                    min="1"
-                    max="10"
-                    step="0.1"
-                    value={ userScore }
-                    onChange={ onUserScoreChange }
-                  />
-                  <button className="rate-btn" type="submit">Send</button>
-                </form>
+              !user
+                ? (
+                  <button className="rate-btn" type="button" disabled>
+                    Login first
+                  </button>
+                ) : !showScoreInput
+                  ?
+                  <button
+                    className="rate-btn"
+                    type="button"
+                    onClick={() => setShowScoreInput(!showScoreInput)}
+                  >
+                    Rate
+                  </button>
+                  :
+                  <form onSubmit={ onSubmitHandler } className="rate-form">
+                    <input
+                      type="number"
+                      min="1"
+                      max="10"
+                      step="0.1"
+                      value={ userScore }
+                      onChange={ onUserScoreChange }
+                    />
+                    <button className="rate-btn" type="submit">Send</button>
+                  </form>
             }
           </div>
         </div>
