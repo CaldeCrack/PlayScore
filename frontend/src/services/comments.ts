@@ -23,7 +23,7 @@ const deleteComment = (id: string) => {
   return axios.delete(`${commentsUrl}/${id}`).then(response => response.data)
 }
 
-const postComment = (userId: number, gameId: number, content: number) => {
+const postComment = (userId: string, gameId: string, content: string) => {
   const comment = { 'user': userId, 'game': gameId, 'content': content }
 
   return axios.post(`${commentsUrl}`, comment)

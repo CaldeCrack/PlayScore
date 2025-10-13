@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { Game } from '../types/Game'
+import type Game from '../types/Game'
 
 
 const gamesUrl = '/api/games'

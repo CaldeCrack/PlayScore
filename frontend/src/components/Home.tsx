@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { Game } from '../types/Game'
+import type Game from '../types/Game'
 import GameDisplay from './GameDisplay'
 import gameService from '../services/games'
 import '../styles/Home.css'

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import type { Game } from '../types/Game'
+import type Game from '../types/Game'
 import { useParams } from 'react-router-dom'
-import gameService, { postNewRating } from '../services/games'
+import gameService from '../services/games'
+import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
-import type { Rating } from '../types/Rating'
+import type Rating from '../types/Rating'
+
 
 const GameInfo = () => {
   const { id } = useParams()
@@ -18,8 +20,8 @@ const GameInfo = () => {
 
   const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    postNewRating(game!.id, userScore).then(() => {
-      gameService.getGameRatings(id!).then((data) => {
+    ratingService.postRating('placeholder', game!.id, userScore).then(() => {
+      ratingService.getGameRatings(id!).then((data) => {
         setRatings(data)
         setShowScoreInput(false)
       })
@@ -28,7 +30,7 @@ const GameInfo = () => {
 
   useEffect(() => {
     gameService.getGameById(id!).then((data) => setGame(data))
-    gameService.getGameRatings(id!).then((data) => setRatings(data))
+    ratingService.getGameRatings(id!).then((data) => setRatings(data))
   }, [showScoreInput])
 
   if (!game)

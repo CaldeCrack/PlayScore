@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import '../styles/GameDisplay.css'
-import gameService from '../services/games'
-import type { Game } from '../types/Game'
-import type { Rating } from '../types/Rating'
+import ratingService from '../services/ratings'
+import type Game from '../types/Game'
+import type Rating from '../types/Rating'
 import { Link } from 'react-router-dom'
+
 
 interface Props {
   game: Game
@@ -13,7 +14,7 @@ const GameDisplay = ({ game }: Props) => {
   const [ratings, setRatings] = useState<Rating[]>([])
 
   useEffect(()=>{
-    gameService.getGameRatings(game.id.toString())
+    ratingService.getGameRatings(game.id.toString())
       .then((data) => setRatings(data))
   }, [])
 
