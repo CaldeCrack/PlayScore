@@ -1,7 +1,7 @@
 import express from "express"
+import { withUser } from "../utils/middleware"
 import Rating from "../models/ratings"
 import User from "../models/users"
-import { withUser } from "../utils/middleware"
 import Game from "../models/games"
 
 
@@ -74,7 +74,6 @@ router.delete("/:id", withUser, async (request, response, next) => {
 
   response.status(204).end()
 })
-
 
 router.post("/", withUser, async (request, response, next) => {
   const body = request.body
