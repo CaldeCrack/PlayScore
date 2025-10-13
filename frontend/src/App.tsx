@@ -4,6 +4,7 @@ import Home from './components/Home'
 import GameInfo from './components/GameInfo'
 import Login from './components/Login'
 import SignUp from './components/SignUp'
+import Profile from './components/Profile'
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/games/:id" element={ <GameInfo/> }/>
         <Route path="/login" element={ <Login/> }/>
         <Route path="/signup" element={ <SignUp/> }/>
+        <Route path="/profile" element={ <Profile/> }/>
       </Routes>
     </Router>
   )

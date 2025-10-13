@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import loginService from '../services/login'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 function Login() {
@@ -9,10 +9,13 @@ function Login() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const init = async () => {
-      await loginService.restoreLogin()
+      const user = await loginService.restoreLogin()
+      if (user)
+        navigate('/profile')
     }
     init()
   }, [])
