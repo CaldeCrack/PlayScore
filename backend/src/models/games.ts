@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
 import type IGame from "../types/game"
 import DurationSchema from "./duration"
+import config from "../utils/config"
 
 
 const gameSchema = new mongoose.Schema<IGame>({
@@ -15,17 +16,17 @@ const gameSchema = new mongoose.Schema<IGame>({
   cover_image: { type: String, required: true },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Rating",
+    ref: `Rating${config.MONGODB_SUFFIX}`,
     default: []
   }],
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
+    ref: `Comment${config.MONGODB_SUFFIX}`,
     default: []
   }]
 })
 
-const Game = mongoose.model("Game", gameSchema)
+const Game = mongoose.model(`Game${config.MONGODB_SUFFIX}`, gameSchema)
 
 gameSchema.set("toJSON", {
   transform: (

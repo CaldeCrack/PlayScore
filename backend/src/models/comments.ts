@@ -1,15 +1,16 @@
 import mongoose from "mongoose"
 import IComment from "../types/comment"
+import config from "../utils/config"
 
 
 const commentSchema = new mongoose.Schema<IComment>({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: `User${config.MONGODB_SUFFIX}`
   },
   game: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Game"
+    ref: `Game${config.MONGODB_SUFFIX}`
   },
   content: {
     type: String,
@@ -17,7 +18,7 @@ const commentSchema = new mongoose.Schema<IComment>({
   }
 })
 
-const Comment = mongoose.model("Comment", commentSchema)
+const Comment = mongoose.model(`Comment${config.MONGODB_SUFFIX}`, commentSchema)
 
 commentSchema.set("toJSON", {
   transform: (

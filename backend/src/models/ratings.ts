@@ -1,15 +1,16 @@
 import mongoose from "mongoose"
 import IRating from "../types/rating"
+import config from "../utils/config"
 
 
 const ratingSchema = new mongoose.Schema<IRating>({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
+    ref: `User${config.MONGODB_SUFFIX}`
   },
   game: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Game"
+    ref: `Game${config.MONGODB_SUFFIX}`
   },
   score: {
     type: Number,
@@ -17,7 +18,7 @@ const ratingSchema = new mongoose.Schema<IRating>({
   }
 })
 
-const Rating = mongoose.model("Rating", ratingSchema)
+const Rating = mongoose.model(`Rating${config.MONGODB_SUFFIX}`, ratingSchema)
 
 ratingSchema.set("toJSON", {
   transform: (

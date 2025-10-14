@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import IUser from "../types/user"
+import config from "../utils/config"
 
 
 const userSchema = new mongoose.Schema<IUser>({
@@ -18,17 +19,17 @@ const userSchema = new mongoose.Schema<IUser>({
   passwordHash: { type: String, required: true },
   ratings: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Rating",
+    ref: `Rating${config.MONGODB_SUFFIX}`,
     default: []
   }],
   comments: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Comment",
+    ref: `Comment${config.MONGODB_SUFFIX}`,
     default: []
   }]
 })
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model(`User${config.MONGODB_SUFFIX}`, userSchema)
 
 userSchema.set("toJSON", {
   transform: (
