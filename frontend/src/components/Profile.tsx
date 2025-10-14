@@ -13,7 +13,7 @@ interface Props {
   guest?: boolean
 }
 
-function Profile({ guest=true }: Props) {
+function Profile({ guest=false }: Props) {
   const { id } = useParams()
   const [user, setUser] = useState<User | null>(null)
   const [ratings, setRatings] = useState<Rating[] | null>(null)
@@ -50,9 +50,8 @@ function Profile({ guest=true }: Props) {
     init()
   }, [navigate])
 
-  // if (loading && user) return <p>Loading profile...</p>
-  // if (loading && !user) return <p>Loading form...</p>
-  // if (!user) return null
+  if (loading && !user && !guest) return <p>Loading form...</p>
+  if (loading) return <p>Loading profile...</p>
 
   return (
     <div>
