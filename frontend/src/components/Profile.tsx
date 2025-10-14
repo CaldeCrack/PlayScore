@@ -22,28 +22,26 @@ function Profile({ guest=false }: Props) {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const updateData = async (userData: User) => {
+      setUser(userData)
+      const ratings = await ratingsService.getUserRatings(userData.id)
+      setRatings(ratings)
+      const comments = await commentsService.getUserComments(userData.id)
+      setComments(comments)
+    }
     const init = async () => {
       if (!guest) {
         const user = await loginService.restoreLogin()
         if (!user)
           navigate('/login')
         const userData = await usersService.getUserById(user!.id)
-        setUser(userData)
-        const ratings = await ratingsService.getUserRatings(user!.id)
-        setRatings(ratings)
-        const comments = await commentsService.getUserComments(user!.id)
-        setComments(comments)
+        await updateData(userData)
       } else {
         const user = await usersService.getUserById(id!)
-        console.log(user)
         if (!user)
           navigate('/')
         const userData = await usersService.getUserById(user!.id)
-        setUser(userData)
-        const ratings = await ratingsService.getUserRatings(user!.id)
-        setRatings(ratings)
-        const comments = await commentsService.getUserComments(user!.id)
-        setComments(comments)
+        await updateData(userData)
       }
       setLoading(false)
     }
