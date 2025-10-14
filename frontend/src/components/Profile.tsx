@@ -4,6 +4,7 @@ import loginService from '../services/login'
 import type User from '../types/User'
 import usersService from '../services/users'
 import ratingsService from '../services/ratings'
+import type Rating from '../types/Rating'
 
 
 function Profile() {
