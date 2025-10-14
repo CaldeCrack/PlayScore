@@ -53,7 +53,7 @@ function Profile() {
               <Link to={`/games/${rating.game.id}`}>
                 {rating.game.title}{' '}
               </Link>
-              - Score: ⭐ {rating.score}
+              - ⭐ {rating.score}
             </span>
           )) : (
             <p>No ratings yet.</p>
@@ -68,7 +68,7 @@ function Profile() {
               <Link to={`/games/${comment.game.id}`}>
                 {comment.game.title}{' '}
               </Link>
-              - Comment: {comment.content}
+              - {comment.content}
             </span>
           )) : (
             <p>No comments yet.</p>
