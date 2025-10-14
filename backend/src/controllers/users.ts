@@ -6,12 +6,16 @@ import User from "../models/users"
 const router = express.Router()
 
 router.get("/", async (request, response) => {
-  const users = await User.find({}).populate("ratings")
+  const users = await User.find({})
+    .populate("ratings")
+    .populate("comments")
   response.json(users)
 })
 
 router.get("/:id", async (request, response) => {
-  const user = await User.find({ game: request.params.id }).populate("ratings")
+  const user = await User.findById(request.params.id)
+    .populate("ratings")
+    .populate("comments")
 
   if (!user)
     return response.status(404).json({ error: "no user found" })

@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
 import type User from '../types/User'
+import usersService from '../services/users'
+import ratingsService from '../services/ratings'
+
 
 function Profile() {
   const [user, setUser] = useState<User | null>(null)
+  const [ratings, setRatings] = useState<Rating[] | null>(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -13,7 +17,10 @@ function Profile() {
       const user = await loginService.restoreLogin()
       if (!user)
         navigate('/login')
-      setUser(user)
+      const userData = await usersService.getUserById(user.id)
+      setUser(userData)
+      const ratings = await ratingsService.getUserRatings(userData.id)
+      setRatings(ratings)
       setLoading(false)
     }
     init()
@@ -34,11 +41,11 @@ function Profile() {
 
       <div>
         <h2>Ratings</h2>
-        {user.ratings.length > 0
+        {ratings && ratings.length > 0
           ? (
             <ul>
-              {user.ratings.map((rating, i) => (
-                <li key={i}>Game ID: {rating.game.title} — Score: {rating.score}</li>
+              {ratings.map((rating, i) => (
+                <li key={i}>Game: {rating.game.title} - Score: ⭐ {rating.score}</li>
               ))}
             </ul>
           ) : (

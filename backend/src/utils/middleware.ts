@@ -66,7 +66,6 @@ export const withUser = async (
     } else {
       const decodedToken = jwt.verify(token, config.JWT_SECRET)
       const csrfToken = req.headers["x-csrf-token"]
-      logger.info(csrfToken)
       if (
         typeof decodedToken === "object" &&
         decodedToken.id &&
