@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type Game from '../types/Game'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import gameService from '../services/games'
 import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
@@ -160,15 +160,14 @@ const GameInfo = () => {
         {/* Comment List */}
         {!comments || comments.length === 0 ? (
           <p>No comments yet. Be the first to comment!</p>
-        ) : (
-          <ul className="comments-list">
-            {comments.map((comment, i) => (
-              <li key={i} className="comment-item">
-                <strong>{comment.user.username}</strong>: {comment.content}
-              </li>
-            ))}
-          </ul>
-        )}
+        ) : comments.map((comment, i) => (
+          <div key={i}>
+            <Link to={`/profile/${comment.user.id}`}>
+              <strong>{comment.user.username}</strong>
+            </Link>
+            <span>: {comment.content}</span>
+          </div>
+        ))}
 
         {/* Comment Form */}
         {user ? (

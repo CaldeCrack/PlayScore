@@ -32,6 +32,7 @@ function App() {
         <Route path="/login" element={ <Login setUser={setUser} /> }/>
         <Route path="/signup" element={ <SignUp/> }/>
         <Route path="/profile" element={ <Profile/> }/>
+        <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
       </Routes>
     </Router>
   )

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import loginService from '../services/login'
 import type User from '../types/User'
 import usersService from '../services/users'
@@ -9,7 +9,12 @@ import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
 
 
-function Profile() {
+interface Props {
+  guest?: boolean
+}
+
+function Profile({ guest=true }: Props) {
+  const { id } = useParams()
   const [user, setUser] = useState<User | null>(null)
   const [ratings, setRatings] = useState<Rating[] | null>(null)
   const [comments, setComments] = useState<Comment[] | null>(null)
@@ -18,32 +23,48 @@ function Profile() {
 
   useEffect(() => {
     const init = async () => {
-      const user = await loginService.restoreLogin()
-      if (!user)
-        navigate('/login')
-      const userData = await usersService.getUserById(user.id)
-      setUser(userData)
-      const ratings = await ratingsService.getUserRatings(userData.id)
-      setRatings(ratings)
-      const comments = await commentsService.getUserComments(userData.id)
-      setComments(comments)
+      if (!guest) {
+        const user = await loginService.restoreLogin()
+        if (!user)
+          navigate('/login')
+        const userData = await usersService.getUserById(user!.id)
+        setUser(userData)
+        const ratings = await ratingsService.getUserRatings(user!.id)
+        setRatings(ratings)
+        const comments = await commentsService.getUserComments(user!.id)
+        setComments(comments)
+      } else {
+        const user = await usersService.getUserById(id!)
+        console.log(user)
+        if (!user)
+          navigate('/')
+        const userData = await usersService.getUserById(user!.id)
+        setUser(userData)
+        const ratings = await ratingsService.getUserRatings(user!.id)
+        setRatings(ratings)
+        const comments = await commentsService.getUserComments(user!.id)
+        setComments(comments)
+      }
       setLoading(false)
     }
     init()
   }, [navigate])
 
-  if (loading) return <p>Loading profile...</p>
-  if (!user) return null
+  // if (loading && user) return <p>Loading profile...</p>
+  // if (loading && !user) return <p>Loading form...</p>
+  // if (!user) return null
 
   return (
     <div>
       <h1 className="title">Profile</h1>
 
-      <div>
-        <p><strong>Name:</strong> {user.name}</p>
-        <p><strong>Username:</strong> {user.username}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-      </div>
+      {user &&
+        <div>
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Username:</strong> {user.username}</p>
+          {!guest && <p><strong>Email:</strong> {user.email}</p>}
+        </div>
+      }
 
       <div>
         <h2>Ratings</h2>
