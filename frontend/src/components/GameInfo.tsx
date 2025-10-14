@@ -6,7 +6,9 @@ import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
 import type Rating from '../types/Rating'
 import type User from '../types/User'
+import type Comment from '../types/Comment'
 import loginService from '../services/login'
+import commentService from '../services/comments'
 
 
 const GameInfo = () => {
@@ -17,6 +19,8 @@ const GameInfo = () => {
   const [userScore, setUserScore] = useState<number | null>(null)
   const [user, setUser] = useState<User | null>(null)
   const [showScoreInput, setShowScoreInput] = useState(false)
+  const [comments, setComments] = useState<Comment[]>([])
+  const [newComment, setNewComment] = useState('')
 
   const onUserScoreChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setScore(parseFloat(event.target.value))
@@ -28,6 +32,22 @@ const GameInfo = () => {
     const newRatings = await ratingService.getGameRatings(id!)
     setRatings(newRatings)
     setShowScoreInput(false)
+  }
+
+  const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewComment(event.target.value)
+  }
+
+  const handleCommentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!newComment.trim() || !user)
+      return
+
+    await commentService.postComment(user.id, game!.id, newComment)
+    setNewComment('')
+
+    const updatedComments = await commentService.getGameComments(game!.id)
+    setComments(updatedComments)
   }
 
   useEffect(() => {
@@ -42,6 +62,8 @@ const GameInfo = () => {
       }
       const ratingData = await ratingService.getGameRatings(id!)
       setRatings(ratingData)
+      const commentData = await commentService.getGameComments(id!)
+      setComments(commentData)
     }
     setData()
   }, [showScoreInput])
@@ -129,6 +151,39 @@ const GameInfo = () => {
           <br />
           <span>Completionist: {game.average_duration.completionist}h</span>
         </div>
+      </section>
+
+      {/* Comments Section */}
+      <section className="game-comments">
+        <h2>Comments</h2>
+
+        {/* Comment List */}
+        {!comments || comments.length === 0 ? (
+          <p>No comments yet. Be the first to comment!</p>
+        ) : (
+          <ul className="comments-list">
+            {comments.map((comment, i) => (
+              <li key={i} className="comment-item">
+                <strong>{comment.user.username}</strong>: {comment.content}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {/* Comment Form */}
+        {user ? (
+          <form onSubmit={handleCommentSubmit} className="comment-form">
+            <input
+              type="text"
+              placeholder="Write a comment..."
+              value={newComment}
+              onChange={handleCommentChange}
+            />
+            <button type="submit">Post</button>
+          </form>
+        ) : (
+          <p>Login to post a comment.</p>
+        )}
       </section>
     </div>
   )

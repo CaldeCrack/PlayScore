@@ -4,7 +4,7 @@ import type User from './User'
 
 export default interface Comment {
   id: string
-  author: User
+  user: User
   game: Game
   content: string
 }
