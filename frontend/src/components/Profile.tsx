@@ -4,12 +4,15 @@ import loginService from '../services/login'
 import type User from '../types/User'
 import usersService from '../services/users'
 import ratingsService from '../services/ratings'
+import commentsService from '../services/comments'
 import type Rating from '../types/Rating'
+import type Comment from '../types/Comment'
 
 
 function Profile() {
   const [user, setUser] = useState<User | null>(null)
   const [ratings, setRatings] = useState<Rating[] | null>(null)
+  const [comments, setComments] = useState<Comment[] | null>(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -22,6 +25,8 @@ function Profile() {
       setUser(userData)
       const ratings = await ratingsService.getUserRatings(userData.id)
       setRatings(ratings)
+      const comments = await commentsService.getUserComments(userData.id)
+      setComments(comments)
       setLoading(false)
     }
     init()
@@ -57,15 +62,17 @@ function Profile() {
 
       <div>
         <h2>Comments</h2>
-        {user.comments.length > 0 ? (
-          <ul>
-            {user.comments.map((comment, i) => (
-              <li key={i}>{comment.content}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No comments yet.</p>
-        )}
+        {comments && comments.length > 0
+          ? comments.map((comment, i) => (
+            <span key={i}>
+              <Link to={`/games/${comment.game.id}`}>
+                {comment.game.title}{' '}
+              </Link>
+              - Comment: {comment.content}
+            </span>
+          )) : (
+            <p>No comments yet.</p>
+          )}
       </div>
     </div>
   )
