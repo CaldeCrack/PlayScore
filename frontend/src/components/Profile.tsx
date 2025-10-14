@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
 import type User from '../types/User'
 import usersService from '../services/users'
@@ -43,13 +43,14 @@ function Profile() {
       <div>
         <h2>Ratings</h2>
         {ratings && ratings.length > 0
-          ? (
-            <ul>
-              {ratings.map((rating, i) => (
-                <li key={i}>Game: {rating.game.title} - Score: ⭐ {rating.score}</li>
-              ))}
-            </ul>
-          ) : (
+          ? ratings.map((rating, i) => (
+            <span key={i}>
+              <Link to={`/games/${rating.game.id}`}>
+                {rating.game.title}{' '}
+              </Link>
+              - Score: ⭐ {rating.score}
+            </span>
+          )) : (
             <p>No ratings yet.</p>
           )}
       </div>
