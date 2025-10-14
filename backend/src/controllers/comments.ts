@@ -32,7 +32,7 @@ router.get("/game/:id", async (request, response) => {
     .populate("game")
 
   if (comments.length === 0)
-    return response.status(404).json({ error: "no comments found for this game" })
+    return response.json({})
 
   response.json(comments)
 })
@@ -43,7 +43,7 @@ router.get("/user/:id", async (request, response) => {
     .populate("game")
 
   if (comments.length === 0)
-    return response.status(404).json({ error: "this user has no comments" })
+    return response.json({})
 
   response.json(comments)
 })
