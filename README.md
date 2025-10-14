@@ -2,22 +2,26 @@
 
 Proyecto semestral para el ramo CC5003 - Aplicaciones Web Reactivas
 
-## Ejecución del proyecto
+## Ejecución del proyecto de forma local
 
-- Para el backend seguir los siguientes comandos:
+Primero se necesita un archivo `.env` en la carpeta backend con las siguientes variables definidas:
 
-```sh
-cd backend
-npm install
-npm run server
+```plain
+PORT
+HOST
+MONGODB_URI (solo este es realmente necesario, el resto tienen valores por defecto)
+JWT_SECRET
+MONGODB_NAME
 ```
 
-- Y para el frontend:
+Para ver la página de forma local ejecutar los siguientes comandos:
 
 ```sh
-cd frontend
-npm install
-npm run dev
+cd ./backend
+npm run build:all
+npm run start
 ```
 
-Con los pasos anteriores listos abrir en el navegador el siguiente link `http://localhost:5173`.
+Con los pasos anteriores listos abrir en el navegador el siguiente link `http://<HOST>:<PORT>`.
+
+URL aplicación desplegada en el servidor del curso: `https://fullstack.dcc.uchile.cl:7008/`
