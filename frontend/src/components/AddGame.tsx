@@ -85,29 +85,32 @@ const AddGame = () => {
 
     return (
         <form onSubmit={handleSubmitGame}>
-            <div>
-                <h2>Add Game</h2>
-                <div>
-                    <label htmlFor="title">Title</label>
+            <div style={{ display: "flex", flexDirection: "column"}}>
+                <h1>Add Game</h1>
+                <div style={{ display: "flex", flexDirection: "column",  width: "500px", gap:"15px"}}>
+                    <label htmlFor="title"><strong>Title</strong></label>
                     <input type="text" id="title" value={title} placeholder="Title" onChange={handleChangeTitle}/>
 
-                    <button onClick={addDeveloper} type="button">Add Developer</button>
+                    <label htmlFor="devs-button"><strong>Developers</strong></label>
+                    <button onClick={addDeveloper} type="button" id="devs-button">Add Developer</button>
                     {developers.map((dev, index) => <input value={dev} onChange={(e) => handleChangeDeveloper(e, index)}/>)}
 
-                    <label htmlFor="title">Publisher</label>
+                    <label htmlFor="title"><strong>Publisher</strong></label>
                     <input type="text" id="publisher" value={publisher} placeholder="Publisher" onChange={handleChangePublisher}/>
 
-                    <label htmlFor="release">Release Year</label>
+                    <label htmlFor="release"><strong>Release Year</strong></label>
                     <input type="number" id="release" value={releaseYear} placeholder="Release Year" onChange={handleChangeReleaseYear}/>
 
-                    <button onClick={addPlatform} type="button">Add Platform</button>
+                    <label htmlFor="platforms-button"><strong>Platforms</strong></label>
+                    <button onClick={addPlatform} type="button" id="platforms-button">Add Platform</button>
                     {platforms.map((plt, index) => <input value={plt} onChange={(e) => handleChangePlatform(e, index)}/>)}
 
-                    <button onClick={addGenre} type="button">Add Genre</button>
+                    <label htmlFor="genres-button"><strong>Genres</strong></label>
+                    <button onClick={addGenre} type="button" id="genres-button">Add Genre</button>
                     {genres.map((gen, index) => <input value={gen} onChange={(e) => handleChangeGenre(e, index)}/>)}
 
-                    <label htmlFor="Average Duration"></label>
-                    <div id="duration">
+                    <label htmlFor="duration"><strong>Average Duration</strong></label>
+                    <div id="duration" style={{ display: "flex", flexDirection: "column", alignItems: "center"}}>
                         <label htmlFor="main">Average Time Main Story</label>
                         <input type="number" id="main" value={mainDuration} onChange={handleChangeMainDuration}/>
 
@@ -124,6 +127,7 @@ const AddGame = () => {
                     {/* <label htmlFor="cover">Cover</label>
                     <input type="file" id="cover" value={cover}/> */}
                 </div>
+                <button type="submit">Submit Game</button>
             </div>
         </form>
         

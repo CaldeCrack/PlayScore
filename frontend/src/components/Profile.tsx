@@ -29,6 +29,8 @@ function Profile({ guest=false }: Props) {
       setRatings(ratings)
       const comments = await commentsService.getUserComments(userData.id)
       setComments(comments)
+      console.log(userData)
+      console.log(user)
     }
     const init = async () => {
       if (!guest) {
@@ -93,7 +95,7 @@ function Profile({ guest=false }: Props) {
             <p>No comments yet.</p>
           )}
       </div>
-      <AddGame/>
+      { user?.username === "admin" && <AddGame/>}
     </div>
   )
 }
