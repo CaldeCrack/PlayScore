@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type Duration from "../types/Duration"
 import type Game from "../types/Game"
+import gameService from "../services/games"
 
 // interface Props {
 
@@ -23,13 +24,27 @@ const AddGame = () => {
         setDevelopers(developers.concat(""))
     }
 
+    const removeDeveloper = () => {
+        setDevelopers(developers.slice(0, -1))
+    }
+
     const addPlatform = () => {
         setPlatforms(platforms.concat(""))
     }
 
+    const removePlatform = () => {
+        setPlatforms(platforms.slice(0, -1))
+    }
+
+
     const addGenre = () => {
         setGenres(genres.concat(""))
     }
+
+    const removeGenre = () => {
+        setGenres(genres.slice(0, -1))
+    }
+
 
     const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(event.target.value)
@@ -106,9 +121,12 @@ const AddGame = () => {
             cover_image: cover
         }
         console.log(game)
+        gameService.postGame(game).then((response) => console.log(response)).catch((error) => console.log(error))
+        
     }
 
     return (
+        <form onSubmit={handleSubmitGame}>
             <div style={{ display: "flex", flexDirection: "column"}}>
                 <h1>Add Game</h1>
                 <div style={{ display: "flex", flexDirection: "column",  width: "500px", gap:"15px"}}>
@@ -117,6 +135,7 @@ const AddGame = () => {
 
                     <label htmlFor="devs-button"><strong>Developers</strong></label>
                     <button onClick={addDeveloper} type="button" id="devs-button">Add Developer</button>
+                    <button onClick={removeDeveloper} type="button" disabled={developers.length === 0} style={{ backgroundColor: "#be1818ff" }}>Remove Developer</button>
                     {developers.map((dev, index) => <input value={dev} onChange={(e) => handleChangeDeveloper(e, index)}/>)}
 
                     <label htmlFor="title"><strong>Publisher</strong></label>
@@ -127,10 +146,12 @@ const AddGame = () => {
 
                     <label htmlFor="platforms-button"><strong>Platforms</strong></label>
                     <button onClick={addPlatform} type="button" id="platforms-button">Add Platform</button>
+                    <button onClick={removePlatform} type="button" disabled={platforms.length === 0} style={{ backgroundColor: "#be1818ff" }}>Remove Platform</button>
                     {platforms.map((plt, index) => <input value={plt} onChange={(e) => handleChangePlatform(e, index)}/>)}
 
                     <label htmlFor="genres-button"><strong>Genres</strong></label>
                     <button onClick={addGenre} type="button" id="genres-button">Add Genre</button>
+                    <button onClick={removeGenre} type="button" disabled={genres.length === 0} style={{ backgroundColor: "#be1818ff" }}>Remove Genre</button>
                     {genres.map((gen, index) => <input value={gen} onChange={(e) => handleChangeGenre(e, index)}/>)}
 
                     <label htmlFor="duration"><strong>Average Duration</strong></label>
@@ -149,11 +170,11 @@ const AddGame = () => {
                     <textarea id="description" value={description} placeholder="Description" onChange={handleChangeDescription}></textarea>
 
                     <label htmlFor="cover">Cover</label>
-                    <input type="file" id="cover" value={cover} onChange={handleChangeCover}/>
+                    <input type="file" id="cover" onChange={handleChangeCover}/>
                 </div>
-                <button type="button" onClick={handleSubmitGame}>Submit Game</button>
+                <button type="submit">Submit Game</button>
             </div>
-        
+        </form>
     )
 
 }

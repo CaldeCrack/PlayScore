@@ -17,7 +17,7 @@ const deleteGame = (id: string) => {
   return axiosSecure.delete(`${gamesUrl}/${id}`).then(response => response.data)
 }
 
-const postGame = (game: Omit<Game, 'id'>) => {
+const postGame = (game: Omit<Game, 'id' | 'ratings' | 'comments'>) => {
   return axiosSecure.post(`${gamesUrl}`, game)
 }
 
