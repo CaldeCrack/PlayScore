@@ -18,10 +18,14 @@ Para ver la página de forma local ejecutar los siguientes comandos:
 
 ```sh
 cd ./backend
+
+# si se está usando Windows usar alguno de los siguientes comandos
+# para usar bash de Git y que los comandos para correr el servidor
+npm config set script-shell "C:\\Program Files (x86)\\Git\\bin\\bash.exe"
+npm config set script-shell "C:\\Program Files\\Git\\bin\\bash.exe"
+
 npm run build:all
 npm run start
 ```
 
 Con los pasos anteriores listos abrir en el navegador el siguiente link `http://<HOST>:<PORT>`.
-
-URL aplicación desplegada en el servidor del curso: `https://fullstack.dcc.uchile.cl:7008/`
