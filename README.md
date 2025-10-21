@@ -20,7 +20,7 @@ Para ver la página de forma local ejecutar los siguientes comandos:
 cd ./backend
 
 # si se está usando Windows usar alguno de los siguientes comandos
-# para usar bash de Git y que los comandos para correr el servidor
+# para usar bash de Git y que los comandos para correr el servidor funcionen
 npm config set script-shell "C:\\Program Files (x86)\\Git\\bin\\bash.exe"
 npm config set script-shell "C:\\Program Files\\Git\\bin\\bash.exe"
 
