@@ -21,7 +21,7 @@ const AddGame = () => {
 
   const navigate = useNavigate()
 
-  const { user } = useBoundStore()
+  const { user, addGame } = useBoundStore()
 
   const addDeveloper = () => {
     setDevelopers(developers.concat(''))
@@ -124,7 +124,7 @@ const AddGame = () => {
     }
     gameService
       .postGame(game)
-      .then((response) => console.log(response))
+      .then((response) => addGame(response.data))
       .catch((error) => console.log(error))
   }
 

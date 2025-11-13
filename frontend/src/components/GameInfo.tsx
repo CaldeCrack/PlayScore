@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type Game from '../types/Game'
 import { Link, useParams } from 'react-router-dom'
-import gameService from '../services/games'
+// import gameService from '../services/games'
 import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
 import type Rating from '../types/Rating'
@@ -20,7 +20,7 @@ const GameInfo = () => {
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
 
-  const { user } = useBoundStore()
+  const { user, games } = useBoundStore()
 
   const onUserScoreChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setScore(parseFloat(event.target.value))
@@ -52,7 +52,8 @@ const GameInfo = () => {
 
   useEffect(() => {
     const setData = async () => {
-      const gameData = await gameService.getGameById(id!)
+      // const gameData = await gameService.getGameById(id!)
+      const gameData = games.find((game) => game.id === id)
       setGame(gameData)
       if (user && gameData) {
         const userRating = await ratingService.getUserGameRating(user.id, gameData.id)

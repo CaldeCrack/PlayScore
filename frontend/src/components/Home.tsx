@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import type Game from '../types/Game'
 import GameDisplay from './GameDisplay'
 import gameService from '../services/games'
 import '../styles/Home.css'
+import { useBoundStore } from '../stores/boundStore'
 
 const Home = () => {
-  const [games, setGames] = useState<Game[]>([])
+  const { games, setGames } = useBoundStore()
 
   useEffect(() => {
     gameService
