@@ -7,7 +7,6 @@ import ratingsService from '../services/ratings'
 import commentsService from '../services/comments'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
-import AddGame from './AddGame'
 
 
 interface Props {
@@ -93,7 +92,7 @@ function Profile({ guest=false }: Props) {
             <p>No comments yet.</p>
           )}
       </div>
-      { user?.username === 'admin' && <AddGame/>}
+      {/* { user?.username === 'admin' && <AddGame/>} */}
     </div>
   )
 }

@@ -9,6 +9,7 @@ import Navbar from './components/Navbar'
 import { useEffect, useState } from 'react'
 import type User from './types/User'
 import loginService from './services/login'
+import AddGame from './components/AddGame'
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Route path="/signup" element={ <SignUp/> }/>
         <Route path="/profile" element={ <Profile/> }/>
         <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
+        <Route path="/add-game" element={ <AddGame/> }/>
       </Routes>
     </Router>
   )

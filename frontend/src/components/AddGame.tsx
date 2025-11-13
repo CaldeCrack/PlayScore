@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type Duration from '../types/Duration'
 import type Game from '../types/Game'
 import gameService from '../services/games'
+import loginService from '../services/login'
+import { useNavigate } from 'react-router-dom'
 
-// interface Props {
-
-// }
 
 const AddGame = () => {
   const [title, setTitle] = useState<string>('')
@@ -19,6 +18,8 @@ const AddGame = () => {
   const [completeDuration, setCompleteDuration] = useState<number>(0)
   const [description, setDescription] = useState<string>('')
   const [cover, setCover] = useState<string>('')
+
+  const navigate = useNavigate()
 
   const addDeveloper = () => {
     setDevelopers(developers.concat(''))
@@ -44,7 +45,6 @@ const AddGame = () => {
   const removeGenre = () => {
     setGenres(genres.slice(0, -1))
   }
-
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value)
@@ -125,6 +125,15 @@ const AddGame = () => {
       .then((response) => console.log(response))
       .catch((error) => console.log(error))
   }
+
+  useEffect(() => {
+    const init = async () => {
+      const user = await loginService.restoreLogin()
+      if (!user || (user && user.username !== 'admin'))
+        navigate('/login')
+    }
+    init()
+  })
 
   return (
     <form onSubmit={handleSubmitGame}>
