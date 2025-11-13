@@ -13,7 +13,7 @@ export default interface Game {
   platforms: string[],
   average_duration: Duration,
   description: string,
-  cover_image: string,
+  cover_image: File,
   // franchise_games: Game[]
   ratings: Rating[],
   comments: Comment[]

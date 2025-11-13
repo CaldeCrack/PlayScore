@@ -23,7 +23,7 @@ const GameDisplay = ({ game }: Props) => {
       {/* Cover */}
       <div className="game-cover-container">
         <img
-          src={`/img/${game.cover_image}`}
+          src={`http://localhost:7008${game.cover_image}`}
           alt={`${game.title} cover`}
           className="game-cover"
         />

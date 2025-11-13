@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import type Duration from '../types/Duration'
-import type Game from '../types/Game'
+// import type Duration from '../types/Duration'
+// import type Game from '../types/Game'
 import gameService from '../services/games'
 import { useNavigate } from 'react-router-dom'
 import { useBoundStore } from '../stores/boundStore'
@@ -17,7 +17,7 @@ const AddGame = () => {
   const [extraDuration, setExtraDuration] = useState<number>(0)
   const [completeDuration, setCompleteDuration] = useState<number>(0)
   const [description, setDescription] = useState<string>('')
-  const [cover, setCover] = useState<string>('')
+  const [cover, setCover] = useState<File>()
 
   const navigate = useNavigate()
 
@@ -38,7 +38,6 @@ const AddGame = () => {
   const removePlatform = () => {
     setPlatforms(platforms.slice(0, -1))
   }
-
 
   const addGenre = () => {
     setGenres(genres.concat(''))
@@ -101,36 +100,58 @@ const AddGame = () => {
   const handleChangeCover = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.item(0)
     if (file)
-      setCover(file.name)
+      setCover(file)
   }
 
-  const handleSubmitGame = (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitGame = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const duration: Duration = {
-      main_story: mainDuration,
-      main_plus_extras: extraDuration,
-      completionist: completeDuration
-    }
-    const game: Omit<Game, 'id' | 'ratings' | 'comments'> = {
-      title: title,
-      developers: developers,
-      publisher: publisher,
-      release_year: releaseYear,
-      platforms: platforms,
-      genres: genres,
-      average_duration: duration,
-      description: description,
-      cover_image: cover
-    }
-    gameService
-      .postGame(game)
-      .then((response) => addGame(response.data))
-      .catch((error) => console.log(error))
+
+    // const duration: Duration = {
+    //   main_story: mainDuration,
+    //   main_plus_extras: extraDuration,
+    //   completionist: completeDuration
+    // }
+
+    const formData = new FormData()
+    formData.append('title', title)
+    developers.forEach((dev, i) => formData.append(`developers[${i}]`, dev))
+    formData.append('publisher', publisher)
+    formData.append('release_year', releaseYear.toString())
+    platforms.forEach((plt, i) => formData.append(`platforms[${i}]`, plt))
+    genres.forEach((gen, i) => formData.append(`genres[${i}]`, gen))
+    formData.append('average_duration[main_story]', mainDuration.toString())
+    formData.append('average_duration[main_plus_extras]', extraDuration.toString())
+    formData.append('average_duration[completionist]', completeDuration.toString())
+    formData.append('description', description)
+    formData.append('cover', cover!)
+
+    // const game: Omit<Game, 'id' | 'ratings' | 'comments'> = {
+    //   title: title,
+    //   developers: developers,
+    //   publisher: publisher,
+    //   release_year: releaseYear,
+    //   platforms: platforms,
+    //   genres: genres,
+    //   average_duration: duration,
+    //   description: description,
+    //   cover_image: cover!
+    // }
+
+    const response = await gameService.postGame(formData)
+    addGame(response.data)
+
+    // gameService
+    //   .postGame(game)
+    //   .then((response) => addGame(response.data))
+    //   .catch((error) => console.log(error))
   }
 
   useEffect(() => {
-    if (!user || (user && user.username !== 'admin'))
+    if (!user || (user.username !== 'admin')) {
+      console.log('hola que tal')
+      console.log(user)
       navigate('/login')
+    }
   })
 
   return (

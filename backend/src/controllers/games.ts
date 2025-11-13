@@ -2,7 +2,26 @@ import express from "express"
 import Game from "../models/games"
 import User from "../models/users"
 import { withUser } from "../utils/middleware"
+import multer from "multer"
+import path from "path"
+import fs from "fs"
+import logger from "../utils/logger"
 
+
+const uploadDir = path.join(process.cwd(), "uploads")
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir)
+}
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadDir),
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
+    cb(null, uniqueSuffix + path.extname(file.originalname))
+  },
+})
+
+const upload = multer({ storage })
 
 const router = express.Router()
 
@@ -26,8 +45,9 @@ router.delete("/:id", withUser, async (request, response, next) => {
   response.status(204).end()
 })
 
-router.post("/", withUser, async (request, response, next) => {
+router.post("/", withUser, upload.single("cover"), async (request, response, next) => {
   const body = request.body
+  logger.info(body)
   const user = await User.findById(request.userId)
 
   if (!user)
@@ -35,7 +55,8 @@ router.post("/", withUser, async (request, response, next) => {
   else if (user.username !== "admin") //TODO: check better way to do this
     response.status(403).json({ error: "user is not admin" })
   else {
-    const game = { ...body }
+    const coverPath = request.file ? `/uploads/${request.file.filename}` : null
+    const game = { ...body, cover_image: coverPath }
     const savedGame = await new Game(game).save()
 
     response.status(201).json(savedGame)

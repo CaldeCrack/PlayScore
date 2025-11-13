@@ -75,7 +75,7 @@ const GameInfo = () => {
       {/* Cover + header */}
       <div className="game-header">
         <img
-          src={`/img/${game.cover_image}`}
+          src={`http://localhost:7008${game.cover_image}`}
           alt={`${game.title} cover`}
           className="game-cover-large"
         />

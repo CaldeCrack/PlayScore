@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import loginService from '../services/login'
+// import loginService from '../services/login'
 import type User from '../types/User'
 import usersService from '../services/users'
 import ratingsService from '../services/ratings'
 import commentsService from '../services/comments'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
+import { useBoundStore } from '../stores/boundStore'
 
 
 interface Props {
@@ -15,11 +16,12 @@ interface Props {
 
 function Profile({ guest=false }: Props) {
   const { id } = useParams()
-  const [user, setUser] = useState<User | null>(null)
   const [ratings, setRatings] = useState<Rating[] | null>(null)
   const [comments, setComments] = useState<Comment[] | null>(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+
+  const { user, setUser } = useBoundStore()
 
   useEffect(() => {
     const updateData = async (userData: User) => {
@@ -31,7 +33,6 @@ function Profile({ guest=false }: Props) {
     }
     const init = async () => {
       if (!guest) {
-        const user = await loginService.restoreLogin()
         if (!user)
           navigate('/login')
         const userData = await usersService.getUserById(user!.id)

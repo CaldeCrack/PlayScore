@@ -9,6 +9,7 @@ import ratingsRouter from "./controllers/ratings"
 import usersRouter from "./controllers/users"
 import commentsRouter from "./controllers/comments"
 import loginRouter from "./controllers/login"
+import path from "path"
 
 
 const app = express()
@@ -27,6 +28,8 @@ app.use(express.static("dist"))
 app.use(express.json())
 app.use(cookieParser())
 app.use(middleware.requestLogger)
+
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")))
 
 app.use("/api/games", gamesRouter)
 app.use("/api/ratings", ratingsRouter)
