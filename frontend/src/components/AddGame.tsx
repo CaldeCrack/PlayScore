@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import type Duration from '../types/Duration'
 import type Game from '../types/Game'
 import gameService from '../services/games'
-import loginService from '../services/login'
 import { useNavigate } from 'react-router-dom'
+import { useBoundStore } from '../stores/boundStore'
 
 
 const AddGame = () => {
@@ -20,6 +20,8 @@ const AddGame = () => {
   const [cover, setCover] = useState<string>('')
 
   const navigate = useNavigate()
+
+  const { user } = useBoundStore()
 
   const addDeveloper = () => {
     setDevelopers(developers.concat(''))
@@ -127,12 +129,8 @@ const AddGame = () => {
   }
 
   useEffect(() => {
-    const init = async () => {
-      const user = await loginService.restoreLogin()
-      if (!user || (user && user.username !== 'admin'))
-        navigate('/login')
-    }
-    init()
+    if (!user || (user && user.username !== 'admin'))
+      navigate('/login')
   })
 
   return (
