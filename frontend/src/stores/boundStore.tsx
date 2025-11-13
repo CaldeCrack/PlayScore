@@ -1,10 +1,8 @@
 import { create } from 'zustand'
-import createUserSlice from './userSlice'
-import createGameSlice from './gameSlice'
+import { type UserState, createUserSlice } from './userSlice'
+import { type GameState, createGameSlice } from './gameSlice'
 
-const useBoundStore = create(() => ({
-  ...createUserSlice(),
-  ...createGameSlice()
+export const useBoundStore = create<UserState & GameState>()((...a) => ({
+  ...createUserSlice(...a),
+  ...createGameSlice(...a)
 }))
-
-export default useBoundStore

@@ -1,14 +1,12 @@
-import { create } from 'zustand'
+import type { StateCreator } from 'zustand'
 import type Game from '../types/Game'
 
-type GameState = {
+export type GameState = {
   games: Game[]
   addGame: (_game: Game) => void
 }
 
-const createGameSlice = create<GameState>((set) => ({
+export const createGameSlice: StateCreator<GameState> = (set) => ({
   games: [],
   addGame: (game: Game) => set((state) => ({ games: state.games.concat(game) }))
-}))
-
-export default createGameSlice
+})

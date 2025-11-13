@@ -1,15 +1,13 @@
-import { create } from 'zustand'
+import { type StateCreator } from 'zustand'
 import type User from '../types/User'
-import loginService from '../services/login'
 
-type UserState = {
+
+export type UserState = {
   user: User | null
-  logout: () => void
+  setUser: (_user: User | null) => void
 }
 
-const createUserSlice = create<UserState>(() => ({
+export const createUserSlice: StateCreator<UserState> = (set) => ({
   user: null,
-  logout: () => loginService.logout()
-}))
-
-export default createUserSlice
+  setUser: (user: User | null) => set({ user: user }),
+})
