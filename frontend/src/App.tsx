@@ -6,14 +6,14 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import Profile from './components/Profile'
 import Navbar from './components/Navbar'
-import { useEffect, useState } from 'react'
-import type User from './types/User'
-import loginService from './services/login'
 import AddGame from './components/AddGame'
+import { useEffect } from 'react'
+import loginService from './services/login'
+import { useBoundStore } from './stores/boundStore'
 
 
 function App() {
-  const [user, setUser] = useState<User | null>(null)
+  const { setUser } = useBoundStore()
 
   useEffect(() => {
     const init = async () => {
@@ -25,16 +25,16 @@ function App() {
 
   return (
     <Router>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
       <Routes>
-        <Route path="/" element={ <Home/> }/>
-        <Route path="/games" element={ <Home/> }/>
-        <Route path="/games/:id" element={ <GameInfo/> }/>
-        <Route path="/login" element={ <Login setUser={setUser} /> }/>
-        <Route path="/signup" element={ <SignUp/> }/>
-        <Route path="/profile" element={ <Profile/> }/>
+        <Route path="/" element={ <Home /> }/>
+        <Route path="/games" element={ <Home /> }/>
+        <Route path="/games/:id" element={ <GameInfo /> }/>
+        <Route path="/login" element={ <Login /> }/>
+        <Route path="/signup" element={ <SignUp /> }/>
+        <Route path="/profile" element={ <Profile /> }/>
         <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
-        <Route path="/add-game" element={ <AddGame/> }/>
+        <Route path="/add-game" element={ <AddGame /> }/>
       </Routes>
     </Router>
   )

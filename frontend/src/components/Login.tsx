@@ -1,29 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import loginService from '../services/login'
 import { Link, useNavigate } from 'react-router-dom'
-import type User from '../types/User'
+import { useBoundStore } from '../stores/boundStore'
 
 
-interface LoginProps {
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
-}
-
-function Login({ setUser }: LoginProps) {
+function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const navigate = useNavigate()
 
-  useEffect(() => {
-    const init = async () => {
-      const user = await loginService.restoreLogin()
-      if (user)
-        navigate('/profile')
-    }
-    init()
-  }, [])
+  const navigate = useNavigate()
+  const { setUser } = useBoundStore()
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()

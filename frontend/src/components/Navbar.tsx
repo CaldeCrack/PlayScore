@@ -1,17 +1,13 @@
 import { Home, User as UserIcon, LogOut } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
-import type User from '../types/User'
 import '../styles/Navbar.css'
+import { useBoundStore } from '../stores/boundStore'
 
 
-interface NavbarProps {
-  user: User | null
-  setUser: React.Dispatch<React.SetStateAction<User | null>>
-}
-
-const Navbar = ({ user, setUser }: NavbarProps) => {
+const Navbar = () => {
   const navigate = useNavigate()
+  const { user, setUser } = useBoundStore()
 
   const handleLogout = () => {
     loginService.logout()
@@ -30,7 +26,7 @@ const Navbar = ({ user, setUser }: NavbarProps) => {
 
       {/* Right: Profile + Logout */}
       <div className="navbar-right">
-        <Link to='/profile' className="navbar-link">
+        <Link to={user ? '/profile' : '/login'} className="navbar-link">
           <UserIcon size={20} />
         </Link>
         {user && (

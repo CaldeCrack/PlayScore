@@ -5,10 +5,9 @@ import gameService from '../services/games'
 import ratingService from '../services/ratings'
 import '../styles/GameInfo.css'
 import type Rating from '../types/Rating'
-import type User from '../types/User'
 import type Comment from '../types/Comment'
-import loginService from '../services/login'
 import commentService from '../services/comments'
+import { useBoundStore } from '../stores/boundStore'
 
 
 const GameInfo = () => {
@@ -17,10 +16,11 @@ const GameInfo = () => {
   const [ratings, setRatings] = useState<Rating[]>([])
   const [score, setScore] = useState(5.0)
   const [userScore, setUserScore] = useState<number | null>(null)
-  const [user, setUser] = useState<User | null>(null)
   const [showScoreInput, setShowScoreInput] = useState(false)
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
+
+  const { user } = useBoundStore()
 
   const onUserScoreChange  = (event: React.ChangeEvent<HTMLInputElement>) => {
     setScore(parseFloat(event.target.value))
@@ -54,8 +54,6 @@ const GameInfo = () => {
     const setData = async () => {
       const gameData = await gameService.getGameById(id!)
       setGame(gameData)
-      const user = await loginService.restoreLogin()
-      setUser(user)
       if (user && gameData) {
         const userRating = await ratingService.getUserGameRating(user.id, gameData.id)
         setUserScore(userRating.score)
