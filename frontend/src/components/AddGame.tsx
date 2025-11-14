@@ -106,12 +106,6 @@ const AddGame = () => {
   const handleSubmitGame = async (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    // const duration: Duration = {
-    //   main_story: mainDuration,
-    //   main_plus_extras: extraDuration,
-    //   completionist: completeDuration
-    // }
-
     const formData = new FormData()
     formData.append('title', title)
     developers.forEach((dev, i) => formData.append(`developers[${i}]`, dev))
@@ -125,25 +119,10 @@ const AddGame = () => {
     formData.append('description', description)
     formData.append('cover', cover!)
 
-    // const game: Omit<Game, 'id' | 'ratings' | 'comments'> = {
-    //   title: title,
-    //   developers: developers,
-    //   publisher: publisher,
-    //   release_year: releaseYear,
-    //   platforms: platforms,
-    //   genres: genres,
-    //   average_duration: duration,
-    //   description: description,
-    //   cover_image: cover!
-    // }
-
     const response = await gameService.postGame(formData)
     addGame(response.data)
 
-    // gameService
-    //   .postGame(game)
-    //   .then((response) => addGame(response.data))
-    //   .catch((error) => console.log(error))
+    navigate('/')
   }
 
   useEffect(() => {
