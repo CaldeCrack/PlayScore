@@ -10,6 +10,7 @@ import AddGame from './components/AddGame'
 import { useEffect } from 'react'
 import loginService from './services/login'
 import { useBoundStore } from './stores/boundStore'
+import { Container } from '@mui/material'
 
 
 function App() {
@@ -24,19 +25,21 @@ function App() {
   }, [])
 
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={ <Home /> }/>
-        <Route path="/games" element={ <Home /> }/>
-        <Route path="/games/:id" element={ <GameInfo /> }/>
-        <Route path="/login" element={ <Login /> }/>
-        <Route path="/signup" element={ <SignUp /> }/>
-        <Route path="/profile" element={ <Profile /> }/>
-        <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
-        <Route path="/add-game" element={ <AddGame /> }/>
-      </Routes>
-    </Router>
+    <Container>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={ <Home /> }/>
+          <Route path="/games" element={ <Home /> }/>
+          <Route path="/games/:id" element={ <GameInfo /> }/>
+          <Route path="/login" element={ <Login /> }/>
+          <Route path="/signup" element={ <SignUp /> }/>
+          <Route path="/profile" element={ <Profile /> }/>
+          <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
+          <Route path="/add-game" element={ <AddGame /> }/>
+        </Routes>
+      </Router>
+    </Container>
   )
 }
 
