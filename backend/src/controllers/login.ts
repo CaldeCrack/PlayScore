@@ -27,7 +27,7 @@ router.post("/", async (request, response) => {
       const token = jwt.sign(userForToken, config.JWT_SECRET, { expiresIn: 60 * 60 })
       response.setHeader("X-CSRF-Token", userForToken.csrf)
       response.cookie("token", token, { httpOnly: true })
-      response.status(200).send({ username: user.username, name: user.name })
+      response.status(200).send({ username: user.username, name: user.name, id: user.id })
     }
   } else
     response.status(401).json({ error: "invalid username or password" })
