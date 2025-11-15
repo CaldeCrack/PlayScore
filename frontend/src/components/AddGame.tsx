@@ -7,11 +7,12 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
+import Chip from '@mui/material/Chip'
 import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+// import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import Divider from '@mui/material/Divider'
 import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded'
 
@@ -26,17 +27,13 @@ const AddGame = () => {
   const [description, setDescription] = useState('')
   const [cover, setCover] = useState<File>()
 
+  const [newDeveloper, setNewDeveloper] = useState('')
+  const [newPlatform, setNewPlatform] = useState('')
+  const [newGenre, setNewGenre] = useState('')
+
   const navigate = useNavigate()
   const { user, addGame } = useBoundStore()
 
-  const addDeveloper = () => setDevelopers([...developers, ''])
-  const removeDeveloper = () => setDevelopers(developers.slice(0, -1))
-
-  const addPlatform = () => setPlatforms([...platforms, ''])
-  const removePlatform = () => setPlatforms(platforms.slice(0, -1))
-
-  const addGenre = () => setGenres([...genres, ''])
-  const removeGenre = () => setGenres(genres.slice(0, -1))
 
   const handleSubmitGame = async (event: React.FormEvent) => {
     event.preventDefault()
@@ -121,104 +118,111 @@ const AddGame = () => {
 
             <Stack spacing={1} divider={<Divider />}  flexGrow={1} flexBasis={0}>
               {/* Developers */}
-              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="h6">Developers</Typography>
-                  <Stack direction="row" sx={{ ml: 1 }} >
-                    <IconButton onClick={addDeveloper}>
-                      <AddCircleIcon color='secondary' />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      disabled={developers.length === 0}
-                      onClick={removeDeveloper}
-                    >
-                      <RemoveCircleIcon />
-                    </IconButton>
-                  </Stack>
+              <Box flexGrow={1} flexBasis={0}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <TextField
+                    label="Add Developer"
+                    value={newDeveloper}
+                    onChange={(e) => setNewDeveloper(e.target.value)}
+                    size="small"
+                  />
 
-                  <Stack spacing={0.8}>
-                    {developers.map((dev, i) => (
-                      <TextField
-                        key={i}
-                        label={`Developer #${i + 1}`}
-                        value={dev}
-                        onChange={(e) =>
-                          setDevelopers(
-                            developers.map((d, idx) => (idx === i ? e.target.value : d))
-                          )
-                        }
-                        fullWidth
-                      />
-                    ))}
-                  </Stack>
-                </Box>
+                  <IconButton
+                    onClick={() => {
+                      if (!newDeveloper.trim()) return
+                      setDevelopers([...developers, newDeveloper.trim()])
+                      setNewDeveloper('')
+                    }}
+                  >
+                    <AddCircleIcon color="secondary" />
+                  </IconButton>
+                </Stack>
+
+                <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
+                  {developers.map((dev, i) => (
+                    <Chip
+                      key={i}
+                      label={dev}
+                      onDelete={() =>
+                        setDevelopers(developers.filter((_, idx) => idx !== i))
+                      }
+                      color="secondary"
+                      variant="outlined"
+                    />
+                  ))}
+                </Stack>
               </Box>
 
               {/* Platforms */}
-              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="h6">Platforms</Typography>
-                  <Stack direction="row" sx={{ ml: 1 }} >
-                    <IconButton onClick={addPlatform}>
-                      <AddCircleIcon color='secondary' />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      disabled={platforms.length === 0}
-                      onClick={removePlatform}
-                    >
-                      <RemoveCircleIcon />
-                    </IconButton>
-                  </Stack>
+              <Box flexGrow={1} flexBasis={0}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <TextField
+                    label="Add Platform"
+                    value={newPlatform}
+                    onChange={(e) => setNewPlatform(e.target.value)}
+                    size="small"
+                  />
 
+                  <IconButton
+                    onClick={() => {
+                      if (!newPlatform.trim()) return
+                      setPlatforms([...platforms, newPlatform.trim()])
+                      setNewPlatform('')
+                    }}
+                  >
+                    <AddCircleIcon color="secondary" />
+                  </IconButton>
+                </Stack>
+
+                <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
                   {platforms.map((plt, i) => (
-                    <TextField
+                    <Chip
                       key={i}
-                      label={`Platform #${i + 1}`}
-                      value={plt}
-                      onChange={(e) =>
-                        setPlatforms(
-                          platforms.map((p, idx) => (idx === i ? e.target.value : p))
-                        )
+                      label={plt}
+                      onDelete={() =>
+                        setPlatforms(platforms.filter((_, idx) => idx !== i))
                       }
-                      fullWidth
+                      color="secondary"
+                      variant="outlined"
                     />
                   ))}
-                </Box>
+                </Stack>
               </Box>
 
               {/* Genres */}
-              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Typography variant="h6" display='inline'>Genres</Typography>
-                  <Stack direction="row" sx={{ ml: 1 }} >
-                    <IconButton onClick={addGenre}>
-                      <AddCircleIcon color='secondary' />
-                    </IconButton>
-                    <IconButton
-                      color="error"
-                      disabled={genres.length === 0}
-                      onClick={removeGenre}
-                    >
-                      <RemoveCircleIcon />
-                    </IconButton>
-                  </Stack>
+              <Box flexGrow={1} flexBasis={0}>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <TextField
+                    label="Add Genre"
+                    value={newGenre}
+                    onChange={(e) => setNewGenre(e.target.value)}
+                    size="small"
+                  />
 
+                  <IconButton
+                    onClick={() => {
+                      if (!newGenre.trim()) return
+                      setGenres([...genres, newGenre.trim()])
+                      setNewGenre('')
+                    }}
+                  >
+                    <AddCircleIcon color="secondary" />
+                  </IconButton>
+                </Stack>
+
+                <Stack direction="row" spacing={1} flexWrap="wrap" mt={1}>
                   {genres.map((gen, i) => (
-                    <TextField
+                    <Chip
                       key={i}
-                      label={`Genre #${i + 1}`}
-                      value={gen}
-                      onChange={(e) =>
-                        setGenres(
-                          genres.map((g, idx) => (idx === i ? e.target.value : g))
-                        )
+                      label={gen}
+                      onDelete={() =>
+                        setGenres(genres.filter((_, idx) => idx !== i))
                       }
-                      fullWidth
+                      color="secondary"
+                      variant="outlined"
                     />
                   ))}
-                </Box>
+                </Stack>
               </Box>
             </Stack>
 
