@@ -6,7 +6,6 @@ import ratingsService from '../services/ratings'
 import commentsService from '../services/comments'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
-import { useBoundStore } from '../stores/boundStore'
 import loginService from '../services/login'
 
 import Box from '@mui/material/Box'
