@@ -4,6 +4,8 @@ import GameDisplay from './GameDisplay'
 import gameService from '../services/games'
 import '../styles/Home.css'
 import { useBoundStore } from '../stores/boundStore'
+import Box from '@mui/material/Box'
+
 
 const Home = () => {
   const { games, setGames } = useBoundStore()
@@ -14,7 +16,11 @@ const Home = () => {
       .then((data) => setGames(data))
   }, [])
 
-  return games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)
+  return (
+    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
+      {games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)}
+    </Box>
+  )
 }
 
 export default Home
