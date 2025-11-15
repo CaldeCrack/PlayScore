@@ -52,6 +52,11 @@ const customTheme = createTheme({
       secondary: 'gray'
     }
   },
+  typography: {
+    button: {
+      textTransform:'none'
+    }
+  }
 })
 
 function App() {

@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography'
 import PersonIcon from '@mui/icons-material/Person'
 import LogoutIcon from '@mui/icons-material/Logout'
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
+import Button from '@mui/material/Button'
 
 
 const Navbar = () => {
@@ -31,12 +32,20 @@ const Navbar = () => {
           </Typography>
         </Box>
 
-        <Box>
-          <IconButton component={Link} to={user ? '/profile' : '/login'}>
-            <PersonIcon fontSize='medium' />
-          </IconButton>
+        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <Button
+            component={Link}
+            to={user ? '/profile' : '/login'}
+            sx={{
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <PersonIcon fontSize='medium' sx={{ mr: 1 }} />
+            <Typography display='inline'>{user ? user.username : 'Guest'}</Typography>
+          </Button>
           {user && (
-            <IconButton onClick={handleLogout}>
+            <IconButton onClick={handleLogout} color='primary'>
               <LogoutIcon fontSize='medium' />
             </IconButton>
           )}
