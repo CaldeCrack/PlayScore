@@ -105,7 +105,7 @@ function Profile({ guest = false }: Props) {
             }}
           >
             <Typography variant="h6" my={1}>Basic Info</Typography>
-            <Divider sx={{ mb: 2, width: '100%' }} />
+            <Divider sx={{ width: '100%' }} />
 
             {displayUser && (
               <List dense sx={{ width: '100%' }}>
@@ -127,6 +127,46 @@ function Profile({ guest = false }: Props) {
                 )}
               </List>
             )}
+
+            {/* ----- Stats Section ----- */}
+            <Typography variant="h6" my={1}>Stats</Typography>
+            <Divider sx={{ width: '100%', mb: 1 }} />
+
+            <List dense sx={{ width: '100%' }}>
+              {/* Ratings stats */}
+              <ListItem>
+                <ListItemIcon>
+                  <StarRateIcon color="warning" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    ratings
+                      ? `${ratings.length} rating${ratings.length === 1 ? '' : 's'}`
+                      : '0 ratings'
+                  }
+                  secondary={
+                    ratings && ratings.length > 0
+                      ? `Mean rating: ${(ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(1)}`
+                      : 'Mean rating: N/A'
+                  }
+                />
+              </ListItem>
+
+              {/* Comments stats */}
+              <ListItem>
+                <ListItemIcon>
+                  <CommentIcon color="info" />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    comments
+                      ? `${comments.length} comment${comments.length === 1 ? '' : 's'}`
+                      : '0 comments'
+                  }
+                  secondary="Total comments"
+                />
+              </ListItem>
+            </List>
           </Paper>
         </Grid>
 
