@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import type User from '../types/User'
+import { useNavigate, useParams } from 'react-router-dom'
 import usersService from '../services/users'
 import ratingsService from '../services/ratings'
+import favoriteService from '../services/favorite'
 import commentsService from '../services/comments'
+import loginService from '../services/login'
+import type Game from '../types/Game'
+import type User from '../types/User'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
-import loginService from '../services/login'
+import ProfileTabItem from './ProfileTabItem'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -17,7 +20,6 @@ import Tab from '@mui/material/Tab'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 
@@ -27,6 +29,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import EmailIcon from '@mui/icons-material/Email'
 import CircularProgress from '@mui/material/CircularProgress'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 
 interface Props {
@@ -37,6 +40,7 @@ function Profile({ guest = false }: Props) {
   const { id } = useParams()
   const [ratings, setRatings] = useState<Rating[] | null>(null)
   const [comments, setComments] = useState<Comment[] | null>(null)
+  const [favorites, setFavorites] = useState<Game[] | null>(null)
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState(0)
   const [displayUser, setDisplayUser] = useState<User | null>(null)
@@ -50,6 +54,8 @@ function Profile({ guest = false }: Props) {
       setRatings(ratings)
       const comments = await commentsService.getUserComments(userData.id)
       setComments(comments)
+      const favs = await favoriteService.getUserFavorites(userData.id)
+      setFavorites(favs.favorites)
     }
     const init = async () => {
       if (!guest) {
@@ -129,8 +135,8 @@ function Profile({ guest = false }: Props) {
             )}
 
             {/* ----- Stats Section ----- */}
-            <Typography variant="h6" my={1}>Stats</Typography>
-            <Divider sx={{ width: '100%', mb: 1 }} />
+            <Typography variant="h6" mb={1}>Stats</Typography>
+            <Divider sx={{ width: '100%' }} />
 
             <List dense sx={{ width: '100%' }}>
               {/* Ratings stats */}
@@ -181,6 +187,7 @@ function Profile({ guest = false }: Props) {
             >
               <Tab icon={<StarRateIcon />} label="Ratings" />
               <Tab icon={<CommentIcon />} label="Comments" />
+              <Tab icon={<FavoriteIcon />} label="Favorites" />
             </Tabs>
 
             {/* ----- Ratings Tab ----- */}
@@ -189,17 +196,13 @@ function Profile({ guest = false }: Props) {
                 {ratings && ratings.length > 0 ? (
                   <List dense>
                     {ratings.map((rating, i) => (
-                      <ListItem disablePadding disableGutters key={i}>
-                        <ListItemButton component={Link} to={`/games/${rating.game.id}`}>
-                          <ListItemIcon sx={{ mr: -1 }}>
-                            <StarRateIcon color="warning" />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={rating.game.title}
-                            secondary={`Score: ${rating.score}`}
-                          />
-                        </ListItemButton>
-                      </ListItem>
+                      <ProfileTabItem
+                        key={i}
+                        to={`/games/${rating.game.id}`}
+                        icon={<StarRateIcon color="warning" />}
+                        primary={rating.game.title}
+                        secondary={`Score: ${rating.score}`}
+                      />
                     ))}
                   </List>
                 ) : (
@@ -214,21 +217,38 @@ function Profile({ guest = false }: Props) {
                 {comments && comments.length > 0 ? (
                   <List dense>
                     {comments.map((comment, i) => (
-                      <ListItem disablePadding key={i}>
-                        <ListItemButton component={Link} to={`/games/${comment.game.id}`}>
-                          <ListItemIcon sx={{ mr: -1 }}>
-                            <CommentIcon color="info" />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={comment.game.title}
-                            secondary={comment.content}
-                          />
-                        </ListItemButton>
-                      </ListItem>
+                      <ProfileTabItem
+                        key={i}
+                        to={`/games/${comment.game.id}`}
+                        icon={<CommentIcon color="info" />}
+                        primary={comment.game.title}
+                        secondary={comment.content}
+                      />
                     ))}
                   </List>
                 ) : (
                   <Typography>No comments yet.</Typography>
+                )}
+              </Box>
+            )}
+
+            {/* ----- Favorites Tab ----- */}
+            {tab === 2 && (
+              <Box sx={{ overflowY: 'auto', height: '100%' }}>
+                {favorites && favorites.length > 0 ? (
+                  <List dense>
+                    {favorites.map((game, i) => (
+                      <ProfileTabItem
+                        key={i}
+                        to={`/games/${game.id}`}
+                        icon={<FavoriteIcon color="error" />}
+                        primary={game.title}
+                        secondary={`Year: ${game.release_year}`}
+                      />
+                    ))}
+                  </List>
+                ) : (
+                  <Typography>No favorite games yet.</Typography>
                 )}
               </Box>
             )}
