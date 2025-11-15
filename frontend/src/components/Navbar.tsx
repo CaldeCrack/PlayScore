@@ -1,14 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
 import { useBoundStore } from '../stores/boundStore'
-import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material'
+import Box from '@mui/material/Box'
+import AppBar from '@mui/material/AppBar'
+import IconButton from '@mui/material/IconButton'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 import PersonIcon from '@mui/icons-material/Person'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useTheme } from '@mui/material/styles'
 
 
 const Navbar = () => {
-  const theme = useTheme()
   const navigate = useNavigate()
   const { user, setUser } = useBoundStore()
 
@@ -22,7 +24,7 @@ const Navbar = () => {
     <AppBar position='sticky' sx={{ width: '100vw', left: 0, top: 0 }} >
       <Toolbar variant='dense' sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
-          <Typography variant='h5' component={Link} to='/' color={theme.palette.primary.contrastText}>
+          <Typography variant='h5' component={Link} to='/'>
             PlayScore
           </Typography>
         </Box>

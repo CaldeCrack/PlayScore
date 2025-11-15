@@ -42,6 +42,12 @@ export default defineConfig([
           'ignoreRestSiblings': true
         }
       ],
+      'no-restricted-imports': [
+        'error',
+        {
+          'patterns': [{ 'regex': '^@mui/[^/]+$' }]
+        }
+      ]
     },
     'settings': {
       'react': {
