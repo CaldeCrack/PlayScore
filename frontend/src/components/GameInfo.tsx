@@ -27,6 +27,7 @@ import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
 import ChipList from './ChipList'
+import FavoriteButton from './FavoriteButton'
 
 
 const GameInfo = () => {
@@ -116,15 +117,15 @@ const GameInfo = () => {
               justifyContent:'center',
               alignItems: 'center'
             }}>
-            <Box sx={{ p: 2 }}>
+            <Box sx={{ height: '75vh', flex: '0 0 auto', position: 'relative' }}>
+              <FavoriteButton gameId={game.id} size='large' />
               <img
                 src={`http://localhost:7008${game.cover_image}`}
                 alt={`${game.title} cover`}
                 style={{
                   width: '100%',
-                  height: '75vh',
+                  height: '100%',
                   borderRadius: 8,
-                  marginBottom: 16,
                   objectFit: 'cover'
                 }}
               />

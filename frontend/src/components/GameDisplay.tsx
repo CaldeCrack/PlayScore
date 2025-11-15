@@ -3,6 +3,7 @@ import ratingService from '../services/ratings'
 import type Game from '../types/Game'
 import type Rating from '../types/Rating'
 import { Link } from 'react-router-dom'
+import FavoriteButton from './FavoriteButton'
 
 import { useTheme } from '@mui/material/styles'
 import Card from '@mui/material/Card'
@@ -51,6 +52,7 @@ const GameDisplay = ({ game }: Props) => {
             flex: '0 0 auto'
           }}
         >
+          <FavoriteButton gameId={game.id} size='medium' />
           <img
             src={`http://localhost:7008${game.cover_image}`}
             alt={`${game.title} cover`}

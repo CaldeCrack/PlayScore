@@ -19,11 +19,11 @@ const getUserFavoritedGame = (gameId: string, userId: string) => {
 }
 
 const favoriteGame = (id: string) => {
-  return axiosSecure.post(`${favoritesUrl}/${id}`).then(res => res.data)
+  return axiosSecure.post(`${favoritesUrl}/game/${id}`).then(res => res.data)
 }
 
 const unfavoriteGame = (id: string) => {
-  return axiosSecure.delete(`${favoritesUrl}/${id}`).then(res => res.data)
+  return axiosSecure.delete(`${favoritesUrl}/game/${id}`).then(res => res.data)
 }
 
 export default {
