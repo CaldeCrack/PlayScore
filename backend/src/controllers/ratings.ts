@@ -40,7 +40,7 @@ router.get("/user/:id", async (request, response) => {
     .populate("game")
 
   if (ratings.length === 0)
-    return response.json({})
+    return response.json([])
 
   response.json(ratings)
 })

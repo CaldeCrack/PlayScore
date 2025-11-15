@@ -74,7 +74,7 @@ function Profile({ guest = false }: Props) {
     return (
       <Box
         sx={{
-          height: '78vh',
+          height: '74vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center'
@@ -86,7 +86,7 @@ function Profile({ guest = false }: Props) {
   }
 
   return (
-    <Box p={3} sx={{ height: '78vh' }}>
+    <Box p={3} sx={{ height: '74vh' }}>
       <Typography variant="h4" mb={2} fontWeight="bold">Profile</Typography>
 
       <Grid container spacing={3} sx={{ height: '100%' }}>
