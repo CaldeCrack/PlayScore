@@ -163,7 +163,6 @@ function Profile({ guest = false }: Props) {
                       ? `${comments.length} comment${comments.length === 1 ? '' : 's'}`
                       : '0 comments'
                   }
-                  secondary="Total comments"
                 />
               </ListItem>
             </List>
