@@ -12,9 +12,10 @@ import Typography from '@mui/material/Typography'
 import Stack from '@mui/material/Stack'
 import Paper from '@mui/material/Paper'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-// import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import Divider from '@mui/material/Divider'
 import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded'
+import PublishIcon from '@mui/icons-material/Publish'
+import Tooltip from '@mui/material/Tooltip'
 
 
 const AddGame = () => {
@@ -75,9 +76,11 @@ const AddGame = () => {
           <Stack direction='row' sx={{ justifyContent: 'space-between', alignItems:' center', mb: 2 }}>
             <Typography variant="h4">Add Game</Typography>
             {/* Submit */}
-            <Button type="submit" variant="contained" size="small" color='secondary'>
-              Submit Game
-            </Button>
+            <Tooltip title='Upload Game' placement='top' arrow>
+              <Button type="submit" variant="contained" size="small" color='secondary'>
+                <PublishIcon />
+              </Button>
+            </Tooltip>
           </Stack>
 
           <Stack divider={<Divider orientation="vertical" flexItem />} direction='row' spacing={2}>

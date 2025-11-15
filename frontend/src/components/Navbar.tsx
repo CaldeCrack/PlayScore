@@ -36,7 +36,7 @@ const Navbar = () => {
 
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           {user && user.username === 'admin' && (
-            <Tooltip title='Add a Game'>
+            <Tooltip title='Add a Game' arrow>
               <IconButton component={Link} to='/add-game' color='primary'>
                 <AddCircleIcon fontSize='medium' />
               </IconButton>
@@ -50,11 +50,11 @@ const Navbar = () => {
               alignItems: 'center'
             }}
           >
-            <PersonIcon fontSize='medium' sx={{ mr: 1 }} />
+            <PersonIcon fontSize='medium' sx={{ mr: 0.3 }} />
             <Typography display='inline'>{user ? user.username : 'Guest'}</Typography>
           </Button>
           {user && (
-            <Tooltip title='Logout'>
+            <Tooltip title='Logout' arrow>
               <IconButton onClick={handleLogout} color='primary'>
                 <LogoutIcon fontSize='medium' />
               </IconButton>
