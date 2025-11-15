@@ -77,8 +77,8 @@ const GameDisplay = ({ game }: Props) => {
             }}
           >
             <StarRateIcon fontSize='inherit' sx={{ color: theme.palette.accent.main }} />
-            <Typography display='inline' fontSize='inherit'>
-              {' '}{ratings.length === 0 ? 'N/A' :
+            <Typography display='inline' fontSize='inherit' sx={{ ml: '2px' }}>
+              {ratings.length === 0 ? 'N/A' :
                 (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(1)
               }
             </Typography>
@@ -99,8 +99,8 @@ const GameDisplay = ({ game }: Props) => {
             }}
           >
             <TimerIcon fontSize='inherit' />
-            <Typography display='inline' fontSize='inherit'>
-              {' '}{game.average_duration.main_story === 0
+            <Typography display='inline' fontSize='inherit' sx={{ ml: '2px' }}>
+              {game.average_duration.main_story === 0
                 ? 'N/A'
                 : `${game.average_duration.main_story}h`
               }
