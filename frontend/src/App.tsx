@@ -33,12 +33,12 @@ const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#848ff9',
-      dark: '#080a1e',
-      contrastText: '#3c4172'
+      main: '#919bf8',
+      dark: '#8086bd',
+      contrastText: '#0d1025'
     },
     secondary: {
-      main: '#772f66',
+      main: '#6b1fd5',
     },
     accent: {
       main: '#e59937',
