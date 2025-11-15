@@ -3,6 +3,16 @@ import loginService from '../services/login'
 import { Link, useNavigate } from 'react-router-dom'
 import { useBoundStore } from '../stores/boundStore'
 
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Alert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
+import Box from '@mui/material/Box'
+import Stack from '@mui/material/Stack'
+
 
 function Login() {
   const [username, setUsername] = useState('')
@@ -29,46 +39,74 @@ function Login() {
       navigate('/')
     } catch (_exception) {
       setError('Wrong credentials')
-      setTimeout(() => {
-        setError(null)
-      }, 5000)
+      setTimeout(() => setError(null), 5000)
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div>
-      <h1 className='title'>Login</h1>
+    <Box
+      sx={{
+        width: '100%',
+        height: '90vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
+      <Card sx={{ width: 380, p: 2 }}>
+        <CardContent>
+          <Typography variant="h4" fontWeight={700} textAlign="center" mb={2}>
+            Login
+          </Typography>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type='text'
-          name='username'
-          placeholder='Username'
-          value={username}
-          onChange={({ target }) => setUsername(target.value)}
-        /><br/>
-        <input
-          type='password'
-          name='password'
-          placeholder='Password'
-          value={password}
-          onChange={({ target }) => setPassword(target.value)}
-        /><br/><br/>
+          <form onSubmit={handleLogin}>
+            <Stack spacing={2}>
+              <TextField
+                label="Username"
+                variant="outlined"
+                fullWidth
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={loading}
+              />
 
-        <button
-          type='submit'
-          disabled={loading}
-        >
-          {loading ? 'Logging in...' : 'Log in'}
-        </button><br/>
-        <Link to='/signup' className='underlined'>Create an account</Link>
-      </form>
+              <TextField
+                label="Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={loading}
+              />
 
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
-    </div>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                disabled={loading}
+                size="large"
+              >
+                {loading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  'Log in'
+                )}
+              </Button>
+
+              <Typography textAlign="center" variant="body2">
+                <Link to="/signup">Create an account</Link>
+              </Typography>
+
+              {message && <Alert severity="success">{message}</Alert>}
+              {error && <Alert severity="error">{error}</Alert>}
+            </Stack>
+          </form>
+        </CardContent>
+      </Card>
+    </Box>
   )
 }
 

@@ -49,7 +49,7 @@ const customTheme = createTheme({
     },
     text: {
       primary: '#e7eafc',
-      secondary: '#020412'
+      secondary: 'gray'
     }
   },
 })
