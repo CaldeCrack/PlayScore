@@ -8,6 +8,7 @@ import commentsService from '../services/comments'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
 import { useBoundStore } from '../stores/boundStore'
+import loginService from '../services/login'
 
 
 interface Props {
@@ -33,9 +34,10 @@ function Profile({ guest=false }: Props) {
     }
     const init = async () => {
       if (!guest) {
-        if (!user)
+        const loggedUser = await loginService.restoreLogin()
+        if (!loggedUser)
           navigate('/login')
-        const userData = await usersService.getUserById(user!.id)
+        const userData = await usersService.getUserById(loggedUser!.id)
         await updateData(userData)
       } else {
         const user = await usersService.getUserById(id!)
