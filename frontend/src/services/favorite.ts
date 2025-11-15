@@ -1,14 +1,35 @@
 import axiosSecure from '../utils/axiosSecure'
 
 
-const gamesUrl = '/api/games'
+const favoritesUrl = '/api/favorite'
+
+const getFavoritedBy = (gameId: string) => {
+  return axiosSecure.get(`${favoritesUrl}/game/${gameId}`)
+    .then(res => res.data)
+}
+
+const getUserFavorites = (userId: string) => {
+  return axiosSecure.get(`${favoritesUrl}/user/${userId}`)
+    .then(res => res.data)
+}
+
+const getUserFavoritedGame = (gameId: string, userId: string) => {
+  return axiosSecure.get(`${favoritesUrl}/game/${gameId}/user/${userId}`)
+    .then(res => res.data)
+}
 
 const favoriteGame = (id: string) => {
-  return axiosSecure.post(`${gamesUrl}/favorite/${id}`).then(res => res.data)
+  return axiosSecure.post(`${favoritesUrl}/${id}`).then(res => res.data)
 }
 
 const unfavoriteGame = (id: string) => {
-  return axiosSecure.delete(`${gamesUrl}/favorite/${id}`).then(res => res.data)
+  return axiosSecure.delete(`${favoritesUrl}/${id}`).then(res => res.data)
 }
 
-export default { favoriteGame, unfavoriteGame }
+export default {
+  getFavoritedBy,
+  getUserFavorites,
+  getUserFavoritedGame,
+  favoriteGame,
+  unfavoriteGame
+}
