@@ -8,6 +8,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import PersonIcon from '@mui/icons-material/Person'
 import LogoutIcon from '@mui/icons-material/Logout'
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
 
 
 const Navbar = () => {
@@ -21,10 +22,11 @@ const Navbar = () => {
   }
 
   return (
-    <AppBar position='sticky' sx={{ width: '100vw', left: 0, top: 0 }} >
+    <AppBar position='sticky' sx={{ width: '100vw', left: 0, top: 0, marginBottom: 1 }} >
       <Toolbar variant='dense' sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Box>
-          <Typography variant='h5' component={Link} to='/'>
+        <Box sx={{ display: 'flex', alignItems: 'center' }} component={Link} to='/'>
+          <VideogameAssetIcon />
+          <Typography display='inline' variant='h5' sx={{ ml: 1 }}>
             PlayScore
           </Typography>
         </Box>
