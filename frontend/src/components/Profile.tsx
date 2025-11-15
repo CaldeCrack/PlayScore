@@ -9,7 +9,7 @@ import type Game from '../types/Game'
 import type User from '../types/User'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
-import ProfileTabItem from './ProfileTabItem'
+import ProfileTabItem from './ProfileTabList'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -30,6 +30,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import EmailIcon from '@mui/icons-material/Email'
 import CircularProgress from '@mui/material/CircularProgress'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import ProfileStat from './ProfileStat'
 
 
 interface Props {
@@ -38,9 +39,9 @@ interface Props {
 
 function Profile({ guest = false }: Props) {
   const { id } = useParams()
-  const [ratings, setRatings] = useState<Rating[] | null>(null)
-  const [comments, setComments] = useState<Comment[] | null>(null)
-  const [favorites, setFavorites] = useState<Game[] | null>(null)
+  const [ratings, setRatings] = useState<Rating[]>([])
+  const [comments, setComments] = useState<Comment[]>([])
+  const [favorites, setFavorites] = useState<Game[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState(0)
   const [displayUser, setDisplayUser] = useState<User | null>(null)
@@ -140,37 +141,26 @@ function Profile({ guest = false }: Props) {
 
             <List dense sx={{ width: '100%' }}>
               {/* Ratings stats */}
-              <ListItem>
-                <ListItemIcon>
-                  <StarRateIcon color="warning" />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    ratings
-                      ? `${ratings.length} rating${ratings.length === 1 ? '' : 's'}`
-                      : '0 ratings'
-                  }
-                  secondary={
-                    ratings && ratings.length > 0
-                      ? `Mean rating: ${(ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(1)}`
-                      : 'Mean rating: N/A'
-                  }
-                />
-              </ListItem>
+              <ProfileStat
+                icon={<StarRateIcon color="warning" />}
+                primary={`${ratings.length} rating${ratings.length === 1 ? '' : 's'}`}
+                secondary={`Mean rating: ${ratings.length
+                  ? (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(2)
+                  : 'N/A'
+                }`}
+              />
 
               {/* Comments stats */}
-              <ListItem>
-                <ListItemIcon>
-                  <CommentIcon color="info" />
-                </ListItemIcon>
-                <ListItemText
-                  primary={
-                    comments
-                      ? `${comments.length} comment${comments.length === 1 ? '' : 's'}`
-                      : '0 comments'
-                  }
-                />
-              </ListItem>
+              <ProfileStat
+                icon={<CommentIcon color="info" />}
+                primary={`${comments.length} comment${comments.length === 1 ? '' : 's'}`}
+              />
+
+              {/* Favorite stats */}
+              <ProfileStat
+                icon={<FavoriteIcon color="error" />}
+                primary={`${favorites.length} favorite${favorites.length === 1 ? '' : 's'}`}
+              />
             </List>
           </Paper>
         </Grid>

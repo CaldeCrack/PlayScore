@@ -81,7 +81,7 @@ const GameDisplay = ({ game }: Props) => {
             <StarRateIcon fontSize='inherit' sx={{ color: theme.palette.accent.main }} />
             <Typography display='inline' fontSize='inherit' sx={{ ml: '2px' }}>
               {ratings.length === 0 ? 'N/A' :
-                (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(1)
+                (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(2)
               }
             </Typography>
           </Box>

@@ -4,9 +4,12 @@ import { Link, useParams } from 'react-router-dom'
 import type Game from '../types/Game'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
+import ChipList from './ChipList'
+import FavoriteButton from './FavoriteButton'
 
 import ratingService from '../services/ratings'
 import commentService from '../services/comments'
+import favoriteService from '../services/favorite'
 import { useBoundStore } from '../stores/boundStore'
 
 import Box from '@mui/material/Box'
@@ -26,14 +29,14 @@ import StarRateIcon from '@mui/icons-material/StarRate'
 import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
-import ChipList from './ChipList'
-import FavoriteButton from './FavoriteButton'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 
 const GameInfo = () => {
   const { id } = useParams()
   const [game, setGame] = useState<Game>()
   const [ratings, setRatings] = useState<Rating[]>([])
+  const [favorites, setFavorites] = useState<Game[]>([])
   const [score, setScore] = useState(5.0)
   const [userScore, setUserScore] = useState<number | null>(null)
   const [showScoreInput, setShowScoreInput] = useState(false)
@@ -74,6 +77,9 @@ const GameInfo = () => {
         const commentData = await commentService.getGameComments(id!)
         setComments(commentData)
 
+        const favs = await favoriteService.getFavoritedBy(gameData.id)
+        setFavorites(favs)
+
         if (user) {
           const userRating = await ratingService.getUserGameRating(user.id, gameData.id)
           setUserScore(userRating?.score)
@@ -102,7 +108,7 @@ const GameInfo = () => {
   const avgScore =
     ratings.length === 0
       ? null
-      : (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(1)
+      : (ratings.reduce((a, r) => a + r.score, 0) / ratings.length).toFixed(2)
 
   return (
     <Box p={2} pt={1}>
@@ -113,11 +119,12 @@ const GameInfo = () => {
             elevation={3}
             sx={{
               width: '100%',
+              height: '75vh',
               display: 'flex',
               justifyContent:'center',
               alignItems: 'center'
             }}>
-            <Box sx={{ height: '75vh', flex: '0 0 auto', position: 'relative' }}>
+            <Box sx={{ width: '100%', height: '100%', flex: '0 0 auto', position: 'relative' }}>
               <FavoriteButton gameId={game.id} size='large' />
               <img
                 src={`http://localhost:7008${game.cover_image}`}
@@ -125,7 +132,7 @@ const GameInfo = () => {
                 style={{
                   width: '100%',
                   height: '100%',
-                  borderRadius: 8,
+                  borderRadius: 4,
                   objectFit: 'cover'
                 }}
               />
@@ -195,6 +202,14 @@ const GameInfo = () => {
                       Login to rate
                     </Button>
                   )}
+
+                </Box>
+                {/* Favorited by */}
+                <Box display='flex' alignItems='center' gap={1}>
+                  <FavoriteIcon color='error' />
+                  <Typography variant='h6'>
+                    Favorited by {favorites.length} user{favorites.length == 1 ? '' : 's'}
+                  </Typography>
                 </Box>
               </Paper>
 
