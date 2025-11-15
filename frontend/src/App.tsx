@@ -31,6 +31,7 @@ declare module '@mui/material/Button' {
 
 const customTheme = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
       main: '#848ff9',
       dark: '#080a1e',
@@ -41,6 +42,14 @@ const customTheme = createTheme({
     },
     accent: {
       main: '#e59937',
+    },
+    background: {
+      paper: '#020412',
+      default: '#020412'
+    },
+    text: {
+      primary: '#e7eafc',
+      secondary: '#020412'
     }
   },
 })
