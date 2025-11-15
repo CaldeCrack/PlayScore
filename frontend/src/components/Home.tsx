@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import type Game from '../types/Game'
 import GameDisplay from './GameDisplay'
 import gameService from '../services/games'
-import '../styles/Home.css'
 import { useBoundStore } from '../stores/boundStore'
 import Box from '@mui/material/Box'
 

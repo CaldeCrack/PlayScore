@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import '../styles/GameDisplay.css'
 import ratingService from '../services/ratings'
 import type Game from '../types/Game'
 import type Rating from '../types/Rating'
 import { Link } from 'react-router-dom'
+
+import { useTheme } from '@mui/material/styles'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
@@ -13,7 +14,6 @@ import Box from '@mui/material/Box'
 import TimerIcon from '@mui/icons-material/Timer'
 import StarRateIcon from '@mui/icons-material/StarRate'
 import Divider from '@mui/material/Divider'
-import { useTheme } from '@mui/material/styles'
 import ChipList from './ChipList'
 
 

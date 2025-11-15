@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './styles/App.css'
 import Home from './components/Home'
 import GameInfo from './components/GameInfo'
 import Login from './components/Login'
