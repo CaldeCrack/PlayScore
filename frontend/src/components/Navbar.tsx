@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
-import '../styles/Navbar.css'
 import { useBoundStore } from '../stores/boundStore'
 import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material'
 import PersonIcon from '@mui/icons-material/Person'
