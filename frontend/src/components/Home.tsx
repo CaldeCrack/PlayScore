@@ -14,12 +14,7 @@ const Home = () => {
       .then((data) => setGames(data))
   }, [])
 
-  return (
-    <>
-      <h1 className='title'>PlayScore</h1>
-      {games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)}
-    </>
-  )
+  return games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)
 }
 
 export default Home
