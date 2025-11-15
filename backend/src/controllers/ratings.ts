@@ -31,8 +31,6 @@ router.get("/game/:id", async (request, response) => {
     .populate("user")
     .populate("game")
 
-
-
   response.json(ratings)
 })
 
@@ -55,7 +53,7 @@ router.get("/user/:userId/game/:gameId", async (request, response) => {
     .populate("game")
 
   if (!rating)
-    return response.status(404).json({ error: "rating not found for this user and game" })
+    return response.json({})
 
   response.json(rating)
 })

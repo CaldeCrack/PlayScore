@@ -32,7 +32,7 @@ router.get("/game/:id", async (request, response) => {
     .populate("game")
 
   if (comments.length === 0)
-    return response.json(null)
+    return response.json([])
 
   response.json(comments)
 })
