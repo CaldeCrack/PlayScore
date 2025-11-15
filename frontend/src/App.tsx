@@ -11,7 +11,40 @@ import { useEffect } from 'react'
 import loginService from './services/login'
 import { useBoundStore } from './stores/boundStore'
 import { Container } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
+
+declare module '@mui/material/styles' {
+  interface Palette {
+    accent: Palette['primary']
+  }
+
+  interface PaletteOptions {
+    accent?: PaletteOptions['primary']
+  }
+}
+
+declare module '@mui/material/Button' {
+  interface ButtonPropsColorOverrides {
+    accent: true;
+  }
+}
+
+const customTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#848ff9',
+      dark: '#080a1e',
+      contrastText: '#3c4172'
+    },
+    secondary: {
+      main: '#772f66',
+    },
+    accent: {
+      main: '#e59937',
+    }
+  },
+})
 
 function App() {
   const { setUser } = useBoundStore()
@@ -25,21 +58,23 @@ function App() {
   }, [])
 
   return (
-    <Container>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={ <Home /> }/>
-          <Route path="/games" element={ <Home /> }/>
-          <Route path="/games/:id" element={ <GameInfo /> }/>
-          <Route path="/login" element={ <Login /> }/>
-          <Route path="/signup" element={ <SignUp /> }/>
-          <Route path="/profile" element={ <Profile /> }/>
-          <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
-          <Route path="/add-game" element={ <AddGame /> }/>
-        </Routes>
-      </Router>
-    </Container>
+    <ThemeProvider theme={customTheme}>
+      <Container>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={ <Home /> }/>
+            <Route path="/games" element={ <Home /> }/>
+            <Route path="/games/:id" element={ <GameInfo /> }/>
+            <Route path="/login" element={ <Login /> }/>
+            <Route path="/signup" element={ <SignUp /> }/>
+            <Route path="/profile" element={ <Profile /> }/>
+            <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
+            <Route path="/add-game" element={ <AddGame /> }/>
+          </Routes>
+        </Router>
+      </Container>
+    </ThemeProvider>
   )
 }
 
