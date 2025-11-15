@@ -142,9 +142,11 @@ const GameInfo = () => {
                   {game.title} ({game.release_year})
                 </Typography>
 
-                <Typography variant='body1' mb={2}>
+                <Typography variant='body1'>
                   <strong>Publisher:</strong> {game.publisher}<br/>
-                  <strong>Developer{game.developers.length === 1 ? '' : 's'}:</strong> {game.developers.join(', ')}
+                  <strong>
+                    Developer{game.developers.length === 1 ? '' : 's'}:
+                  </strong> {game.developers.join(', ')}
                 </Typography>
 
                 {/* Rating summary */}
