@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import loginService from '../services/login'
 import { Link, useNavigate } from 'react-router-dom'
 import { useBoundStore } from '../stores/boundStore'
@@ -22,7 +22,7 @@ function Login() {
   const [error, setError] = useState<string | null>(null)
 
   const navigate = useNavigate()
-  const { setUser } = useBoundStore()
+  const { user, setUser } = useBoundStore()
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -31,8 +31,8 @@ function Login() {
 
     try {
       setLoading(true)
-      const user = await loginService.login({ username, password })
-      setUser(user)
+      const userData = await loginService.login({ username, password })
+      setUser(userData)
       setUsername('')
       setPassword('')
       setMessage('Successfully logged in!')
@@ -44,6 +44,11 @@ function Login() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (user)
+      navigate('/')
+  }, [])
 
   return (
     <Box
