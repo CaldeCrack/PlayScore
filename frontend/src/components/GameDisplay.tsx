@@ -143,11 +143,15 @@ const GameDisplay = ({ game }: Props) => {
 
           <Box>
             <Box sx={{ display: 'flex', gap: '2px', flexWrap: 'wrap', marginTop: 1 }}>
-              {game.platforms.map((platform, i) => <Chip key={i} label={platform} size='small' color='primary' />)}
+              {game.platforms.map((platform, i) =>
+                <Chip key={i} label={platform} size='small' color='primary' />
+              )}
             </Box>
             <Divider sx={{ marginBottom: 1, marginTop: 1 }} />
             <Box sx={{ display: 'flex', gap: '2px', flexWrap: 'wrap', marginBottom: 1 }}>
-              {game.genres.map((genre, i) => <Chip key={i} label={genre} color='secondary' size='small' />)}
+              {game.genres.map((genre, i) =>
+                <Chip key={i} label={genre} color='secondary' size='small' />
+              )}
             </Box>
           </Box>
         </CardContent>
