@@ -1,190 +1,251 @@
 import { useEffect, useState } from 'react'
-// import type Duration from '../types/Duration'
-// import type Game from '../types/Game'
 import gameService from '../services/games'
 import { useNavigate } from 'react-router-dom'
 import { useBoundStore } from '../stores/boundStore'
 
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import Stack from '@mui/material/Stack'
+import Paper from '@mui/material/Paper'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
+import Divider from '@mui/material/Divider'
+import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded'
+
 
 const AddGame = () => {
-  const [title, setTitle] = useState<string>('')
+  const [title, setTitle] = useState('')
   const [developers, setDevelopers] = useState<string[]>([])
-  const [publisher, setPublisher] = useState<string>('')
-  const [releaseYear, setReleaseYear] = useState<number>(0)
+  const [publisher, setPublisher] = useState('')
+  const [releaseYear, setReleaseYear] = useState<number | null>(null)
   const [platforms, setPlatforms] = useState<string[]>([])
   const [genres, setGenres] = useState<string[]>([])
-  const [mainDuration, setMainDuration] = useState<number>(0)
-  const [extraDuration, setExtraDuration] = useState<number>(0)
-  const [completeDuration, setCompleteDuration] = useState<number>(0)
-  const [description, setDescription] = useState<string>('')
+  const [description, setDescription] = useState('')
   const [cover, setCover] = useState<File>()
 
   const navigate = useNavigate()
-
   const { user, addGame } = useBoundStore()
 
-  const addDeveloper = () => {
-    setDevelopers(developers.concat(''))
-  }
+  const addDeveloper = () => setDevelopers([...developers, ''])
+  const removeDeveloper = () => setDevelopers(developers.slice(0, -1))
 
-  const removeDeveloper = () => {
-    setDevelopers(developers.slice(0, -1))
-  }
+  const addPlatform = () => setPlatforms([...platforms, ''])
+  const removePlatform = () => setPlatforms(platforms.slice(0, -1))
 
-  const addPlatform = () => {
-    setPlatforms(platforms.concat(''))
-  }
+  const addGenre = () => setGenres([...genres, ''])
+  const removeGenre = () => setGenres(genres.slice(0, -1))
 
-  const removePlatform = () => {
-    setPlatforms(platforms.slice(0, -1))
-  }
-
-  const addGenre = () => {
-    setGenres(genres.concat(''))
-  }
-
-  const removeGenre = () => {
-    setGenres(genres.slice(0, -1))
-  }
-
-  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value)
-  }
-
-  const handleChangeDeveloper = (event: React.ChangeEvent<HTMLInputElement>, changed: number) => {
-    setDevelopers(developers.map((dev, index) => {
-      return index === Number(changed)
-        ? event.target.value
-        : dev
-    }))
-  }
-
-  const handleChangePlatform = (event: React.ChangeEvent<HTMLInputElement>, changed: number) => {
-    setPlatforms(platforms.map((plt, index) => {
-      return index === Number(changed) ? event.target.value
-        : plt
-    }))
-  }
-
-  const handleChangeGenre = (event: React.ChangeEvent<HTMLInputElement>, changed: number) => {
-    setGenres(genres.map((gen, index) => {
-      return index === Number(changed) ? event.target.value
-        : gen
-    }))
-  }
-
-  const handleChangePublisher = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPublisher(event.target.value)
-  }
-
-  const handleChangeReleaseYear = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setReleaseYear(Number(event.target.value))
-  }
-
-  const handleChangeMainDuration = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setMainDuration(Number(event.target.value))
-  }
-
-  const handleChangeExtraDuration = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setExtraDuration(Number(event.target.value))
-  }
-
-  const handleChangeCompleteDuration = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCompleteDuration(Number(event.target.value))
-  }
-
-  const handleChangeDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(event.target.value)
-  }
-
-  const handleChangeCover = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.item(0)
-    if (file)
-      setCover(file)
-  }
-
-  const handleSubmitGame = async (event: React.ChangeEvent<HTMLFormElement>) => {
+  const handleSubmitGame = async (event: React.FormEvent) => {
     event.preventDefault()
 
     const formData = new FormData()
     formData.append('title', title)
     developers.forEach((dev, i) => formData.append(`developers[${i}]`, dev))
     formData.append('publisher', publisher)
-    formData.append('release_year', releaseYear.toString())
+    formData.append('release_year', releaseYear!.toString())
     platforms.forEach((plt, i) => formData.append(`platforms[${i}]`, plt))
     genres.forEach((gen, i) => formData.append(`genres[${i}]`, gen))
-    formData.append('average_duration[main_story]', mainDuration.toString())
-    formData.append('average_duration[main_plus_extras]', extraDuration.toString())
-    formData.append('average_duration[completionist]', completeDuration.toString())
+    formData.append('average_duration[main_story]', (0).toString())
+    formData.append('average_duration[main_plus_extras]', (0).toString())
+    formData.append('average_duration[completionist]', (0).toString())
     formData.append('description', description)
-    formData.append('cover', cover!)
+    if (cover) formData.append('cover', cover)
 
     const response = await gameService.postGame(formData)
     addGame(response.data)
-
     navigate('/')
   }
 
   useEffect(() => {
-    if (!user || (user.username !== 'admin')) {
-      console.log('hola que tal')
-      console.log(user)
+    if (!user || user.username !== 'admin') {
       navigate('/login')
     }
-  })
+  }, [user, navigate])
 
   return (
-    <form onSubmit={handleSubmitGame}>
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <h1>Add Game</h1>
-        <div style={{ display: 'flex', flexDirection: 'column',  width: '500px', gap:'15px' }}>
-          <label htmlFor="title"><strong>Title</strong></label>
-          <input type="text" id="title" value={title} placeholder="Title" onChange={handleChangeTitle}/>
+    <Box sx={{
+      width: '100%',
+      height: '92%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}>
+      <Paper sx={{ p: 2, width: '80vw' }}>
+        <Box component="form" onSubmit={handleSubmitGame}>
+          <Stack direction='row' sx={{ justifyContent: 'space-between', alignItems:' center', mb: 2 }}>
+            <Typography variant="h4">Add Game</Typography>
+            {/* Submit */}
+            <Button type="submit" variant="contained" size="small" color='secondary'>
+              Submit Game
+            </Button>
+          </Stack>
 
-          <label htmlFor="devs-button"><strong>Developers</strong></label>
-          <button onClick={addDeveloper} type="button" id="devs-button">Add Developer</button>
-          <button onClick={removeDeveloper} type="button" disabled={developers.length === 0} style={{ backgroundColor: '#be1818ff' }}>Remove Developer</button>
-          {developers.map((dev, i) => <input key={i} value={dev} onChange={(e) => handleChangeDeveloper(e, i)}/>)}
+          <Stack direction='row' spacing={5}>
+            <Stack spacing={3}  flexGrow={1} flexBasis={0}>
+              <TextField
+                label="Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                fullWidth
+              />
 
-          <label htmlFor="title"><strong>Publisher</strong></label>
-          <input type="text" id="publisher" value={publisher} placeholder="Publisher" onChange={handleChangePublisher}/>
+              {/* Publisher */}
+              <TextField
+                label="Publisher"
+                value={publisher}
+                onChange={(e) => setPublisher(e.target.value)}
+                fullWidth
+              />
 
-          <label htmlFor="release"><strong>Release Year</strong></label>
-          <input type="number" id="release" value={releaseYear} placeholder="Release Year" onChange={handleChangeReleaseYear}/>
+              {/* Release year */}
+              <TextField
+                label="Release Year"
+                type="number"
+                onChange={(e) => setReleaseYear(Number(e.target.value))}
+                fullWidth
+              />
 
-          <label htmlFor="platforms-button"><strong>Platforms</strong></label>
-          <button onClick={addPlatform} type="button" id="platforms-button">Add Platform</button>
-          <button onClick={removePlatform} type="button" disabled={platforms.length === 0} style={{ backgroundColor: '#be1818ff' }}>Remove Platform</button>
-          {platforms.map((plt, i) => <input key={i} value={plt} onChange={(e) => handleChangePlatform(e, i)}/>)}
+              {/* Description */}
+              <TextField
+                label="Description"
+                value={description}
+                multiline
+                minRows={3}
+                onChange={(e) => setDescription(e.target.value)}
+                fullWidth
+              />
+            </Stack>
 
-          <label htmlFor="genres-button"><strong>Genres</strong></label>
-          <button onClick={addGenre} type="button" id="genres-button">Add Genre</button>
-          <button onClick={removeGenre} type="button" disabled={genres.length === 0} style={{ backgroundColor: '#be1818ff' }}>Remove Genre</button>
-          {genres.map((gen, i) => <input key={i} value={gen} onChange={(e) => handleChangeGenre(e, i)}/>)}
+            <Stack spacing={1} divider={<Divider />}  flexGrow={1} flexBasis={0}>
+              {/* Developers */}
+              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="h6">Developers</Typography>
+                  <Stack direction="row" sx={{ ml: 1 }} >
+                    <IconButton onClick={addDeveloper}>
+                      <AddCircleIcon color='secondary' />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      disabled={developers.length === 0}
+                      onClick={removeDeveloper}
+                    >
+                      <RemoveCircleIcon />
+                    </IconButton>
+                  </Stack>
 
-          <label htmlFor="duration"><strong>Average Duration</strong></label>
-          <div id="duration" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <label htmlFor="main">Average Time Main Story</label>
-            <input type="number" id="main" value={mainDuration} onChange={handleChangeMainDuration}/>
+                  <Stack spacing={0.8}>
+                    {developers.map((dev, i) => (
+                      <TextField
+                        key={i}
+                        label={`Developer #${i + 1}`}
+                        value={dev}
+                        onChange={(e) =>
+                          setDevelopers(
+                            developers.map((d, idx) => (idx === i ? e.target.value : d))
+                          )
+                        }
+                        fullWidth
+                      />
+                    ))}
+                  </Stack>
+                </Box>
+              </Box>
 
-            <label htmlFor="extra">Average Time Main Story + Extra</label>
-            <input type="number" id="extra" value={extraDuration} onChange={handleChangeExtraDuration}/>
+              {/* Platforms */}
+              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="h6">Platforms</Typography>
+                  <Stack direction="row" sx={{ ml: 1 }} >
+                    <IconButton onClick={addPlatform}>
+                      <AddCircleIcon color='secondary' />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      disabled={platforms.length === 0}
+                      onClick={removePlatform}
+                    >
+                      <RemoveCircleIcon />
+                    </IconButton>
+                  </Stack>
 
-            <label htmlFor="complete">Average Time Completionist</label>
-            <input type="number" id="complete" value={completeDuration} onChange={handleChangeCompleteDuration}/>
-          </div>
+                  {platforms.map((plt, i) => (
+                    <TextField
+                      key={i}
+                      label={`Platform #${i + 1}`}
+                      value={plt}
+                      onChange={(e) =>
+                        setPlatforms(
+                          platforms.map((p, idx) => (idx === i ? e.target.value : p))
+                        )
+                      }
+                      fullWidth
+                    />
+                  ))}
+                </Box>
+              </Box>
 
-          <label htmlFor="description">Description</label>
-          <textarea id="description" value={description} placeholder="Description" onChange={handleChangeDescription}></textarea>
+              {/* Genres */}
+              <Box  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Typography variant="h6" display='inline'>Genres</Typography>
+                  <Stack direction="row" sx={{ ml: 1 }} >
+                    <IconButton onClick={addGenre}>
+                      <AddCircleIcon color='secondary' />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      disabled={genres.length === 0}
+                      onClick={removeGenre}
+                    >
+                      <RemoveCircleIcon />
+                    </IconButton>
+                  </Stack>
 
-          <label htmlFor="cover">Cover</label>
-          <input type="file" id="cover" onChange={handleChangeCover}/>
-        </div>
-        <button type="submit">Submit Game</button>
-      </div>
-    </form>
+                  {genres.map((gen, i) => (
+                    <TextField
+                      key={i}
+                      label={`Genre #${i + 1}`}
+                      value={gen}
+                      onChange={(e) =>
+                        setGenres(
+                          genres.map((g, idx) => (idx === i ? e.target.value : g))
+                        )
+                      }
+                      fullWidth
+                    />
+                  ))}
+                </Box>
+              </Box>
+            </Stack>
+
+            {/* Cover upload */}
+            <Stack spacing={1}  flexGrow={1} flexBasis={0} sx={{ alignItems: 'flex-start' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography variant="h6" display='inline'>Cover Image</Typography>
+                <IconButton sx={{ ml: 1 }} component="label" >
+                  <UploadFileRoundedIcon color='secondary' />
+                  <input type="file" hidden onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) setCover(file)
+                  }} />
+                </IconButton>
+              </Box>
+              {cover && <img src={URL.createObjectURL(cover)} alt="preview" style={{ maxWidth: '24vw' }} />}
+              {cover && (
+                <Typography variant="body2">
+                  Selected: {cover.name}
+                </Typography>
+              )}
+            </Stack>
+          </Stack>
+        </Box>
+      </Paper>
+    </Box>
   )
-
 }
 
 export default AddGame
