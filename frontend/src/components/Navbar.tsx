@@ -10,6 +10,8 @@ import PersonIcon from '@mui/icons-material/Person'
 import LogoutIcon from '@mui/icons-material/Logout'
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
 import Button from '@mui/material/Button'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import Tooltip from '@mui/material/Tooltip'
 
 
 const Navbar = () => {
@@ -33,6 +35,13 @@ const Navbar = () => {
         </Box>
 
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          {user && user.username === 'admin' && (
+            <Tooltip title='Add a Game'>
+              <IconButton component={Link} to='/add-game' color='primary'>
+                <AddCircleIcon fontSize='medium' />
+              </IconButton>
+            </Tooltip>
+          )}
           <Button
             component={Link}
             to={user ? '/profile' : '/login'}
@@ -45,9 +54,11 @@ const Navbar = () => {
             <Typography display='inline'>{user ? user.username : 'Guest'}</Typography>
           </Button>
           {user && (
-            <IconButton onClick={handleLogout} color='primary'>
-              <LogoutIcon fontSize='medium' />
-            </IconButton>
+            <Tooltip title='Logout'>
+              <IconButton onClick={handleLogout} color='primary'>
+                <LogoutIcon fontSize='medium' />
+              </IconButton>
+            </Tooltip>
           )}
         </Box>
       </Toolbar>
