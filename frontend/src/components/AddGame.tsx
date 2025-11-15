@@ -65,7 +65,7 @@ const AddGame = () => {
   return (
     <Box sx={{
       width: '100%',
-      height: '92%',
+      height: '90%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
@@ -80,7 +80,7 @@ const AddGame = () => {
             </Button>
           </Stack>
 
-          <Stack direction='row' spacing={5}>
+          <Stack divider={<Divider orientation="vertical" flexItem />} direction='row' spacing={2}>
             <Stack spacing={3}  flexGrow={1} flexBasis={0}>
               <TextField
                 label="Title"
@@ -238,7 +238,7 @@ const AddGame = () => {
                   }} />
                 </IconButton>
               </Box>
-              {cover && <img src={URL.createObjectURL(cover)} alt="preview" style={{ maxWidth: '24vw' }} />}
+              {cover && <img src={URL.createObjectURL(cover)} alt="preview" style={{ maxWidth: '24vw', maxHeight: '56vh' }} />}
               {cover && (
                 <Typography variant="body2">
                   Selected: {cover.name}
