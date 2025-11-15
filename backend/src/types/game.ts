@@ -15,4 +15,5 @@ export default interface IGame {
   cover_image: string
   ratings: mongoose.Types.ObjectId[]
   comments: mongoose.Types.ObjectId[]
+  favorited_by: mongoose.Types.ObjectId[]
 }

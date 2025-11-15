@@ -23,6 +23,11 @@ const gameSchema = new mongoose.Schema<IGame>({
     type: mongoose.Schema.Types.ObjectId,
     ref: `Comment${config.MONGODB_SUFFIX}`,
     default: []
+  }],
+  favorited_by: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: `User${config.MONGODB_SUFFIX}`,
+    default: []
   }]
 })
 

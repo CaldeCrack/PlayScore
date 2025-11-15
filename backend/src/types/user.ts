@@ -9,4 +9,5 @@ export default interface IUser {
   passwordHash: string
   ratings: mongoose.Types.ObjectId[]
   comments: mongoose.Types.ObjectId[]
+  favorites: mongoose.Types.ObjectId[]
 }

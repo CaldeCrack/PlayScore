@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema<IUser>({
     type: mongoose.Schema.Types.ObjectId,
     ref: `Comment${config.MONGODB_SUFFIX}`,
     default: []
+  }],
+  favorites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: `Game${config.MONGODB_SUFFIX}`,
+    default: []
   }]
 })
 
