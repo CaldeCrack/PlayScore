@@ -6,7 +6,6 @@ import multer from "multer"
 import path from "path"
 import fs from "fs"
 import logger from "../utils/logger"
-import mongoose from "mongoose"
 
 
 const uploadDir = path.join(process.cwd(), "uploads")
@@ -62,64 +61,6 @@ router.post("/", withUser, upload.single("cover"), async (request, response, nex
 
     response.status(201).json(savedGame)
   }
-})
-
-router.post("/favorite/:id", withUser, async (request, response) => {
-  const userId = new mongoose.Types.ObjectId(request.userId)
-  const gameId = new mongoose.Types.ObjectId(request.params.id)
-
-  const user = await User.findById(userId)
-  const game = await Game.findById(gameId)
-
-  if (!user)
-    return response.status(404).json({ error: "User not found" })
-
-  if (!game)
-    return response.status(404).json({ error: "Game not found" })
-
-  // Add game to user's favorites if not already added
-  if (gameId && !user.favorites.includes(gameId)) {
-    user.favorites.push(gameId)
-    await user.save()
-  }
-
-  // Add user to game's favorited_by list if not already added
-  if (userId && !game.favorited_by.includes(userId)) {
-    game.favorited_by.push(userId)
-    await game.save()
-  }
-
-  return response.status(200).json({
-    message: "Game favorited successfully",
-    userFavorites: user.favorites
-  })
-})
-
-router.delete("/favorite/:id", withUser, async (request, response) => {
-  const userId = new mongoose.Types.ObjectId(request.userId)
-  const gameId = new mongoose.Types.ObjectId(request.params.id)
-
-  const user = await User.findById(userId)
-  const game = await Game.findById(gameId)
-
-  if (!user)
-    return response.status(404).json({ error: "User not found" })
-
-  if (!game)
-    return response.status(404).json({ error: "Game not found" })
-
-  // Remove game from user's favorites
-  user.favorites = user.favorites.filter((favId) => !favId.equals(gameId))
-  await user.save()
-
-  // Remove user from game's favorited_by
-  game.favorited_by = game.favorited_by.filter((uId) => !uId.equals(userId))
-  await game.save()
-
-  return response.status(200).json({
-    message: "Game unfavorited successfully",
-    userFavorites: user.favorites
-  })
 })
 
 export default router
