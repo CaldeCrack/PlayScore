@@ -1,11 +1,15 @@
-import { Home, User as UserIcon, LogOut } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import loginService from '../services/login'
 import '../styles/Navbar.css'
 import { useBoundStore } from '../stores/boundStore'
+import { Box, AppBar, IconButton, Toolbar, Typography } from '@mui/material'
+import PersonIcon from '@mui/icons-material/Person'
+import LogoutIcon from '@mui/icons-material/Logout'
+import { useTheme } from '@mui/material/styles'
 
 
 const Navbar = () => {
+  const theme = useTheme()
   const navigate = useNavigate()
   const { user, setUser } = useBoundStore()
 
@@ -16,26 +20,26 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="navbar">
-      {/* Left: Home icon */}
-      <div className="navbar-left">
-        <Link to='/' className="navbar-link">
-          <Home size={20} />
-        </Link>
-      </div>
+    <AppBar position='sticky' sx={{ width: '100vw', left: 0, top: 0 }} >
+      <Toolbar variant='dense' sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box>
+          <Typography variant='h5' component={Link} to='/' color={theme.palette.primary.contrastText}>
+            PlayScore
+          </Typography>
+        </Box>
 
-      {/* Right: Profile + Logout */}
-      <div className="navbar-right">
-        <Link to={user ? '/profile' : '/login'} className="navbar-link">
-          <UserIcon size={20} />
-        </Link>
-        {user && (
-          <button className="navbar-button" onClick={handleLogout}>
-            <LogOut size={20} />
-          </button>
-        )}
-      </div>
-    </nav>
+        <Box>
+          <IconButton component={Link} to={user ? '/profile' : '/login'}>
+            <PersonIcon fontSize='medium' />
+          </IconButton>
+          {user && (
+            <IconButton onClick={handleLogout}>
+              <LogoutIcon fontSize='medium' />
+            </IconButton>
+          )}
+        </Box>
+      </Toolbar>
+    </AppBar>
   )
 }
 
