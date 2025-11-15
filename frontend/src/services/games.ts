@@ -1,5 +1,4 @@
 import axios from 'axios'
-// import type Game from '../types/Game'
 import axiosSecure from '../utils/axiosSecure'
 
 
