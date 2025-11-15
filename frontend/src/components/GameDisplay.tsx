@@ -9,12 +9,12 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import Chip from '@mui/material/Chip'
 import Box from '@mui/material/Box'
 import TimerIcon from '@mui/icons-material/Timer'
 import StarRateIcon from '@mui/icons-material/StarRate'
 import Divider from '@mui/material/Divider'
 import { useTheme } from '@mui/material/styles'
+import ChipList from './ChipList'
 
 
 interface Props {
@@ -143,15 +143,11 @@ const GameDisplay = ({ game }: Props) => {
 
           <Box>
             <Box sx={{ display: 'flex', gap: '2px', flexWrap: 'wrap', marginTop: 1 }}>
-              {game.platforms.map((platform, i) =>
-                <Chip key={i} label={platform} size='small' color='primary' />
-              )}
+              <ChipList list={game.platforms} color='primary' />
             </Box>
             <Divider sx={{ marginBottom: 1, marginTop: 1 }} />
             <Box sx={{ display: 'flex', gap: '2px', flexWrap: 'wrap', marginBottom: 1 }}>
-              {game.genres.map((genre, i) =>
-                <Chip key={i} label={genre} color='secondary' size='small' />
-              )}
+              <ChipList list={game.genres} color='secondary' />
             </Box>
           </Box>
         </CardContent>

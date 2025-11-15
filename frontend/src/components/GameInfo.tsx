@@ -26,7 +26,7 @@ import StarRateIcon from '@mui/icons-material/StarRate'
 import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
-import Chip from '@mui/material/Chip'
+import ChipList from './ChipList'
 
 
 const GameInfo = () => {
@@ -228,17 +228,13 @@ const GameInfo = () => {
                 <Box display='flex' flexDirection='row' mb={1}>
                   <Typography mr={1}><strong>Platforms:</strong></Typography>
                   <Box display='flex' flexWrap='wrap' gap='2px'>
-                    {game.platforms.map((platform, i) =>
-                      <Chip key={i} label={platform} size='small' color='primary'/>
-                    )}
+                    <ChipList list={game.platforms} color='primary' />
                   </Box>
                 </Box>
                 <Box display='flex' flexDirection='row'>
                   <Typography mr={1}><strong>Genres:</strong></Typography>
                   <Box display='flex' flexWrap='wrap' gap='2px'>
-                    {game.genres.map((genre, i) =>
-                      <Chip key={i} label={genre} size='small' color='secondary' />
-                    )}
+                    <ChipList list={game.genres} color='secondary' />
                   </Box>
                 </Box>
               </Paper>
