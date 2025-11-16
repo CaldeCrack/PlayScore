@@ -22,7 +22,7 @@ const AddGame = () => {
   const [title, setTitle] = useState('')
   const [developers, setDevelopers] = useState<string[]>([])
   const [publisher, setPublisher] = useState('')
-  const [releaseYear, setReleaseYear] = useState<number | null>(null)
+  const [releaseYear, setReleaseYear] = useState<number | ''>('')
   const [platforms, setPlatforms] = useState<string[]>([])
   const [genres, setGenres] = useState<string[]>([])
   const [description, setDescription] = useState('')

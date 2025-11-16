@@ -17,7 +17,10 @@ const Home = () => {
 
   return (
     <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'space-evenly', mb: 1 }}>
-      {games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)}
+      {games.length
+        ? games.map((game: Game) => <GameDisplay key={ game.id } game={ game } />)
+        : 'No games found'
+      }
     </Box>
   )
 }
