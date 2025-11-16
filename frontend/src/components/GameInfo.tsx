@@ -31,6 +31,8 @@ import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import EditIcon from '@mui/icons-material/Edit'
+import CancelIcon from '@mui/icons-material/Cancel'
 
 
 const GameInfo = () => {
@@ -167,7 +169,14 @@ const GameInfo = () => {
                         size='small'
                         onClick={() => setShowScoreInput(true)}
                       >
-                        {userScore ? `Change rating (${userScore})` : 'Rate this game'}
+                        {userScore
+                          ?
+                          <Typography sx={{ display: 'flex', alignItems: 'center' }}>
+                            <EditIcon fontSize='small' sx={{ mr: '4px' }} />
+                            {`(${userScore})`}
+                          </Typography>
+                          : 'Rate'
+                        }
                       </Button>
                     ) : (
                       <Box component='form' onSubmit={onSubmitHandler} display='flex' gap={2}>
@@ -179,11 +188,18 @@ const GameInfo = () => {
                           margin='dense'
                           value={score}
                           onChange={(e) => setScore(parseFloat(e.target.value))}
-                          // sx={{ '& .MuiInputBase-input': { fontSize: '0.7em' }, my: 0 }}
                           sx={{ my: 0 }}
                         />
                         <Button type='submit' variant='contained' color='secondary' size='small'>
                           <RateReviewIcon/>
+                        </Button>
+                        <Button
+                          variant='contained'
+                          color='error'
+                          size='small'
+                          onClick={() => setShowScoreInput(false)}
+                        >
+                          <CancelIcon />
                         </Button>
                       </Box>
                     )
@@ -281,7 +297,7 @@ const GameInfo = () => {
                 </Button>
               </Box>
             ) : (
-              <Typography mt={2}>Login to post a comment.</Typography>
+              <Typography my={2}>Login to post a comment.</Typography>
             )}
 
             {/* Comment list */}
