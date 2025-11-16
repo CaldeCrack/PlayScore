@@ -6,7 +6,9 @@ import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
 import ChipList from './ChipList'
 import FavoriteButton from './FavoriteButton'
+import LoadingCircle from './PageLoadingCircle'
 
+import gamesService from '../services/games'
 import ratingService from '../services/ratings'
 import commentService from '../services/comments'
 import favoriteService from '../services/favorite'
@@ -29,7 +31,6 @@ import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import LoadingCircle from './PageLoadingCircle'
 
 
 const GameInfo = () => {
@@ -44,7 +45,7 @@ const GameInfo = () => {
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(true)
 
-  const { user, games } = useBoundStore()
+  const { user } = useBoundStore()
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -67,7 +68,7 @@ const GameInfo = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const gameData = games.find((g) => g.id === id)
+      const gameData = await gamesService.getGameById(id!)
       setGame(gameData)
 
       if (gameData) {
@@ -231,7 +232,6 @@ const GameInfo = () => {
             {/* DETAILS */}
             <Grid size={12}>
               <Paper elevation={3} sx={{ p: 2, textAlign: 'left' }}>
-                <Typography variant='h5' mb={1}>Details</Typography>
                 <Box display='flex' flexDirection='row' mb={1}>
                   <Typography mr={1}><strong>Platforms:</strong></Typography>
                   <Box display='flex' flexWrap='wrap' gap='2px'>

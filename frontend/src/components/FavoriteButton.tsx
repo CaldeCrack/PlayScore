@@ -44,7 +44,7 @@ const FavoriteButton = ({ gameId, size }: { gameId: string, size: SizeList }) =>
         left: 2,
         backgroundColor: 'rgba(0,0,0,0.7)',
         padding: '4px',
-        borderRadius: '6px',
+        borderRadius: '4px',
         zIndex: 15,
         '&:hover': {
           backgroundColor: 'rgba(0,0,0,0.9)',
