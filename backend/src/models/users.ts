@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema<IUser>({
     ref: `Game${config.MONGODB_SUFFIX}`,
     default: []
   }],
-  completed_games: [{
+  completions: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: `Completion${config.MONGODB_SUFFIX}`,
     default: []

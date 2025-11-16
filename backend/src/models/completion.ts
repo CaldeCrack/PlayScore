@@ -12,7 +12,7 @@ const completionSchema = new mongoose.Schema<ICompletion>({
     type: mongoose.Schema.Types.ObjectId,
     ref: `Game${config.MONGODB_SUFFIX}`
   },
-  main_story: Number,
+  main_story: { type: Number, required: true },
   main_plus_extras: Number,
   completionist: Number
 })
