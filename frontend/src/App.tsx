@@ -6,11 +6,12 @@ import SignUp from './components/SignUp'
 import Profile from './components/Profile'
 import Navbar from './components/Navbar'
 import AddGame from './components/AddGame'
+import NotFoundPage from './components/NotFoundPage'
+import Toast from './components/Toast'
 import { useEffect } from 'react'
 import loginService from './services/login'
 import { useBoundStore } from './stores/boundStore'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Toast from './components/Toast'
 
 
 declare module '@mui/material/styles' {
@@ -84,6 +85,7 @@ function App() {
           <Route path="/profile" element={ <Profile /> }/>
           <Route path="/profile/:id" element={ <Profile guest={true} /> }/>
           <Route path="/add-game" element={ <AddGame /> }/>
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
