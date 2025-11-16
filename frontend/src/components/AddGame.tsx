@@ -33,11 +33,26 @@ const AddGame = () => {
   const [newGenre, setNewGenre] = useState('')
 
   const navigate = useNavigate()
-  const { user, addGame } = useBoundStore()
+  const { user, addGame, setMessage, setSeverity, toggleOn } = useBoundStore()
 
 
   const handleSubmitGame = async (event: React.FormEvent) => {
     event.preventDefault()
+
+    if (
+      !title.trim() ||
+      developers.length === 0 ||
+      !publisher.trim() ||
+      !releaseYear ||
+      platforms.length === 0 ||
+      genres.length === 0 ||
+      !description.trim()
+    ) {
+      setMessage('All fields are required.')
+      setSeverity('warning')
+      toggleOn()
+      return
+    }
 
     const formData = new FormData()
     formData.append('title', title)
@@ -46,15 +61,21 @@ const AddGame = () => {
     formData.append('release_year', releaseYear!.toString())
     platforms.forEach((plt, i) => formData.append(`platforms[${i}]`, plt))
     genres.forEach((gen, i) => formData.append(`genres[${i}]`, gen))
-    formData.append('average_duration[main_story]', (0).toString())
-    formData.append('average_duration[main_plus_extras]', (0).toString())
-    formData.append('average_duration[completionist]', (0).toString())
     formData.append('description', description)
     if (cover) formData.append('cover', cover)
 
-    const response = await gameService.postGame(formData)
-    addGame(response.data)
-    navigate('/')
+    try {
+      const response = await gameService.postGame(formData)
+      addGame(response.data)
+      setMessage('Game succesfully uploaded!')
+      setSeverity('success')
+      toggleOn()
+      navigate('/')
+    } catch {
+      setMessage('Error while uploading game')
+      setSeverity('error')
+      toggleOn()
+    }
   }
 
   useEffect(() => {

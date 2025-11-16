@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -18,16 +17,12 @@ function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
 
   const navigate = useNavigate()
-  const { user, setUser } = useBoundStore()
+  const { user, setUser, setMessage, setSeverity, toggleOn } = useBoundStore()
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setMessage(null)
-    setError(null)
 
     try {
       setLoading(true)
@@ -36,10 +31,13 @@ function Login() {
       setUsername('')
       setPassword('')
       setMessage('Successfully logged in!')
+      setSeverity('success')
+      toggleOn()
       navigate('/')
     } catch (_exception) {
-      setError('Wrong credentials')
-      setTimeout(() => setError(null), 5000)
+      setMessage('Wrong credentials')
+      setSeverity('error')
+      toggleOn()
     } finally {
       setLoading(false)
     }
@@ -104,9 +102,6 @@ function Login() {
               <Typography textAlign="center" variant="body2">
                 <Link to="/signup">Create an account</Link>
               </Typography>
-
-              {message && <Alert severity="success">{message}</Alert>}
-              {error && <Alert severity="error">{error}</Alert>}
             </Stack>
           </form>
         </CardContent>

@@ -16,11 +16,14 @@ import Tooltip from '@mui/material/Tooltip'
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const { user, setUser } = useBoundStore()
+  const { user, setUser, setMessage, setSeverity, toggleOn } = useBoundStore()
 
   const handleLogout = () => {
     loginService.logout()
     setUser(null)
+    setMessage('Succesfully logged out!')
+    setSeverity('success')
+    toggleOn()
     navigate('/')
   }
 

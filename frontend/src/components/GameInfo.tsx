@@ -68,44 +68,103 @@ const GameInfo = () => {
   const [completionist, setCompletionist] = useState<number | null>(null)
   const [editingCompletion, setEditingCompletion] = useState(false)
 
-  const { user } = useBoundStore()
+  const { user, setMessage, setSeverity, toggleOn } = useBoundStore()
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    await ratingService.postOrUpdateRating(user!.id, game!.id, score)
-    const newRatings = await ratingService.getGameRatings(id!)
-    setRatings(newRatings)
-    setShowScoreInput(false)
+
+    try {
+      await ratingService.postOrUpdateRating(user!.id, game!.id, score)
+
+      const newRatings = await ratingService.getGameRatings(id!)
+      setRatings(newRatings)
+      setShowScoreInput(false)
+
+      setMessage('Rating saved!')
+      setSeverity('success')
+      toggleOn()
+    } catch {
+      setMessage('Error saving rating')
+      setSeverity('error')
+      toggleOn()
+    }
   }
 
   const handleCommentSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!newComment.trim() || !user) return
 
-    await commentService.postComment(user.id, game!.id, newComment)
-    setNewComment('')
+    if (!newComment.trim()) {
+      setMessage('Comment cannot be empty')
+      setSeverity('warning')
+      toggleOn()
+      return
+    }
 
-    const updatedComments = await commentService.getGameComments(game!.id)
-    setComments(updatedComments)
+    if (!user) {
+      setMessage('You must be logged in to comment')
+      setSeverity('error')
+      toggleOn()
+      return
+    }
+
+    try {
+      await commentService.postComment(user.id, game!.id, newComment)
+
+      setNewComment('')
+
+      const updatedComments = await commentService.getGameComments(game!.id)
+      setComments(updatedComments)
+
+      setMessage('Comment posted!')
+      setSeverity('success')
+      toggleOn()
+    } catch {
+      setMessage('Error posting comment')
+      setSeverity('error')
+      toggleOn()
+    }
   }
 
   const handleCompletionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!user || !game) return
 
-    const newCompletion: Completion = await completionService.postOrUpdateCompletion(
-      user.id,
-      game.id,
-      Number(mainStory),
-      !mainPlusExtras ? undefined : Number(mainPlusExtras),
-      !completionist ? undefined : Number(completionist),
-    )
+    if (!user || !game) {
+      setMessage('You must be logged in')
+      setSeverity('error')
+      toggleOn()
+      return
+    }
 
-    setCompletion(newCompletion)
-    setEditingCompletion(false)
+    if (!mainStory) {
+      setMessage('Main Story time is required')
+      setSeverity('warning')
+      toggleOn()
+      return
+    }
 
-    const newGame: Game = await gamesService.getGameById(game.id)
-    setGame(newGame)
+    try {
+      const newCompletion: Completion = await completionService.postOrUpdateCompletion(
+        user.id,
+        game.id,
+        Number(mainStory),
+        !mainPlusExtras ? undefined : Number(mainPlusExtras),
+        !completionist ? undefined : Number(completionist),
+      )
+
+      setCompletion(newCompletion)
+      setEditingCompletion(false)
+
+      const newGame: Game = await gamesService.getGameById(game.id)
+      setGame(newGame)
+
+      setMessage('Completion times saved!')
+      setSeverity('success')
+      toggleOn()
+    } catch {
+      setMessage('Error saving completion times')
+      setSeverity('error')
+      toggleOn()
+    }
   }
 
   useEffect(() => {

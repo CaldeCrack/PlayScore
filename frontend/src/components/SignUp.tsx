@@ -8,7 +8,6 @@ import CardContent from '@mui/material/CardContent'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import Alert from '@mui/material/Alert'
 import CircularProgress from '@mui/material/CircularProgress'
 import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
@@ -24,11 +23,9 @@ const SignUp = () => {
   })
 
   const navigate = useNavigate()
-  const { user } = useBoundStore()
+  const { user, setMessage, setSeverity, toggleOn } = useBoundStore()
 
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -37,11 +34,11 @@ const SignUp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setMessage(null)
-    setError(null)
 
     if (!postUser.name || !postUser.username || !postUser.email || !postUser.password) {
-      setError('All fields are required.')
+      setMessage('All fields are required.')
+      setSeverity('warning')
+      toggleOn()
       return
     }
 
@@ -52,8 +49,9 @@ const SignUp = () => {
       setPostUser({ name: '', username: '', email: '', password: '' })
       navigate('/login')
     } catch (_exception) {
-      setError('Failed to create user')
-      setTimeout(() => setError(null), 5000)
+      setMessage('Failed to create user')
+      setSeverity('error')
+      toggleOn()
     } finally {
       setLoading(false)
     }
@@ -137,9 +135,6 @@ const SignUp = () => {
               <Typography textAlign="center" variant="body2">
                 <Link to="/login">Already have an account? Log in</Link>
               </Typography>
-
-              {message && <Alert severity="success">{message}</Alert>}
-              {error && <Alert severity="error">{error}</Alert>}
             </Stack>
           </form>
         </CardContent>

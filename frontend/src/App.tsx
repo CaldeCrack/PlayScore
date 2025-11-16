@@ -10,6 +10,7 @@ import { useEffect } from 'react'
 import loginService from './services/login'
 import { useBoundStore } from './stores/boundStore'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Toast from './components/Toast'
 
 
 declare module '@mui/material/styles' {
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
+      <Toast />
       <Router>
         <Navbar />
         <Routes>

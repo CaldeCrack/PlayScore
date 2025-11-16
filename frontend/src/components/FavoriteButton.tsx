@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 type SizeList = 'small' | 'medium' | 'large'
 
 const FavoriteButton = ({ gameId, size }: { gameId: string, size: SizeList }) => {
-  const { user } = useBoundStore()
+  const { user, setMessage, setSeverity, toggleOn } = useBoundStore()
 
   const [isFavorite, setIsFavorite] = useState<boolean | null>(null)
 
@@ -26,12 +26,33 @@ const FavoriteButton = ({ gameId, size }: { gameId: string, size: SizeList }) =>
   const toggleFavorite = async (e: React.MouseEvent) => {
     e.preventDefault()
 
-    if (isFavorite) {
-      await favoriteService.unfavoriteGame(gameId)
-      setIsFavorite(false)
-    } else {
-      await favoriteService.favoriteGame(gameId)
-      setIsFavorite(true)
+    if (!user) {
+      setMessage('You must be logged in to favorite games')
+      setSeverity('warning')
+      toggleOn()
+      return
+    }
+
+    try {
+      if (isFavorite) {
+        await favoriteService.unfavoriteGame(gameId)
+        setIsFavorite(false)
+
+        setMessage('Game removed from favorites')
+        setSeverity('info')
+        toggleOn()
+      } else {
+        await favoriteService.favoriteGame(gameId)
+        setIsFavorite(true)
+
+        setMessage('Game added to favorites')
+        setSeverity('success')
+        toggleOn()
+      }
+    } catch (_err) {
+      setMessage('Error updating favorite status')
+      setSeverity('error')
+      toggleOn()
     }
   }
 
