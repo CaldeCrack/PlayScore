@@ -47,6 +47,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import GroupsIcon from '@mui/icons-material/Groups'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
 
 
 const GameInfo = () => {
@@ -92,7 +93,7 @@ const GameInfo = () => {
     e.preventDefault()
     if (!user || !game) return
 
-    const newCompletion = await completionService.postOrUpdateCompletion(
+    const newCompletion: Completion = await completionService.postOrUpdateCompletion(
       user.id,
       game.id,
       Number(mainStory),
@@ -102,6 +103,9 @@ const GameInfo = () => {
 
     setCompletion(newCompletion)
     setEditingCompletion(false)
+
+    const newGame: Game = await gamesService.getGameById(game.id)
+    setGame(newGame)
   }
 
   useEffect(() => {
@@ -186,16 +190,18 @@ const GameInfo = () => {
                   {game.title} ({game.release_year})
                 </Typography>
 
-                <Typography variant='body1'>
+                <Typography variant='body1' mb={1}>
                   <strong>Publisher:</strong> {game.publisher}<br/>
                   <strong>
                     Developer{game.developers.length === 1 ? '' : 's'}:
                   </strong> {game.developers.join(', ')}
                 </Typography>
 
+                <Divider sx={{ my: 2 }} />
+
                 {/* Rating summary */}
                 <Box display='flex' alignItems='center' gap={1}>
-                  <Stack direction='row' py={1} display='flex' alignItems='center' spacing={1} mr={1}>
+                  <Stack direction='row' display='flex' alignItems='center' spacing={1} mr={1}>
                     <StarRateIcon color='warning'/>
                     <Typography variant='h6' >
                       {avgScore
@@ -252,13 +258,21 @@ const GameInfo = () => {
                       Login to rate
                     </Button>
                   )}
-
                 </Box>
+
                 {/* Favorited by */}
                 <Box display='flex' alignItems='center' gap={1}>
                   <FavoriteIcon color='error' />
                   <Typography variant='h6'>
                     Favorited by {favorites.length} user{favorites.length == 1 ? '' : 's'}
+                  </Typography>
+                </Box>
+
+                {/* Completed by */}
+                <Box display='flex' alignItems='center' gap={1}>
+                  <HowToRegIcon color='primary' />
+                  <Typography variant='h6'>
+                    Completed by {game.completions.length} user{game.completions.length == 1 ? '' : 's'}
                   </Typography>
                 </Box>
               </Paper>
@@ -305,23 +319,23 @@ const GameInfo = () => {
                   {/* SHOW AVERAGES */}
                   {!editingCompletion && (
                     <>
-                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <VideogameAssetIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                      <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <VideogameAssetIcon color='primary' sx={{ mr: 1 }} />
                         Main Story: {utils.meanTime(game.completions, 'main')}
                       </Typography>
 
-                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <AddCircleIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                      <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <AddCircleIcon color='primary' sx={{ mr: 1 }} />
                         Main + Extras: {utils.meanTime(game.completions, 'extras')}
                       </Typography>
 
-                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <EmojiEventsIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                      <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <EmojiEventsIcon color='primary' sx={{ mr: 1 }} />
                         Completionist: {utils.meanTime(game.completions, 'completionist')}
                       </Typography>
 
-                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
-                        <GroupsIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                      <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <GroupsIcon color='primary' sx={{ mr: 1 }} />
                         All Playstyles: {utils.meanAllTimes(game.completions)}
                       </Typography>
 
