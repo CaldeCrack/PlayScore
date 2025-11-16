@@ -285,7 +285,7 @@ function Profile({ guest = false }: Props) {
                     ))}
                   </List>
                 ) : (
-                  <Typography>No favorite games yet.</Typography>
+                  <Typography>No completed games yet.</Typography>
                 )}
               </Box>
             )}
