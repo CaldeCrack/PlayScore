@@ -71,6 +71,11 @@ const GameSearch = () => {
   const applyFilters = () => {
     let filtered = [...allGames]
 
+    if (query.trim())
+      filtered = filtered.filter(g =>
+        g.title.toLowerCase().includes(query.toLowerCase())
+      )
+
     if (developer.trim())
       filtered = filtered.filter(g =>
         g.developers.some(d =>
@@ -165,10 +170,24 @@ const GameSearch = () => {
 
       {/* FILTER MODAL */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <Paper sx={modalStyle}>
+        <Paper
+          sx={modalStyle}
+          component="form"
+          onSubmit={(e) => {
+            e.preventDefault()
+            applyFilters()
+          }}
+        >
           <Typography variant="h6" mb={2}>Advanced Filters</Typography>
 
           <Stack spacing={2}>
+            {/* Title */}
+            <TextField
+              label="Title"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              fullWidth
+            />
 
             {/* Developer */}
             <TextField
@@ -229,8 +248,7 @@ const GameSearch = () => {
                       <Paper
                         key={value}
                         sx={{
-                          px: 1,
-                          py: 0.3,
+                          px: 1, py: 0.3,
                           borderRadius: 1,
                           display: 'flex',
                           alignItems: 'center',
@@ -251,9 +269,7 @@ const GameSearch = () => {
                 )}
               >
                 {Array.from(new Set(allGames.flatMap(g => g.genres))).map((g, i) => (
-                  <MenuItem key={i} value={g}>
-                    {g}
-                  </MenuItem>
+                  <MenuItem key={i} value={g}>{g}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -272,8 +288,7 @@ const GameSearch = () => {
                       <Paper
                         key={value}
                         sx={{
-                          px: 1,
-                          py: 0.3,
+                          px: 1, py: 0.3,
                           borderRadius: 1,
                           display: 'flex',
                           alignItems: 'center',
@@ -294,9 +309,7 @@ const GameSearch = () => {
                 )}
               >
                 {Array.from(new Set(allGames.flatMap(g => g.platforms))).map((p, i) => (
-                  <MenuItem key={i} value={p}>
-                    {p}
-                  </MenuItem>
+                  <MenuItem key={i} value={p}>{p}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -332,7 +345,7 @@ const GameSearch = () => {
 
             <Stack direction="row" spacing={2} justifyContent="flex-end" mt={1}>
               <Button onClick={clearFilters}>Clear</Button>
-              <Button variant="contained" color="secondary" onClick={applyFilters}>
+              <Button type="submit" variant="contained" color="secondary">
                 Apply
               </Button>
             </Stack>
