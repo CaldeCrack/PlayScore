@@ -47,7 +47,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import GroupsIcon from '@mui/icons-material/Groups'
-import HowToRegIcon from '@mui/icons-material/HowToReg'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 
 const GameInfo = () => {
@@ -270,7 +270,7 @@ const GameInfo = () => {
 
                 {/* Completed by */}
                 <Box display='flex' alignItems='center' gap={1}>
-                  <HowToRegIcon color='primary' />
+                  <CheckCircleIcon color='primary' />
                   <Typography variant='h6'>
                     Completed by {game.completions.length} user{game.completions.length == 1 ? '' : 's'}
                   </Typography>

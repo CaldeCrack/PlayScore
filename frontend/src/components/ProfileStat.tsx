@@ -9,9 +9,10 @@ interface Props {
   icon: ReactElement<IconProps>
   primary: string
   secondary?: string
+  extra?: ReactElement<IconProps>
 }
 
-const ProfileStat = ({ icon, primary, secondary }: Props) => {
+const ProfileStat = ({ icon, primary, secondary, extra }: Props) => {
   return (
     <ListItem>
       <ListItemIcon>
@@ -21,6 +22,7 @@ const ProfileStat = ({ icon, primary, secondary }: Props) => {
         primary={primary}
         secondary={secondary}
       />
+      {extra}
     </ListItem>
   )
 }

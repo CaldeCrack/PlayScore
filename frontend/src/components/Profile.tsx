@@ -4,12 +4,15 @@ import usersService from '../services/users'
 import ratingsService from '../services/ratings'
 import favoriteService from '../services/favorite'
 import commentsService from '../services/comments'
+import completionsService from '../services/completions'
 import loginService from '../services/login'
 import type Game from '../types/Game'
 import type User from '../types/User'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
+import type Completion from '../types/Completion'
 import ProfileTabItem from './ProfileTabList'
+import utils from '../utils/utils'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -22,6 +25,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
+import Tooltip from '@mui/material/Tooltip'
 
 import StarRateIcon from '@mui/icons-material/StarRate'
 import CommentIcon from '@mui/icons-material/Comment'
@@ -31,6 +35,8 @@ import EmailIcon from '@mui/icons-material/Email'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ProfileStat from './ProfileStat'
 import LoadingCircle from './PageLoadingCircle'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline'
 
 
 interface Props {
@@ -42,6 +48,7 @@ function Profile({ guest = false }: Props) {
   const [ratings, setRatings] = useState<Rating[]>([])
   const [comments, setComments] = useState<Comment[]>([])
   const [favorites, setFavorites] = useState<Game[]>([])
+  const [completions, setCompletions] = useState<Completion[]>([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState(0)
   const [displayUser, setDisplayUser] = useState<User | null>(null)
@@ -57,6 +64,8 @@ function Profile({ guest = false }: Props) {
       setComments(comments)
       const favs = await favoriteService.getUserFavorites(userData.id)
       setFavorites(favs.favorites)
+      const comps = await completionsService.getUserCompletions(userData.id)
+      setCompletions(comps)
     }
     const init = async () => {
       if (!guest) {
@@ -147,6 +156,27 @@ function Profile({ guest = false }: Props) {
               <ProfileStat
                 icon={<FavoriteIcon color="error" />}
                 primary={`${favorites.length} favorite${favorites.length === 1 ? '' : 's'}`}
+              />
+
+              {/* Completions stats */}
+              <ProfileStat
+                icon={<CheckCircleIcon color="primary" />}
+                primary={`${completions.length} completion${completions.length === 1 ? '' : 's'}`}
+                secondary={`Avg: ${utils.meanAllTimes(completions)}`}
+                extra={
+                  <Tooltip
+                    title={
+                      <>
+                        Main: {utils.meanTime(completions, 'main')}<br/>
+                        Extras: {utils.meanTime(completions, 'extras')}<br/>
+                        Completionist: {utils.meanTime(completions, 'completionist')}
+                      </>
+                    }
+                    arrow
+                  >
+                    <InfoOutlineIcon />
+                  </Tooltip>
+                }
               />
             </List>
           </Paper>
