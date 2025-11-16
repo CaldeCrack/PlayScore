@@ -9,6 +9,7 @@ import ratingsRouter from "./controllers/ratings"
 import usersRouter from "./controllers/users"
 import commentsRouter from "./controllers/comments"
 import favoriteRouter from "./controllers/favorite"
+import completionRouter from "./controllers/completions"
 import loginRouter from "./controllers/login"
 import path from "path"
 
@@ -37,6 +38,7 @@ app.use("/api/ratings", ratingsRouter)
 app.use("/api/users", usersRouter)
 app.use("/api/comments", commentsRouter)
 app.use("/api/favorite", favoriteRouter)
+app.use("/api/completion", completionRouter)
 app.use("/api/login", loginRouter)
 
 app.use(middleware.unknownEndpoint)
