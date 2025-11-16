@@ -16,6 +16,7 @@ import TimerIcon from '@mui/icons-material/Timer'
 import StarRateIcon from '@mui/icons-material/StarRate'
 import Divider from '@mui/material/Divider'
 import ChipList from './ChipList'
+import utils from '../utils/utils'
 
 
 interface Props {
@@ -102,10 +103,7 @@ const GameDisplay = ({ game }: Props) => {
           >
             <TimerIcon fontSize='inherit' />
             <Typography display='inline' fontSize='inherit' sx={{ ml: '2px' }}>
-              {game.average_duration.main_story === 0
-                ? 'N/A'
-                : `${game.average_duration.main_story}h`
-              }
+              {utils.meanAllTimes(game.completions)}
             </Typography>
           </Box>
         </CardMedia>

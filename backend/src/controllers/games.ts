@@ -26,13 +26,13 @@ const upload = multer({ storage })
 const router = express.Router()
 
 router.get("/", async (request, response) => {
-  const games = await Game.find({}).populate("ratings")
+  const games = await Game.find({}).populate("ratings").populate("completions")
   response.json(games)
 })
 
 router.get("/:id", async (request, response, next) => {
   const id = request.params.id
-  const game = await Game.findById(id).populate("ratings")
+  const game = await Game.findById(id).populate("ratings").populate("completions")
   if (game)
     response.json(game)
   else

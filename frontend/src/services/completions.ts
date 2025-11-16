@@ -3,7 +3,7 @@ import axiosSecure from '../utils/axiosSecure'
 import type Completion from '../types/Completion'
 
 
-const completionsUrl = '/api/completions'
+const completionsUrl = '/api/completion'
 
 const getAllCompletions = () => {
   return axios.get(completionsUrl).then(res => res.data)

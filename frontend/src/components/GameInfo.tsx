@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 import type Game from '../types/Game'
 import type Rating from '../types/Rating'
 import type Comment from '../types/Comment'
+import type Completion from '../types/Completion'
+
 import ChipList from './ChipList'
 import FavoriteButton from './FavoriteButton'
 import LoadingCircle from './PageLoadingCircle'
@@ -12,7 +14,9 @@ import gamesService from '../services/games'
 import ratingService from '../services/ratings'
 import commentService from '../services/comments'
 import favoriteService from '../services/favorite'
+import completionService from '../services/completions'
 import { useBoundStore } from '../stores/boundStore'
+import utils from '../utils/utils'
 
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
@@ -24,7 +28,9 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
+import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
+import Tooltip from '@mui/material/Tooltip'
 
 import StarRateIcon from '@mui/icons-material/StarRate'
 import CommentIcon from '@mui/icons-material/Comment'
@@ -33,6 +39,14 @@ import SendIcon from '@mui/icons-material/Send'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import EditIcon from '@mui/icons-material/Edit'
 import CancelIcon from '@mui/icons-material/Cancel'
+import NoteAltIcon from '@mui/icons-material/NoteAlt'
+import TimerIcon from '@mui/icons-material/Timer'
+import PersonIcon from '@mui/icons-material/Person'
+import UploadIcon from '@mui/icons-material/Upload'
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import GroupsIcon from '@mui/icons-material/Groups'
 
 
 const GameInfo = () => {
@@ -46,6 +60,12 @@ const GameInfo = () => {
   const [comments, setComments] = useState<Comment[]>([])
   const [newComment, setNewComment] = useState('')
   const [loading, setLoading] = useState(true)
+
+  const [completion, setCompletion] = useState<Completion | null>(null)
+  const [mainStory, setMainStory] = useState<number | null>(null)
+  const [mainPlusExtras, setMainPlusExtras] = useState<number | null>(null)
+  const [completionist, setCompletionist] = useState<number | null>(null)
+  const [editingCompletion, setEditingCompletion] = useState(false)
 
   const { user } = useBoundStore()
 
@@ -68,6 +88,22 @@ const GameInfo = () => {
     setComments(updatedComments)
   }
 
+  const handleCompletionSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!user || !game) return
+
+    const newCompletion = await completionService.postOrUpdateCompletion(
+      user.id,
+      game.id,
+      Number(mainStory),
+      !mainPlusExtras ? undefined : Number(mainPlusExtras),
+      !completionist ? undefined : Number(completionist),
+    )
+
+    setCompletion(newCompletion)
+    setEditingCompletion(false)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       const gameData = await gamesService.getGameById(id!)
@@ -87,6 +123,14 @@ const GameInfo = () => {
           const userRating = await ratingService.getUserGameRating(user.id, gameData.id)
           setUserScore(userRating?.score)
           setScore(userRating?.score)
+
+          const userComp = await completionService.getUserGameCompletion(user.id, gameData.id)
+          if (userComp && userComp.id) {
+            setCompletion(userComp)
+            setMainStory(userComp.main_story)
+            setMainPlusExtras(userComp.main_plus_extras)
+            setCompletionist(userComp.completionist)
+          }
         }
       }
 
@@ -221,11 +265,139 @@ const GameInfo = () => {
 
               {/* DURATIONS */}
               <Stack flexGrow={2} flexBasis={0}>
-                <Paper elevation={3} sx={{ p: 2, height: '100%', textAlign: 'left' }}>
-                  <Typography variant='h5' mb={1}>How long to beat?</Typography>
-                  <Typography>Main Story: {game.average_duration.main_story}h</Typography>
-                  <Typography>Main + Extras: {game.average_duration.main_plus_extras}h</Typography>
-                  <Typography>Completionist: {game.average_duration.completionist}h</Typography>
+                <Paper
+                  elevation={3}
+                  sx={{
+                    p: 2,
+                    height: '100%',
+                    textAlign: 'left',
+                    position: 'relative'
+                  }}
+                >
+                  {/* Toggle Button — top left */}
+                  <IconButton
+                    size="small"
+                    sx={{ position: 'absolute', top: 8, right: 8 }}
+                    disabled={!user}
+                    onClick={() => setEditingCompletion(!editingCompletion)}
+                  >
+                    {editingCompletion
+                      ?
+                      <Tooltip title='Show Averages' placement='top' arrow>
+                        <TimerIcon color='secondary' />
+                      </Tooltip>
+                      : completion
+                        ?
+                        <Tooltip title='Your Times' placement='top' arrow>
+                          <PersonIcon color='secondary' />
+                        </Tooltip>
+                        :
+                        <Tooltip title='Submit Time' placement='top' arrow>
+                          <NoteAltIcon color='secondary' />
+                        </Tooltip>
+                    }
+                  </IconButton>
+
+                  <Typography variant="h5" mb={1}>
+                    How long to beat?
+                  </Typography>
+
+                  {/* SHOW AVERAGES */}
+                  {!editingCompletion && (
+                    <>
+                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <VideogameAssetIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                        Main Story: {utils.meanTime(game.completions, 'main')}
+                      </Typography>
+
+                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <AddCircleIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                        Main + Extras: {utils.meanTime(game.completions, 'extras')}
+                      </Typography>
+
+                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <EmojiEventsIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                        Completionist: {utils.meanTime(game.completions, 'completionist')}
+                      </Typography>
+
+                      <Typography mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <GroupsIcon color='primary' fontSize='small' sx={{ mr: 1 }} />
+                        All Playstyles: {utils.meanAllTimes(game.completions)}
+                      </Typography>
+
+                      {!user && <Typography mt={1}>Login to submit your times.</Typography>}
+                    </>
+                  )}
+
+                  {/* SHOW USER FORM */}
+                  {editingCompletion && user && (
+                    <Box
+                      component="form"
+                      onSubmit={handleCompletionSubmit}
+                      mt={1}
+                      display="flex"
+                      flexDirection="column"
+                      gap={1}
+                    >
+                      <TextField
+                        label="Main Story (required)"
+                        type="number"
+                        size="small"
+                        margin="none"
+                        value={mainStory ?? ''}
+                        onChange={e => setMainStory(Number(e.target.value))}
+                        required
+                      />
+
+                      <TextField
+                        label="Main + Extras"
+                        type="number"
+                        size="small"
+                        margin="none"
+                        value={mainPlusExtras ?? ''}
+                        onChange={e =>
+                          setMainPlusExtras(Number(e.target.value) <= 0 ? null : Number(e.target.value))
+                        }
+                      />
+
+                      <TextField
+                        label="Completionist"
+                        type="number"
+                        size="small"
+                        margin="none"
+                        value={completionist ?? ''}
+                        onChange={e =>
+                          setCompletionist(Number(e.target.value) <= 0 ? null : Number(e.target.value))
+                        }
+                      />
+
+                      <Box display="flex" gap={1}>
+                        <Tooltip title='Upload' arrow>
+                          <Button type="submit" variant="contained" color="secondary" size="small">
+                            <UploadIcon fontSize='small' />
+                          </Button>
+                        </Tooltip>
+
+                        <Tooltip title='Cancel' arrow>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            size="small"
+                            onClick={() => {
+                              setEditingCompletion(false)
+                              if (completion) {
+                                setMainStory(completion.main_story)
+                                setMainPlusExtras(completion.main_plus_extras ?? null)
+                                setCompletionist(completion.completionist ?? null)
+                              }
+                            }}
+                          >
+                            <CancelIcon fontSize='small' />
+                          </Button>
+                        </Tooltip>
+                      </Box>
+                    </Box>
+                  )}
                 </Paper>
               </Stack>
             </Stack>
