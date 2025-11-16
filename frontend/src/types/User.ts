@@ -1,4 +1,5 @@
 import type Comment from './Comment'
+import type Completion from './Completion'
 import type Rating from './Rating'
 
 
@@ -10,4 +11,5 @@ export default interface User {
   passwordHash: string
   ratings: Rating[]
   comments: Comment[]
+  completions: Completion[]
 }
