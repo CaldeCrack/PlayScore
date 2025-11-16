@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import Duration from "./duration"
+import Completion from "./completion"
 
 
 export default interface IGame {
@@ -10,7 +10,7 @@ export default interface IGame {
   publisher: string
   genres: string[]
   platforms: string[]
-  average_duration: Duration
+  completions: Completion[]
   description: string
   cover_image: string
   ratings: mongoose.Types.ObjectId[]

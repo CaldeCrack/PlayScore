@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
 import type IGame from "../types/game"
-import DurationSchema from "./duration"
 import config from "../utils/config"
 
 
@@ -11,7 +10,11 @@ const gameSchema = new mongoose.Schema<IGame>({
   release_year: { type: Number, required: true },
   platforms: { type: [String], required: true },
   genres: { type: [String], required: true },
-  average_duration: DurationSchema,
+  completions: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: `Completion${config.MONGODB_SUFFIX}`,
+    default: []
+  }],
   description: { type: String, required: true },
   cover_image: { type: String, required: true },
   ratings: [{

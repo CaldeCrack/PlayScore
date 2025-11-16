@@ -10,4 +10,5 @@ export default interface IUser {
   ratings: mongoose.Types.ObjectId[]
   comments: mongoose.Types.ObjectId[]
   favorites: mongoose.Types.ObjectId[]
+  completed_games: mongoose.Types.ObjectId[]
 }
