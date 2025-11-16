@@ -59,7 +59,7 @@ const customTheme = createTheme({
 })
 
 function App() {
-  const { setUser } = useBoundStore()
+  const { user, setUser } = useBoundStore()
 
   useEffect(() => {
     const init = async () => {
@@ -67,7 +67,7 @@ function App() {
       setUser(user)
     }
     init()
-  }, [])
+  }, [user])
 
   return (
     <ThemeProvider theme={customTheme}>
