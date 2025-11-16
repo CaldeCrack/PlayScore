@@ -107,7 +107,7 @@ function Profile({ guest = false }: Props) {
               alignItems: 'flex-start'
             }}
           >
-            <Typography variant="h6" my={1}>Basic Info</Typography>
+            <Typography variant="h6" mb={1}>Basic Info</Typography>
             <Divider sx={{ width: '100%' }} />
 
             {displayUser && (
@@ -162,16 +162,17 @@ function Profile({ guest = false }: Props) {
               <ProfileStat
                 icon={<CheckCircleIcon color="primary" />}
                 primary={`${completions.length} completion${completions.length === 1 ? '' : 's'}`}
-                secondary={`Avg: ${utils.meanAllTimes(completions)}`}
+                secondary={`All Playstyles Avg: ${utils.meanAllTimes(completions)}`}
                 extra={
                   <Tooltip
                     title={
                       <>
                         Main: {utils.meanTime(completions, 'main')}<br/>
-                        Extras: {utils.meanTime(completions, 'extras')}<br/>
+                        +Extras: {utils.meanTime(completions, 'extras')}<br/>
                         Completionist: {utils.meanTime(completions, 'completionist')}
                       </>
                     }
+                    placement='top'
                     arrow
                   >
                     <InfoOutlineIcon />
@@ -195,6 +196,7 @@ function Profile({ guest = false }: Props) {
               <Tab icon={<StarRateIcon />} label="Ratings" />
               <Tab icon={<CommentIcon />} label="Comments" />
               <Tab icon={<FavoriteIcon />} label="Favorites" />
+              <Tab icon={<CheckCircleIcon />} label="Completions" />
             </Tabs>
 
             {/* ----- Ratings Tab ----- */}
@@ -251,6 +253,34 @@ function Profile({ guest = false }: Props) {
                         icon={<FavoriteIcon color="error" />}
                         primary={game.title}
                         secondary={`Year: ${game.release_year}`}
+                      />
+                    ))}
+                  </List>
+                ) : (
+                  <Typography>No favorite games yet.</Typography>
+                )}
+              </Box>
+            )}
+
+            {/* ----- Completions Tab ----- */}
+            {tab === 3 && (
+              <Box sx={{ overflowY: 'auto', height: '100%' }}>
+                {favorites && favorites.length > 0 ? (
+                  <List dense>
+                    {completions.map((completion, i) => (
+                      <ProfileTabItem
+                        key={i}
+                        to={`/games/${completion.game.id}`}
+                        icon={<FavoriteIcon color="error" />}
+                        primary={completion.game.title}
+                        secondary={`
+                          Main:
+                          ${completion.main_story.toFixed(1)}h | 
+                          +Extras:
+                          ${completion.main_plus_extras?.toFixed(1) ?? 'N/A'}${completion.main_plus_extras ? 'h' : ''} | 
+                          Completionist:
+                          ${completion.completionist?.toFixed(1) ?? 'N/A'}${completion.completionist ? 'h' : ''}
+                        `}
                       />
                     ))}
                   </List>
