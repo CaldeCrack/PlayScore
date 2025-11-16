@@ -28,9 +28,9 @@ import CommentIcon from '@mui/icons-material/Comment'
 import PersonIcon from '@mui/icons-material/Person'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import EmailIcon from '@mui/icons-material/Email'
-import CircularProgress from '@mui/material/CircularProgress'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ProfileStat from './ProfileStat'
+import LoadingCircle from './PageLoadingCircle'
 
 
 interface Props {
@@ -77,20 +77,7 @@ function Profile({ guest = false }: Props) {
     init()
   }, [navigate, guest, id, setDisplayUser])
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          height: '74vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <CircularProgress color="secondary" size={60} />
-      </Box>
-    )
-  }
+  if (loading) return <LoadingCircle />
 
   return (
     <Box p={3} sx={{ height: '74vh' }}>

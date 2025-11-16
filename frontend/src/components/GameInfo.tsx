@@ -22,7 +22,6 @@ import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
-import CircularProgress from '@mui/material/CircularProgress'
 import Stack from '@mui/material/Stack'
 
 import StarRateIcon from '@mui/icons-material/StarRate'
@@ -30,6 +29,7 @@ import CommentIcon from '@mui/icons-material/Comment'
 import RateReviewIcon from '@mui/icons-material/RateReview'
 import SendIcon from '@mui/icons-material/Send'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import LoadingCircle from './PageLoadingCircle'
 
 
 const GameInfo = () => {
@@ -92,18 +92,7 @@ const GameInfo = () => {
     fetchData()
   }, [showScoreInput])
 
-  if (loading || !game) {
-    return (
-      <Box sx={{
-        height: '78vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-        <CircularProgress size={70} color='secondary' />
-      </Box>
-    )
-  }
+  if (loading || !game) return <LoadingCircle />
 
   const avgScore =
     ratings.length === 0
