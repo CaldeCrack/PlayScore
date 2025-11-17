@@ -418,6 +418,7 @@ const GameInfo = () => {
                         size="small"
                         margin="none"
                         value={mainStory ?? ''}
+                        slotProps={{ htmlInput: { min: 0, step: 0.1 } }}
                         onChange={e => setMainStory(Number(e.target.value))}
                         required
                       />
@@ -428,6 +429,7 @@ const GameInfo = () => {
                         size="small"
                         margin="none"
                         value={mainPlusExtras ?? ''}
+                        slotProps={{ htmlInput: { min: 0, step: 0.1 } }}
                         onChange={e =>
                           setMainPlusExtras(Number(e.target.value) <= 0 ? null : Number(e.target.value))
                         }
@@ -439,6 +441,7 @@ const GameInfo = () => {
                         size="small"
                         margin="none"
                         value={completionist ?? ''}
+                        slotProps={{ htmlInput: { min: 0, step: 0.1 } }}
                         onChange={e =>
                           setCompletionist(Number(e.target.value) <= 0 ? null : Number(e.target.value))
                         }
