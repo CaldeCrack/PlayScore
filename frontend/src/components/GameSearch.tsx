@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useBoundStore } from '../stores/boundStore'
 import type Game from '../types/Game'
 import gameService from '../services/games'
+import KeyboardShortcut from './KeyboardShortcut'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
@@ -38,17 +40,19 @@ interface MinMax {
 
 const GameSearch = () => {
   const [allGames, setAllGames] = useState<Game[]>([])
-  const { setGames } = useBoundStore()
-
   const [query, setQuery] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
-
   const [developer, setDeveloper] = useState('')
   const [publisher, setPublisher] = useState('')
   const [genres, setGenres] = useState<string[]>([])
   const [platforms, setPlatforms] = useState<string[]>([])
   const [releaseYear, setReleaseYear] = useState<MinMax>({ min: '', max: '' })
   const [minRating, setMinRating] = useState<MinMax>({ min: '', max: '' })
+
+  const navigate = useNavigate()
+  const location = useLocation()
+  const { setGames } = useBoundStore()
+  const searchRef = useRef<HTMLInputElement | null>(null)
 
   // --- Perform the default title search ---
   const handleSearch = () => {
@@ -62,6 +66,11 @@ const GameSearch = () => {
     )
 
     setGames(filtered)
+
+    if (location.pathname !== '/' && location.pathname !== '/games') {
+      navigate('/')
+      return
+    }
   }
 
   // --- Filter search from modal ---
@@ -121,6 +130,7 @@ const GameSearch = () => {
   }
 
   const clearFilters = () => {
+    setQuery('')
     setDeveloper('')
     setPublisher('')
     setGenres([])
@@ -134,29 +144,57 @@ const GameSearch = () => {
     gameService
       .getAllGames()
       .then((data) => setAllGames(data))
+
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key.toLowerCase()
+
+      // Ctrl + Shift + Space → open modal
+      if (e.ctrlKey && e.shiftKey && key === '/') {
+        e.preventDefault()
+        setModalOpen(true)
+        return
+      }
+
+      // Ctrl + Space → focus search bar
+      if (e.ctrlKey && key === '/') {
+        e.preventDefault()
+        searchRef.current?.focus()
+        return
+      }
+    }
+
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
   }, [])
 
   return (
     <Box display="flex" alignItems="center" gap={1}>
       {/* Search Bar */}
       <TextField
+        inputRef={searchRef}
         size="small"
         placeholder="Search games..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-        sx={{ width: 300 }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') handleSearch()
+          if (e.key === 'Escape') searchRef.current?.blur()
+        }}
+        sx={{ width: '100%', backgroundColor: '#020412' }}
         slotProps={{
           input: {
+            startAdornment: (
+              <IconButton color='primary' size='small' sx={{ ml: -1 }}>
+                <SearchIcon onClick={handleSearch} />
+              </IconButton>
+            ),
             endAdornment: (
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <IconButton size='small'>
-                  <SearchIcon onClick={handleSearch} />
-                </IconButton>
-                <IconButton size='small'>
+              <Box sx={{ display: 'flex', alignItems: 'center', mr: -1 }}>
+                <KeyboardShortcut keys='Ctrl+/' />
+                <IconButton color='primary' size='small'>
                   <FilterListIcon onClick={() => setModalOpen(true)} />
                 </IconButton>
-                <IconButton size='small'>
+                <IconButton color='primary' size='small'>
                   <ClearIcon onClick={() => clearFilters()} />
                 </IconButton>
               </Box>
@@ -175,7 +213,17 @@ const GameSearch = () => {
             applyFilters()
           }}
         >
-          <Typography variant="h6" mb={2}>Advanced Filters</Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 2
+            }}>
+            <Typography variant="h6">Advanced Filters</Typography>
+            <KeyboardShortcut keys='Ctrl+Shift+/' />
+          </Box>
 
           <Stack spacing={2}>
             {/* Title */}
