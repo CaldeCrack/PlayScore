@@ -136,7 +136,7 @@ const GameInfo = () => {
     }
 
     if (!mainStory) {
-      setMessage('Main Story time is required')
+      setMessage('Main time is required')
       setSeverity('warning')
       toggleOn()
       return
@@ -380,7 +380,7 @@ const GameInfo = () => {
                     <>
                       <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
                         <VideogameAssetIcon color='primary' sx={{ mr: 1 }} />
-                        Main Story: {utils.meanTime(game.completions, 'main')}
+                        Main: {utils.meanTime(game.completions, 'main')}
                       </Typography>
 
                       <Typography variant='h6' mb={1} sx={{ display: 'flex', alignItems: 'center' }}>
@@ -413,7 +413,7 @@ const GameInfo = () => {
                       gap={1}
                     >
                       <TextField
-                        label="Main Story (required)"
+                        label="Main (required)"
                         type="number"
                         size="small"
                         margin="none"
