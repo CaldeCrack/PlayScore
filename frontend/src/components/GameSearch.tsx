@@ -127,6 +127,11 @@ const GameSearch = () => {
 
     setGames(filtered)
     setModalOpen(false)
+
+    if (location.pathname !== '/' && location.pathname !== '/games') {
+      navigate('/')
+      return
+    }
   }
 
   const clearFilters = () => {
@@ -305,6 +310,7 @@ const GameSearch = () => {
                     placeholder="Add a platform"
                   />
                 )}
+                slotProps={{ paper: { sx: { backgroundColor: '#0d1025' } } }}
               />
             </Box>
 
@@ -334,6 +340,7 @@ const GameSearch = () => {
                     placeholder="Add a genre"
                   />
                 )}
+                slotProps={{ paper: { sx: { backgroundColor: '#0d1025' } } }}
               />
             </Box>
 
