@@ -253,6 +253,7 @@ const GameSearch = () => {
                 label="Min Year"
                 type="number"
                 value={releaseYear.min ?? ''}
+                slotProps={{ htmlInput: { min: 0, step: 1 } }}
                 onChange={(e) =>
                   setReleaseYear((prev) => ({
                     ...prev,
@@ -266,6 +267,7 @@ const GameSearch = () => {
                 label="Max Year"
                 type="number"
                 value={releaseYear.max ?? ''}
+                slotProps={{ htmlInput: { min: 1, step: 1 } }}
                 onChange={(e) =>
                   setReleaseYear((prev) => ({
                     ...prev,
@@ -350,6 +352,7 @@ const GameSearch = () => {
                 label="Min Rating"
                 type="number"
                 value={minRating.min ?? ''}
+                slotProps={{ htmlInput: { min: 1, max: 10, step: 0.1 } }}
                 onChange={(e) =>
                   setMinRating((prev) => ({
                     ...prev,
@@ -363,6 +366,7 @@ const GameSearch = () => {
                 label="Max Rating"
                 type="number"
                 value={minRating.max ?? ''}
+                slotProps={{ htmlInput: { min: 1, max: 10, step: 0.1 } }}
                 onChange={(e) =>
                   setMinRating((prev) => ({
                     ...prev,
