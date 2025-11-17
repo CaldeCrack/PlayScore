@@ -3,6 +3,7 @@ import bcrypt from "bcrypt"
 import express from "express"
 import User from "../models/users"
 import config from "../utils/config"
+import crypto from "crypto"
 import { withUser } from "../utils/middleware"
 
 
