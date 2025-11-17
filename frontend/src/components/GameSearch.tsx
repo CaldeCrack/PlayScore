@@ -51,7 +51,7 @@ const GameSearch = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const { setGames } = useBoundStore()
+  const { games, setGames } = useBoundStore()
   const searchRef = useRef<HTMLInputElement | null>(null)
 
   // --- Perform the default title search ---
@@ -170,7 +170,7 @@ const GameSearch = () => {
 
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [])
+  }, [games])
 
   return (
     <Box display="flex" alignItems="center" gap={1}>
