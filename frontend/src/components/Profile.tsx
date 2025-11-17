@@ -271,7 +271,7 @@ function Profile({ guest = false }: Props) {
                       <ProfileTabItem
                         key={i}
                         to={`/games/${completion.game.id}`}
-                        icon={<FavoriteIcon color="error" />}
+                        icon={<CheckCircleIcon color="primary" />}
                         primary={completion.game.title}
                         secondary={`
                           Main:
