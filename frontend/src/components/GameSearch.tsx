@@ -185,7 +185,7 @@ const GameSearch = () => {
           if (e.key === 'Enter') handleSearch()
           if (e.key === 'Escape') searchRef.current?.blur()
         }}
-        sx={{ width: '100%', backgroundColor: '#020412' }}
+        sx={{ width: '100%', backgroundColor: '#020412', borderRadius: 1 }}
         slotProps={{
           input: {
             startAdornment: (
