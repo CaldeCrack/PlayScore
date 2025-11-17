@@ -7,15 +7,12 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
-import FormControl from '@mui/material/FormControl'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import InputLabel from '@mui/material/InputLabel'
 import TextField from '@mui/material/TextField'
-import OutlinedInput from '@mui/material/OutlinedInput'
+import Autocomplete from '@mui/material/Autocomplete'
 import Stack from '@mui/material/Stack'
+import Chip from '@mui/material/Chip'
 
 import FilterListIcon from '@mui/icons-material/FilterList'
 import SearchIcon from '@mui/icons-material/Search'
@@ -234,85 +231,63 @@ const GameSearch = () => {
               fullWidth
             />
 
-            {/* Genres with Chips */}
-            <FormControl fullWidth>
-              <InputLabel>Genres</InputLabel>
-              <Select
+            {/* Platforms (Autocomplete + Chips) */}
+            <Box>
+              <Autocomplete
+                freeSolo
                 multiple
-                value={genres}
-                onChange={(e) => setGenres(e.target.value as string[])}
-                input={<OutlinedInput label="Genres" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {(selected as string[]).map((value) => (
-                      <Paper
-                        key={value}
-                        sx={{
-                          px: 1, py: 0.3,
-                          borderRadius: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 0.5
-                        }}
-                      >
-                        {value}
-                        <ClearIcon
-                          sx={{ fontSize: 16, cursor: 'pointer' }}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setGenres((prev) => prev.filter((g) => g !== value))
-                          }}
-                        />
-                      </Paper>
-                    ))}
-                  </Box>
-                )}
-              >
-                {Array.from(new Set(allGames.flatMap(g => g.genres))).map((g, i) => (
-                  <MenuItem key={i} value={g}>{g}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-
-            {/* Platforms with Chips */}
-            <FormControl fullWidth>
-              <InputLabel>Platforms</InputLabel>
-              <Select
-                multiple
+                options={Array.from(new Set(allGames.flatMap(g => g.platforms)))}
                 value={platforms}
-                onChange={(e) => setPlatforms(e.target.value as string[])}
-                input={<OutlinedInput label="Platforms" />}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {(selected as string[]).map((value) => (
-                      <Paper
-                        key={value}
-                        sx={{
-                          px: 1, py: 0.3,
-                          borderRadius: 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 0.5
-                        }}
-                      >
-                        {value}
-                        <ClearIcon
-                          sx={{ fontSize: 16, cursor: 'pointer' }}
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setPlatforms((prev) => prev.filter((p) => p !== value))
-                          }}
-                        />
-                      </Paper>
-                    ))}
-                  </Box>
+                onChange={(_, newValue) => setPlatforms(newValue)}
+                renderValue={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      {...getTagProps({ index })}
+                      key={index}
+                      label={option}
+                      color="primary"
+                      variant="outlined"
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Platforms"
+                    placeholder="Add a platform"
+                  />
                 )}
-              >
-                {Array.from(new Set(allGames.flatMap(g => g.platforms))).map((p, i) => (
-                  <MenuItem key={i} value={p}>{p}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              />
+            </Box>
+
+            {/* Genres (Autocomplete + Chips) */}
+            <Box>
+              <Autocomplete
+                freeSolo
+                multiple
+                options={Array.from(new Set(allGames.flatMap(g => g.genres)))}
+                value={genres}
+                onChange={(_, newValue) => setGenres(newValue)}
+                renderValue={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      {...getTagProps({ index })}
+                      key={index}
+                      label={option}
+                      color="secondary"
+                      variant="outlined"
+                    />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label="Genres"
+                    placeholder="Add a genre"
+                  />
+                )}
+              />
+            </Box>
 
             {/* Rating range */}
             <Stack direction="row" spacing={2}>
