@@ -41,6 +41,10 @@ app.use("/api/favorite", favoriteRouter)
 app.use("/api/completion", completionRouter)
 app.use("/api/login", loginRouter)
 
+app.get(/^(?!\/api).*/, (req, res) => {
+  res.sendFile(path.join(process.cwd(), "dist", "index.html"))
+})
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
 
