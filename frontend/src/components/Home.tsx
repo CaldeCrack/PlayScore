@@ -10,10 +10,9 @@ const Home = () => {
   const { games, setGames } = useBoundStore()
 
   useEffect(() => {
-    if (!games)
-      gameService
-        .getAllGames()
-        .then((data) => setGames(data))
+    gameService
+      .getAllGames()
+      .then((data) => setGames(data))
   }, [])
 
   return (

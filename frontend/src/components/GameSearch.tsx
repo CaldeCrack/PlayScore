@@ -149,7 +149,9 @@ const GameSearch = () => {
     gameService
       .getAllGames()
       .then((data) => setAllGames(data))
+  }, [games])
 
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const key = e.key.toLowerCase()
 
@@ -170,7 +172,7 @@ const GameSearch = () => {
 
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [games])
+  }, [])
 
   return (
     <Box display="flex" alignItems="center" gap={1}>
