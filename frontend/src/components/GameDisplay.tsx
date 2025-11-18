@@ -28,8 +28,9 @@ const GameDisplay = ({ game }: Props) => {
 
   const theme = useTheme()
 
-  useEffect(()=>{
-    ratingService.getGameRatings(game.id.toString())
+  useEffect(() => {
+    ratingService
+      .getGameRatings(game.id.toString())
       .then((data) => setRatings(data))
   }, [])
 
