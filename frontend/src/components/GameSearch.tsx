@@ -148,7 +148,10 @@ const GameSearch = () => {
   useEffect(() => {
     gameService
       .getAllGames()
-      .then((data) => setAllGames(data))
+      .then((data) => {
+        setAllGames(data)
+        setGames(data)
+      })
   }, [games])
 
   useEffect(() => {
