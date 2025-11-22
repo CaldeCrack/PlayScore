@@ -12,6 +12,7 @@ HOST
 MONGODB_URI (solo este es realmente necesario, el resto tienen valores por defecto)
 JWT_SECRET
 MONGODB_NAME
+TEST
 ```
 
 Para ver la página de forma local ejecutar los siguientes comandos:

@@ -16,4 +16,6 @@ const MONGODB_DBNAME = process.env.NODE_ENV === "test"
 
 const MONGODB_SUFFIX = process.env.MONGODB_SUFFIX || ""
 
-export default { PORT, MONGODB_URI, HOST, JWT_SECRET, MONGODB_DBNAME, MONGODB_SUFFIX }
+const TEST = process.env.TEST || ""
+
+export default { PORT, MONGODB_URI, HOST, JWT_SECRET, MONGODB_DBNAME, MONGODB_SUFFIX, TEST }
