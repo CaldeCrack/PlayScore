@@ -29,3 +29,56 @@ npm run start
 ```
 
 Con los pasos anteriores listos abrir en el navegador el siguiente link `http://<HOST>:<PORT>`.
+
+## Motivación (Tema del proyecto)
+
+Suele ocurrir que antes de decidir si comprar un videojuego o no, la gente desea obtener la mayor referencia posible para tomar una buena decisión, pero para ello debe buscar dicha información en muchas páginas y foros.
+
+Lo que busca nuestra propuesta de proyecto es centralizar todo esto, como por ejemplo información de los desarrolladores, valoración de los usuarios, largo promedio de duración, opiniones como tal, etc.
+
+## Estructura del estado global
+
+Para implementar el estado global del proyecto se utilizó la librería Zustand.
+
+Se tiene boundStore como contenedor principal de los diferentes Slices que se definieron,
+los cuales son gameSlice, userSlice, y toastSlice.
+
+### gameSlice
+
+Permite setear los Juegos a mostrar en la página principal, y también permite añadir un juego luego de que se añada a la base de datos.
+
+### userSlice
+
+Permite setear el usuario con la sesión activa dentro de la aplicación.
+
+### toastSlice
+
+Permite crear una notificación al usuario, con la opción de setear el mensaje, la severidad del mismo, y también permite mostrar y ocultar la notificación.
+
+## Mapa de rutas
+
+```
+Home
+|
+|── Login/Register
+|
+|── Add Game (Solo Admin)
+|
+|── User Profile
+|
+|── GameInfo
+```
+
+## Flujo de autenticación
+
+<img src="./resources/auth.png"></img>
+
+## Tests E2E
+
+## Diseño
+
+Para el diseño y los estilos se utilizó Material-UI
+
+## URL
+
+[fullstack.dcc.uchile.cl:7108](https://fullstack.dcc.uchile.cl:7108/)
