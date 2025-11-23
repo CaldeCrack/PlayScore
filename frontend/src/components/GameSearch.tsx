@@ -51,7 +51,7 @@ const GameSearch = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
-  const { games, setGames } = useBoundStore()
+  const { setGames } = useBoundStore()
   const searchRef = useRef<HTMLInputElement | null>(null)
 
   // --- Perform the default title search ---
@@ -152,7 +152,7 @@ const GameSearch = () => {
         setAllGames(data)
         setGames(data)
       })
-  }, [games])
+  }, [])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
