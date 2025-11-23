@@ -1,5 +1,6 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, _android } from "@playwright/test";
 import { loginWith } from "./helper";
+import path from 'path';
 
 test.describe("login", () => {
 
@@ -63,5 +64,95 @@ test.describe("login", () => {
         await expect(page.getByText(testUserData.username)).not.toBeVisible()
         await expect(page.getByText(testUserData.email)).not.toBeVisible()
 
+    })
+})
+
+
+test.describe("games", () => {
+    const testUsers = [
+        {
+            username: "admin",
+            name: "Admin User",
+            email: "admin@mail.com",
+            password: "admin"
+        },
+        {
+            username: "register_user",
+            name: "Test User",
+            email: "other_test@mail.dom",
+            password: "passwd"
+        }
+    ]
+
+    const testGame = {
+        title: "Hollow Knight",
+        developer: "Team Cherry",
+        publisher: "Team Cherry",
+        releaseYear: "2017",
+        platforms: [
+            "PC", 
+            "Nintendo Switch", 
+            "PlayStation 4", 
+            "Xbox One", 
+            "macOS", 
+            "Linux"
+        ], 
+        genres: [
+            "Metroidvania", 
+            "Action-Adventure", 
+            "Platformer", 
+            "Indie"
+        ],
+        description: "Forge your own path in Hollow Knight! An epic action adventure through a vast ruined kingdom of insects and heroes. Explore twisting caverns, battle tainted creatures and befriend bizarre bugs, all in a classic, hand-drawn 2D style."
+    }
+
+    test.beforeEach(async ({ page, request }) => {
+        await request.post("/api/test/reset"); 
+        for (const user of testUsers) {
+            await request.post("/api/users", {
+                data: user
+            });
+        }
+        await page.goto("/")
+    })
+
+    test("not admin users can't add games", async ({ page }) => {
+        const otherUser = testUsers[1];
+        await loginWith(page ,otherUser.username, otherUser.password)
+        await page.goto("/add-game")
+        await expect(page.getByText("Add Game")).not.toBeVisible()
+    })
+
+    test("admin users can add games", async ({ page }) => {
+        const adminUser = testUsers[0];
+        await loginWith(page ,adminUser.username, adminUser.password)
+
+        await expect(page.getByText(adminUser.username)).toBeVisible();
+        await page.goto("/add-game")
+
+        await expect(page.getByText("Add Game")).toBeVisible()
+
+        await page.getByRole("textbox", { name: /title/i }).fill(testGame.title)
+        await page.getByRole("textbox", { name: /publisher/i }).fill(testGame.publisher)
+        await page.getByRole("spinbutton", { name: /release/i }).fill(testGame.releaseYear)
+        await page.getByRole("textbox", { name: /description/i }).fill(testGame.description)
+        
+        await page.getByRole("textbox", { name: /developer/i }).fill(testGame.developer)
+        await page.getByTestId("add-dev-btn").click()
+
+        for (const plat of testGame.platforms){
+            await page.getByRole("textbox", { name: /platform/i }).fill(plat)
+            await page.getByTestId("add-plat-btn").click()
+        }
+
+        for (const gen of testGame.genres){
+            await page.getByRole("textbox", { name: /genre/i }).fill(gen)
+            await page.getByTestId("add-gen-btn").click()
+        }
+
+        await page.locator('input[type="file"]').setInputFiles(path.join('img', 'hollow_hnight_cover_art.webp'));
+
+        await page.getByRole("button", { name: /upload game/i }).click()
+        await expect(page.getByText("Game succesfully uploaded!")).toBeVisible();
     })
 })
