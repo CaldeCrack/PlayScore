@@ -31,6 +31,14 @@ npm run start
 
 Con los pasos anteriores listos abrir en el navegador el siguiente link `http://<HOST>:<PORT>`.
 
+Además, para ejecutar los tests (con el servidor corriendo), desde la raíz del proyecto se debe ejecutar:
+
+```sh
+cd ./e2etests
+
+npm run test
+```
+
 ## Motivación (Tema del proyecto)
 
 Suele ocurrir que antes de decidir si comprar un videojuego o no, la gente desea obtener la mayor referencia posible para tomar una buena decisión, pero para ello debe buscar dicha información en muchas páginas y foros.
@@ -76,9 +84,26 @@ Home
 
 ## Tests E2E
 
+Para los tests se utilizó la herramienta Playwright.
+
+### Login
+
+Para lo relacionado con el login se tiene cubierto:
+- Usuarios se pueden registrar
+- Usuarios pueden ingresar
+- Se notifica si las credenciales para ingresar son incorrectas
+- Los usuarios invitados no pueden entrar a la vista de perfil de usuario.
+
+### Juegos
+
+- Los usuarios que no son administradores no pueden agregar juegos.
+- Los administradores pueden agregar juegos.
+
 ## Diseño
 
-Para el diseño y los estilos se utilizó Material-UI
+Para el diseño y los estilos se utilizó Material-UI.
+
+La principal decisión de diseño que se tomó fue la de utilizar tonalidades oscuras para los colores de la aplicación, esto fue así por gusto y preferencia del equipo de desarrollo. 
 
 ## URL
 
