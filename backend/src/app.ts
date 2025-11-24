@@ -11,6 +11,7 @@ import commentsRouter from "./controllers/comments"
 import favoriteRouter from "./controllers/favorite"
 import completionRouter from "./controllers/completions"
 import loginRouter from "./controllers/login"
+import testRouter from "./controllers/test"
 import path from "path"
 
 
@@ -40,6 +41,10 @@ app.use("/api/comments", commentsRouter)
 app.use("/api/favorite", favoriteRouter)
 app.use("/api/completion", completionRouter)
 app.use("/api/login", loginRouter)
+
+if (config.TEST) {
+  app.use("/api/test", testRouter)
+}
 
 app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(process.cwd(), "dist", "index.html"))

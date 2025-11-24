@@ -152,6 +152,7 @@ const AddGame = () => {
                   />
 
                   <IconButton
+                    data-testid="add-dev-btn"
                     onClick={() => {
                       if (!newDeveloper.trim()) return
                       setDevelopers([...developers, newDeveloper.trim()])
@@ -188,6 +189,7 @@ const AddGame = () => {
                   />
 
                   <IconButton
+                    data-testid="add-plat-btn"
                     onClick={() => {
                       if (!newPlatform.trim()) return
                       setPlatforms([...platforms, newPlatform.trim()])
@@ -224,6 +226,7 @@ const AddGame = () => {
                   />
 
                   <IconButton
+                    data-testid="add-gen-btn"
                     onClick={() => {
                       if (!newGenre.trim()) return
                       setGenres([...genres, newGenre.trim()])
